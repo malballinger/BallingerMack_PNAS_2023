@@ -4,7 +4,7 @@
 
 # Author: Mallory A. Ballinger
 
-# This script plots differences in morphology and thermal conductance between
+# This script plots differences in morphology and thermal pelage conductance between
 # Brazil (MANA) and New York (SARA) mice.
 # The generated plots are used in Figure 1B in BallingerMack_2022.
 
@@ -50,8 +50,8 @@ TL_deets <- ("&#42;line<br>\
 
 ## thermal conductance
 
-rel_TC_plot <-
-  ggplot(data = phenotype_data, aes(x=Population, y=rel_conductance)) +
+rel_TC_plot <- phenotype_data %>%
+  ggplot(aes(x=Population, y=rel_conductance)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
   geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
@@ -64,13 +64,13 @@ rel_TC_plot <-
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(vjust = 1, size = 14, family = "sans"),
+        axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
         plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.95)) +
   labs(x = "",
-       y = "Relative Conductance",
+       y = "Relative Pelage Conductance",
        tag = TC_deets)
 ggsave("results/figures/rel_TC.pdf", plot = rel_TC_plot, height = 2.75, width = 2.8, units = "in")
 
@@ -80,8 +80,8 @@ age_ctrl_data <- phenotype_data %>% filter(Age_days < 100)
 
 ## body mass
 
-BW_plot <-
-  ggplot(data = age_ctrl_data, aes(x=Population, y=BodyWeight_g)) +
+BW_plot <- age_ctrl_data %>%
+  ggplot(aes(x=Population, y=BodyWeight_g)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
   geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
@@ -94,7 +94,7 @@ BW_plot <-
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(vjust = 1, size = 14, family = "sans"),
+        axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
         plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
@@ -106,8 +106,8 @@ ggsave("results/figures/BW_diff.pdf", plot = BW_plot, height = 2.75, width = 2.8
 
 # plot tail length
 
-rel_TL_plot <-
-  ggplot(data = age_ctrl_data, aes(x=Population, y=rel_TL)) +
+rel_TL_plot <- age_ctrl_data %>%
+  ggplot(aes(x=Population, y=rel_TL)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
   geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
@@ -120,21 +120,21 @@ rel_TL_plot <-
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(vjust = 1, size = 14, family = "sans"),
+        axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
         plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.93)) +
   labs(x = "",
-       y = "Relative Tail Length (mm/g)",
+       y = "Relative Tail Length",
        tag = TL_deets)
 ggsave("results/figures/rel_TL.pdf", plot = rel_TL_plot, height = 2.75, width = 2.8, units = "in")
 
 
 # plot ear length
 
-rel_EL_plot <-
-  ggplot(data = age_ctrl_data, aes(x=Population, y=rel_EL)) +
+rel_EL_plot <- age_ctrl_data %>%
+  ggplot(aes(x=Population, y=rel_EL)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
   geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
@@ -147,13 +147,13 @@ rel_EL_plot <-
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(vjust = 1, size = 14, family = "sans"),
+        axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
         plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.93)) +
   labs(x = "",
-       y = "Relative Ear Length (mm/g)",
+       y = "Relative Ear Length",
        tag = EL_deets)
 ggsave("results/figures/rel_EL.pdf", plot = rel_EL_plot, height = 2.75, width = 2.8, units = "in")
 

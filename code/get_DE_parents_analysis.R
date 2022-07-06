@@ -4,17 +4,16 @@
 
 # Author: Mallory A. Ballinger
 
-# This script quantifies differential expression in the parental samples.
-# This script generates contrasts for downstream analyses in BallingerMack_PNAS_2022.
+# This script quantifies differential expression in the parental samples, and
+# generates contrasts for downstream analyses in BallingerMack_2022.
 
 
 ##############################################################
 # Required packages
 ##############################################################
 
-rm(list = ls()) # clear R's environment
+#rm(list = ls()) # clear R's environment
 library(tidyverse)
-library(here)
 library(DESeq2)
 
 set.seed(19910118)
@@ -217,6 +216,10 @@ res_females_liver_G <- results(deseq_females_liver, contrast = NewYork_females_l
 # Effect of environment ("E")
 res_females_liver_E <- results(deseq_females_liver, contrast = Warm_females_liver - Cold_females_liver,
                              pAdjustMethod = "BH") # (-)LFC == higher expression in cold females
+# DESEQ's definition of genotype-by-environment ("GxE")
+res_females_liver_GxE <- results(deseq_females_liver, contrast = (NewYork_warm_females_liver - NewYork_cold_females_liver) -
+                                 (Brazil_warm_females_liver - Brazil_cold_females_liver),
+                               pAdjustMethod = "BH")
 
 ### females -- BAT
 deseq_females_BAT <- DESeq(dds_females_BAT, test = "Wald")
@@ -252,6 +255,10 @@ res_females_BAT_G <- results(deseq_females_BAT, contrast = NewYork_females_BAT -
 # Effect of environment ("E")
 res_females_BAT_E <- results(deseq_females_BAT, contrast = Warm_females_BAT - Cold_females_BAT,
                            pAdjustMethod = "BH") # (-)LFC == higher expression in cold females
+# DESEQ's definition of genotype-by-environment ("GxE")
+res_females_BAT_GxE <- results(deseq_females_BAT, contrast = (NewYork_warm_females_BAT - NewYork_cold_females_BAT) -
+                                   (Brazil_warm_females_BAT - Brazil_cold_females_BAT),
+                                 pAdjustMethod = "BH")
 
 
 
@@ -275,7 +282,7 @@ res_females_BAT_E <- results(deseq_females_BAT, contrast = Warm_females_BAT - Co
 
 
 # res_males_liver_E %>% data.frame() %>% rownames_to_column(var = "gene") %>% as_tibble() %>% View()
-ex_gene <- plotCounts(deseq_males_liver, gene = "ENSMUSG00000027474", intgroup = c("temperature", "population"), returnData = TRUE)
+ex_gene <- plotCounts(deseq_females_BAT, gene = "ENSMUSG00000024471", intgroup = c("temperature", "population"), returnData = TRUE)
 level_order <- c("Warm", "Cold")
 ggplot(data=ex_gene, aes(x = factor(temperature, level = level_order), y=count, color = population)) + #, group = population)) +
   geom_boxplot(position = "identity", fill = NA) + labs(x = "Temp", y = "Normalized Counts")

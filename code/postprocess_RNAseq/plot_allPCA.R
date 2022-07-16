@@ -18,7 +18,7 @@ library(cowplot)
 
 set.seed(19910118)
 
-source("./code/clean_parentalReadCounts.R") # where matrices are generated
+source("./code/postprocess_RNAseq/clean_parentalReadCounts.R") # where matrices are generated
 
 ##############################################################
 # Construct DESeq datasets

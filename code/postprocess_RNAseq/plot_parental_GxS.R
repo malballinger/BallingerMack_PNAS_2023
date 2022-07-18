@@ -7,7 +7,7 @@
 # This script plots differential expression in parental samples, with specific focus on patterns of GxS.
 # This script generates Figure S4C in BallingerMack_2022.
 
-# Main Result: BAT harbors very little GxS
+# Main Result(s): BAT harbors *very little* GxS; NY shows more sex-specific expression than BZ in liver 
 
 ##############################################################
 # Required packages
@@ -23,7 +23,7 @@ set.seed(19910118)
 source("./code/postprocess_RNAseq/get_DE_parents_analysis.R") # where DESeq data frames are generated
 
 ##############################################################
-# Sex expression patterns (M vs F) across environments and tissues
+# Generate GxS scatter plots
 ##############################################################
 
 # create function
@@ -56,7 +56,8 @@ GxS <- function(resNY, resBZ, resGxS)
       )
   
   n_total_genes <- nrow(merge_resBZNY)
-  n_sig_genes <- merge_resBZNY %>% filter(padj.BZ < 0.05 | padj.NY < 0.05) %>% nrow()
+  n_sig_DE_NY_genes <- merge_resBZNY %>% filter(padj.NY < 0.05) %>% nrow()
+  n_sig_DE_BZ_genes <- merge_resBZNY %>% filter(padj.BZ < 0.05) %>% nrow()
   
   # add a column indicating whether BZ and NY groups are in the same direction
   merge_resBZNY_direction <-  merge_resBZNY %>%
@@ -124,7 +125,7 @@ GxS <- function(resNY, resBZ, resGxS)
     #labs(x = "Log<sub>2</sub> Fold Change in NY<br>(male vs female)",
          #y = "Log<sub>2</sub> Fold Change in BZ<br>(male vs female)")
   
-  return(list(n_total_genes = n_total_genes, n_sig_genes = n_sig_genes,
+  return(list(n_total_genes = n_total_genes, n_sig_DE_NY_genes = n_sig_DE_NY_genes, n_sig_DE_BZ_genes = n_sig_DE_BZ_genes,
               n_sigNY = n_sigNY, n_sigBZ = n_sigBZ, n_sigsame = n_sigsame,
               n_sigopps = n_sigopps, n_GxS = n_GxS, GxS_list = GxS_list, plot = plot))
 }
@@ -137,13 +138,54 @@ ggsave("results/figures/sex_DE_warm_liver.pdf", plot = plot_warm_liver, height =
 
 warm_BAT <- GxS(resNY = res_NY_BAT_warm_MvF, resBZ = res_BZ_BAT_warm_MvF, resGxS = res_sex_BAT_warm_GxS)
 plot_warm_BAT <- warm_BAT$plot
+warm_BAT_GxS_list <- warm_BAT$GxS_list
 ggsave("results/figures/sex_DE_warm_BAT.pdf", plot = plot_warm_BAT, height = 2, width = 2.1)
 
 cold_liver <- GxS(resNY = res_NY_liver_cold_MvF, resBZ = res_BZ_liver_cold_MvF, resGxS = res_sex_liver_cold_GxS)
 plot_cold_liver <- cold_liver$plot
+cold_liver_GxS_list <- cold_liver$GxS_list
 ggsave("results/figures/sex_DE_cold_liver.pdf", plot = plot_cold_liver, height = 2, width = 2.1)
 
 cold_BAT <- GxS(resNY = res_NY_BAT_cold_MvF, resBZ = res_BZ_BAT_cold_MvF, resGxS = res_sex_BAT_cold_GxS)
 plot_cold_BAT <- cold_BAT$plot
+cold_BAT_GxS_list <- cold_BAT$GxS_list
 ggsave("results/figures/sex_DE_cold_BAT.pdf", plot = plot_cold_BAT, height = 2, width = 2.1)
+
+
+
+
+##############################################################
+# Statistical Analysis - Chi-square Test
+##############################################################
+
+## Is the number of DEG in BZ significantly more/less than the number of DEG in NY?
+
+# create function
+x2_setup <- function(n_NY, all_subNY, n_BZ, all_subBZ) #
+{
+  data <- matrix(c(n_NY, all_subNY, n_BZ, all_subBZ), ncol = 2, byrow = TRUE)
+  colnames(data) <- c("DE", "not_DE")
+  rownames(data) <- c("NewYork", "Brazil")
+  data <- as.table(data)
+}
+
+warm_liver_x2 <- x2_setup(n_NY = warm_liver$n_sig_DE_NY_genes, all_subNY = (warm_liver$n_total_genes)-(warm_liver$n_sig_DE_NY_genes),
+                          n_BZ = warm_liver$n_sig_DE_BZ_genes, all_subBZ = (warm_liver$n_total_genes)-(warm_liver$n_sig_DE_BZ_genes))
+
+cold_liver_x2 <- x2_setup(n_NY = cold_liver$n_sig_DE_NY_genes, all_subNY = (cold_liver$n_total_genes)-(cold_liver$n_sig_DE_NY_genes),
+                          n_BZ = cold_liver$n_sig_DE_BZ_genesZ, all_subBZ = (cold_liver$n_total_genes)-(cold_liver$n_sig_DE_BZ_genes))
+
+warm_BAT_x2 <- x2_setup(n_NY = warm_BAT$n_sig_DE_NY_genes, all_subNY = (warm_BAT$n_total_genes)-(warm_BAT$n_sig_DE_NY_genes),
+                          n_BZ = warm_BAT$n_sig_DE_BZ_genes, all_subBZ = (warm_BAT$n_total_genes)-(warm_BAT$n_sig_DE_BZ_genes))
+
+cold_BAT_x2 <- x2_setup(n_NY = cold_BAT$n_sig_DE_NY_genes, all_subNY = (cold_BAT$n_total_genes)-(cold_BAT$n_sig_DE_NY_genes),
+                          n_BZ = cold_BAT$n_sig_DE_BZ_genes, all_subBZ = (cold_BAT$n_total_genes)-(cold_BAT$n_sig_DE_BZ_genes))
+
+# perform chi-square tests
+warm_liver_x2_test <- chisq.test(warm_liver_x2, correct = FALSE)
+cold_liver_x2_test <- chisq.test(cold_liver_x2, correct = FALSE)
+warm_BAT_x2_test <- chisq.test(warm_BAT_x2, correct = FALSE)
+cold_BAT_x2_test <- chisq.test(cold_BAT_x2, correct = FALSE)
+
+# (I used correct=FALSE since there are large sample sizes (cell >= 5 observations))
 

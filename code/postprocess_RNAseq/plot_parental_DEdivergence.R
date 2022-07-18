@@ -7,7 +7,7 @@
 # This script plots differential expression in parental samples, with specific focus on patterns of divergence.
 # This script generates Figures 1E (males), S3A (females), and S4A (sex) in BallingerMack_2022.
 
-# Major Result(s): divergence is main gene expression pattern: expression divergence between NY and BZ is
+# Major Result(s): divergence is main gene expression pattern, as expression divergence between NY and BZ is
 # concordant across both environments and sexes
 
 ##############################################################
@@ -55,7 +55,8 @@ env_divergence <- function(resW, resC)
       "padj.c" = "padj.y"
       )
   n_total_genes <- nrow(merge_resWC)
-  n_sig_genes <- merge_resWC %>% filter(padj.w < 0.05 | padj.c < 0.05) %>% nrow()
+  n_sig_DE_W_genes <- merge_resWC %>% filter(padj.w < 0.05) %>% nrow()
+  n_sig_DE_C_genes <- merge_resWC %>% filter(padj.c < 0.05) %>% nrow()
   
   # add a column indicating whether warm and cold groups are in the same direction
   merge_resWC_direction <-  merge_resWC %>%
@@ -70,16 +71,16 @@ env_divergence <- function(resW, resC)
   
   # categorize genes by direction and/or significance
   sigC = dplyr::filter(merge_resWC_direction, padj.c < 0.05 & padj.w >= 0.05)
-  sigconserveWvC = dplyr::filter(merge_resWC_direction, direction == 1 & padj.w < 0.05 & padj.c < 0.05)
+  sigsame = dplyr::filter(merge_resWC_direction, direction == 1 & padj.w < 0.05 & padj.c < 0.05)
   sigW = dplyr::filter(merge_resWC_direction, padj.w < 0.05 & padj.c >= 0.05)
-  sigoppsWvC = dplyr::filter(merge_resWC_direction, direction == 0 & padj.w < 0.05 & padj.c < 0.05)
-  nonsigWvC = dplyr::filter(merge_resWC_direction, padj.w >= 0.05 & padj.c >= 0.05)
+  sigopps = dplyr::filter(merge_resWC_direction, direction == 0 & padj.w < 0.05 & padj.c < 0.05)
+  nonsig = dplyr::filter(merge_resWC_direction, padj.w >= 0.05 & padj.c >= 0.05)
   
   # sample sizes of categories:
   n_sigC <- nrow(sigC)
-  n_sigconserveWvC <- nrow(sigconserveWvC)
+  n_sigsame <- nrow(sigsame)
   n_sigW <- nrow(sigW)
-  n_sigoppsWvC <- nrow(sigoppsWvC)
+  n_sigopps <- nrow(sigopps)
   
   # plot
   plot <- merge_resWC_direction %>%
@@ -87,11 +88,11 @@ env_divergence <- function(resW, resC)
     geom_vline(xintercept = 0, linetype = "dotted") +
     geom_hline(yintercept = 0, linetype = "dotted") +
     geom_abline(slope = 1, linetype = "dotted") +
-    geom_point(data = sigconserveWvC, aes(x = lfc.w, y = lfc.c), fill = "#44B379", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
-    geom_point(data = nonsigWvC, aes(x = lfc.w, y = lfc.c), fill = "darkgray", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = sigsame, aes(x = lfc.w, y = lfc.c), fill = "#44B379", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = nonsig, aes(x = lfc.w, y = lfc.c), fill = "darkgray", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
     geom_point(data = sigW, aes(x = lfc.w, y = lfc.c), fill = "#E8E430", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
     geom_point(data = sigC, aes(x = lfc.w, y = lfc.c), fill = "#452D72", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
-    geom_point(data = sigoppsWvC, aes(x = lfc.w, y = lfc.c), fill = "#000000", color = "000000", size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = sigopps, aes(x = lfc.w, y = lfc.c), fill = "#000000", color = "000000", size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
     scale_x_continuous(limits = c(-10,10), expand = c(0.01,0.075)) +
     scale_y_continuous(limits = c(-10,10), expand = c(0.01,0.075)) +
     theme_bw() +
@@ -104,27 +105,26 @@ env_divergence <- function(resW, resC)
     # labs(x = "Log<sub>2</sub> Fold Change in warm<br>(NY vs BZ)",
     #      y = "Log<sub>2</sub> Fold Change in cold<br>(NY vs BZ)")
   
-  return(list(n_total_genes = n_total_genes, n_sig_genes = n_sig_genes,
-              n_sigW = n_sigW, n_sigC = n_sigC, n_sigconserveWvC = n_sigconserveWvC,
-              n_sigoppsWvC = n_sigoppsWvC, plot = plot))
+  return(list(n_total_genes = n_total_genes, n_sig_DE_W_genes = n_sig_DE_W_genes, n_sig_DE_C_genes = n_sig_DE_C_genes,
+              n_sigW = n_sigW, n_sigC = n_sigC, n_sigsame = n_sigsame, n_sigopps = n_sigopps, plot = plot))
 }
 
 # execute function and save resulting plots
-male_livers <- env_divergence(resW = res_warm_males_liver_NYvsBZ, resC = res_cold_males_liver_NYvsBZ)
-plot_males_liver <- male_livers$plot
-ggsave("results/figures/males_DE_divergence_liver.pdf", plot = plot_males_liver, height = 3.25, width = 3.5)
+male_liver <- env_divergence(resW = res_warm_males_liver_NYvsBZ, resC = res_cold_males_liver_NYvsBZ)
+plot_male_liver <- male_liver$plot
+ggsave("results/figures/males_DE_divergence_liver.pdf", plot = plot_male_liver, height = 3.25, width = 3.5)
 
 male_BAT <- env_divergence(resW = res_warm_males_BAT_NYvsBZ, resC = res_cold_males_BAT_NYvsBZ)
-plot_males_BAT <- male_BAT$plot
-ggsave("results/figures/males_DE_divergence_BAT.pdf", plot = plot_males_BAT, height = 3.25, width = 3.5)
+plot_male_BAT <- male_BAT$plot
+ggsave("results/figures/males_DE_divergence_BAT.pdf", plot = plot_male_BAT, height = 3.25, width = 3.5)
 
 female_liver <- env_divergence(resW = res_warm_females_liver_NYvsBZ, resC = res_cold_females_liver_NYvsBZ)
-plot_females_liver <- female_liver$plot
-ggsave("results/figures/females_DE_divergence_liver.pdf", plot = plot_females_liver, height = 2, width = 2.1)
+plot_female_liver <- female_liver$plot
+ggsave("results/figures/females_DE_divergence_liver.pdf", plot = plot_female_liver, height = 2, width = 2.1)
 
 female_BAT <- env_divergence(resW = res_warm_females_BAT_NYvsBZ, resC = res_cold_females_BAT_NYvsBZ)
-plot_females_BAT <- female_BAT$plot
-ggsave("results/figures/females_DE_divergence_BAT.pdf", plot = plot_females_BAT, height = 2, width = 2.1)
+plot_female_BAT <- female_BAT$plot
+ggsave("results/figures/females_DE_divergence_BAT.pdf", plot = plot_female_BAT, height = 2, width = 2.1)
 
 
 
@@ -161,7 +161,8 @@ sex_divergence <- function(resM, resF)
       "padj.f" = "padj.y"
     )
   n_total_genes <- nrow(merge_resMF)
-  n_sig_genes <- merge_resMF %>% filter(padj.m < 0.05 | padj.f < 0.05) %>% nrow()
+  n_sig_DE_M_genes <- merge_resMF %>% filter(padj.m < 0.05) %>% nrow()
+  n_sig_DE_F_genes <- merge_resMF %>% filter(padj.f < 0.05) %>% nrow()
   
   # add a column indicating whether males and females are in the same direction
   merge_resMF_direction <-  merge_resMF %>%
@@ -176,16 +177,16 @@ sex_divergence <- function(resM, resF)
   
   # categorize genes by direction and/or significance
   sigM = dplyr::filter(merge_resMF_direction, padj.m < 0.05 & padj.f >= 0.05)
-  sigconserveMvF = dplyr::filter(merge_resMF_direction, direction == 1 & padj.m < 0.05 & padj.f < 0.05)
+  sigsame = dplyr::filter(merge_resMF_direction, direction == 1 & padj.m < 0.05 & padj.f < 0.05)
   sigF = dplyr::filter(merge_resMF_direction, padj.f < 0.05 & padj.m >= 0.05)
-  sigoppsMvF = dplyr::filter(merge_resMF_direction, direction == 0 & padj.m < 0.05 & padj.f < 0.05)
-  nonsigMvF = dplyr::filter(merge_resMF_direction, padj.m >= 0.05 & padj.f >= 0.05)
+  sigopps = dplyr::filter(merge_resMF_direction, direction == 0 & padj.m < 0.05 & padj.f < 0.05)
+  nonsig = dplyr::filter(merge_resMF_direction, padj.m >= 0.05 & padj.f >= 0.05)
   
   # sample sizes of categories:
   n_sigM <- nrow(sigM)
-  n_sigconserveMvF <- nrow(sigconserveMvF)
+  n_sigsame <- nrow(sigsame)
   n_sigF <- nrow(sigF)
-  n_sigoppsMvF <- nrow(sigoppsMvF)
+  n_sigopps <- nrow(sigopps)
   
   # plot
   plot <- merge_resMF_direction %>%
@@ -193,11 +194,11 @@ sex_divergence <- function(resM, resF)
     geom_vline(xintercept = 0, linetype = "dotted", size = 0.25) +
     geom_hline(yintercept = 0, linetype = "dotted", size = 0.25) +
     geom_abline(slope = 1, linetype = "dotted", size = 0.25) +
-    geom_point(data = sigconserveMvF, aes(x = lfc.m, y = lfc.f), fill = "#458A00", color = "grey100", stroke = 0.25, size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
-    geom_point(data = nonsigMvF, aes(x = lfc.m, y = lfc.f), fill = "darkgray", color = "grey100", stroke = 0.25, size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = sigsame, aes(x = lfc.m, y = lfc.f), fill = "#458A00", color = "grey100", stroke = 0.25, size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = nonsig, aes(x = lfc.m, y = lfc.f), fill = "darkgray", color = "grey100", stroke = 0.25, size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
     geom_point(data = sigM, aes(x = lfc.m, y = lfc.f), fill = "#05BFFF", color = "grey100", stroke = 0.25, size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
     geom_point(data = sigF, aes(x = lfc.m, y = lfc.f), fill = "#E93E8B", color = "grey100", stroke = 0.25, size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
-    geom_point(data = sigoppsMvF_warm_liver, aes(x = lfc.m, y = lfc.f), fill = "#000000", color = "000000", size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = sigopps, aes(x = lfc.m, y = lfc.f), fill = "#000000", color = "000000", size = 2, shape = 21, alpha = 1, show.legend = FALSE) +
     scale_x_continuous(limits = c(-10,10), expand = c(0.01,0.075)) +
     scale_y_continuous(limits = c(-10,10), expand = c(0.01,0.075)) +
     theme_bw() +
@@ -206,9 +207,8 @@ sex_divergence <- function(resM, resF)
           axis.text = element_text(size = 7.5, family = "sans"),
           axis.title = element_blank())
   
-  return(list(n_total_genes = n_total_genes, n_sig_genes = n_sig_genes,
-              n_sigM = n_sigM, n_sigF = n_sigF, n_sigconserveMvF = n_sigconserveMvF,
-              n_sigoppsMvF = n_sigoppsMvF, plot = plot))
+  return(list(n_total_genes = n_total_genes, n_sig_DE_F_genes = n_sig_DE_F_genes, n_sig_DE_M_genes = n_sig_DE_M_genes,
+              n_sigM = n_sigM, n_sigF = n_sigF, n_sigsame = n_sigsame, n_sigopps = n_sigopps, plot = plot))
 
 }
 
@@ -228,4 +228,76 @@ ggsave("results/figures/MvF_warm_BAT_DE_divergence.pdf", plot = plot_warm_BAT_se
 cold_BAT_sex <- sex_divergence(resM = res_males_BAT_cold_NYvBZ, resF = res_females_BAT_cold_NYvBZ)
 plot_cold_BAT_sex <- cold_BAT_sex$plot
 ggsave("results/figures/MvF_cold_BAT_DE_divergence.pdf", plot = plot_cold_BAT_sex, height = 2, width = 2.1)
+
+
+
+
+##############################################################
+# Statistical Analysis - Chi-square Test
+##############################################################
+
+## Is the number of DEG in Warm significantly more/less than the number of DEG in Cold?
+## Is the number of DEG in Males significantly more/less than the number of DEG in Females?
+
+# create function for environment analysis
+x2_setup_env <- function(n_W, all_subW, n_C, all_subC) #
+{
+  data <- matrix(c(n_W, all_subW, n_C, all_subC), ncol = 2, byrow = TRUE)
+  colnames(data) <- c("DE", "not_DE")
+  rownames(data) <- c("Warm", "Cold")
+  data <- as.table(data)
+}
+
+male_liver_x2 <- x2_setup_env(n_W = male_liver$n_sig_DE_W_genes, all_subW = (male_liver$n_total_genes)-(male_liver$n_sig_DE_W_genes),
+                          n_C = male_liver$n_sig_DE_C_genes, all_subC = (male_liver$n_total_genes)-(male_liver$n_sig_DE_C_genes))
+
+female_liver_x2 <- x2_setup_env(n_W = female_liver$n_sig_DE_W_genes, all_subW = (female_liver$n_total_genes)-(female_liver$n_sig_DE_W_genes),
+                            n_C = female_liver$n_sig_DE_C_genes, all_subC = (female_liver$n_total_genes)-(female_liver$n_sig_DE_C_genes))
+
+male_BAT_x2 <- x2_setup_env(n_W = male_BAT$n_sig_DE_W_genes, all_subW = (male_BAT$n_total_genes)-(male_BAT$n_sig_DE_W_genes),
+                        n_C = male_BAT$n_sig_DE_C_genes, all_subC = (male_BAT$n_total_genes)-(male_BAT$n_sig_DE_C_genes))
+
+female_BAT_x2 <- x2_setup_env(n_W = female_BAT$n_sig_DE_W_genes, all_subW = (female_BAT$n_total_genes)-(female_BAT$n_sig_DE_W_genes),
+                          n_C = female_BAT$n_sig_DE_C_genes, all_subC = (female_BAT$n_total_genes)-(female_BAT$n_sig_DE_C_genes))
+
+# perform chi-square tests
+male_liver_x2_test <- chisq.test(male_liver_x2, correct = FALSE)
+female_liver_x2_test <- chisq.test(female_liver_x2, correct = FALSE)
+male_BAT_x2_test <- chisq.test(male_BAT_x2, correct = FALSE)
+female_BAT_x2_test <- chisq.test(female_BAT_x2, correct = FALSE)
+
+
+
+# create function for sex analysis
+x2_setup_sex <- function(n_M, all_subM, n_F, all_subF) #
+{
+  data <- matrix(c(n_M, all_subM, n_F, all_subF), ncol = 2, byrow = TRUE)
+  colnames(data) <- c("DE", "not_DE")
+  rownames(data) <- c("Males", "Females")
+  data <- as.table(data)
+}
+
+warm_liver_sex_x2 <- x2_setup_sex(n_M = warm_liver_sex$n_sig_DE_M_genes, all_subM = (warm_liver_sex$n_total_genes)-(warm_liver_sex$n_sig_DE_M_genes),
+                                  n_F = warm_liver_sex$n_sig_DE_F_genes, all_subF = (warm_liver_sex$n_total_genes)-(warm_liver_sex$n_sig_DE_F_genes))
+
+warm_BAT_sex_x2 <- x2_setup_sex(n_M = warm_BAT_sex$n_sig_DE_M_genes, all_subM = (warm_BAT_sex$n_total_genes)-(warm_BAT_sex$n_sig_DE_M_genes),
+                                n_F = warm_BAT_sex$n_sig_DE_F_genes, all_subF = (warm_BAT_sex$n_total_genes)-(warm_BAT_sex$n_sig_DE_F_genes))
+
+cold_liver_sex_x2 <- x2_setup_sex(n_M = cold_liver_sex$n_sig_DE_M_genes, all_subM = (cold_liver_sex$n_total_genes)-(cold_liver_sex$n_sig_DE_M_genes),
+                                  n_F = cold_liver_sex$n_sig_DE_F_genes, all_subF = (cold_liver_sex$n_total_genes)-(cold_liver_sex$n_sig_DE_F_genes))
+
+cold_BAT_sex_x2 <- x2_setup_sex(n_M = cold_BAT_sex$n_sig_DE_M_genes, all_subM = (cold_BAT_sex$n_total_genes)-(cold_BAT_sex$n_sig_DE_M_genes),
+                                n_F = cold_BAT_sex$n_sig_DE_F_genes, all_subF = (cold_BAT_sex$n_total_genes)-(cold_BAT_sex$n_sig_DE_F_genes))
+
+
+# perform chi-square tests
+warm_liver_sex_x2_test <- chisq.test(warm_liver_sex_x2, correct = FALSE)
+warm_BAT_sex_x2_test <- chisq.test(warm_BAT_sex_x2, correct = FALSE)
+cold_liver_sex_x2_test <- chisq.test(cold_liver_sex_x2, correct = FALSE)
+cold_BAT_sex_x2_test <- chisq.test(cold_BAT_sex_x2, correct = FALSE)
+
+
+
+# (I used correct=FALSE for all analyses since there are large sample sizes (cell >= 5 observations))
+
 

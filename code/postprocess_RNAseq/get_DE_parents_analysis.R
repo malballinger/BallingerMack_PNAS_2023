@@ -492,13 +492,13 @@ res_sex_BAT_cold_GxS <- results(deseq_sex_BAT_cold, contrast = (NewYork_males_BA
 
 
 
-
+## plot genes of interest
 # res_males_liver_E %>% data.frame() %>% rownames_to_column(var = "gene") %>% as_tibble() %>% View()
-ex_gene <- plotCounts(deseq_females_BAT, gene = "ENSMUSG00000086503", intgroup = c("temperature", "population"), returnData = TRUE)
-level_order <- c("Warm", "Cold")
-ggplot(data=ex_gene, aes(x = factor(temperature, level = level_order), y=count, color = population)) + #, group = population)) +
-  geom_boxplot(position = "identity", fill = NA) + labs(x = "Temp", y = "Normalized Counts")
-level_order2 <- c("Brazil", "NewYork")
-ggplot(data=ex_gene, aes(x = factor(population, level = level_order2), y=count, color = temperature)) + #, group = population)) +
-  geom_boxplot(position = "identity", fill = NA) + labs(x = "Population", y = "Normalized Counts")
+# ex_gene <- plotCounts(deseq_females_BAT, gene = "ENSMUSG00000086503", intgroup = c("temperature", "population"), returnData = TRUE)
+# level_order <- c("Warm", "Cold")
+# ggplot(data=ex_gene, aes(x = factor(temperature, level = level_order), y=count, color = population)) + #, group = population)) +
+#   geom_boxplot(position = "identity", fill = NA) + labs(x = "Temp", y = "Normalized Counts")
+# level_order2 <- c("Brazil", "NewYork")
+# ggplot(data=ex_gene, aes(x = factor(population, level = level_order2), y=count, color = temperature)) + #, group = population)) +
+#   geom_boxplot(position = "identity", fill = NA) + labs(x = "Population", y = "Normalized Counts")
 

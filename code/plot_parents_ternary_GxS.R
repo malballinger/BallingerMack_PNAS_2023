@@ -7,9 +7,9 @@
 # This script explores broad patterns of genotype (G), sex (S),
 # and genotype-by-sex interactions (GxS) on differentially expressed genes
 # in parental samples. Liver, BAT, warm, and cold groups were explored separately.
-# This script generates Figure S4 in BallingerMack_2022.
+# This script generates Figure S4B in BallingerMack_2022.
 
-# Main Result: both tissues show strong genotype effects, and BAT harbors very little GxS
+# Main Result: both tissues show strong genotype effects
 
 ##############################################################
 # Required packages
@@ -21,42 +21,45 @@ library(DESeq2)
 library(ggtext)
 library(ggtern)
 
-source("./code/get_DE_parents_analysis.R") # where DESeq data frames are generated
-source("./code/plot_parental_GxS.R") # where GxE datasets are defined
+source("./code/postprocess_RNAseq/get_DE_parents_analysis.R") # where DESeq data frames are generated
+source("./code/postprocess_RNAseq/plot_parental_GxS.R") # where GxE datasets are defined
 
 ##############################################################
-# Liver expression (warm) - effects of G, S, and GxS
+# Create and plot ternaries
 ##############################################################
 
-## Genotype
+# create function
+ternary <- function(resG, resS, resGS, GxS_list)
+{
+# Genotype
 # filter to get mean of 10 reads across all samples (per gene)
-DE_base_geno_sex_liver_warm <- res_sex_liver_warm_G %>%
+DE_base_resG <- resG %>%
   data.frame() %>%
   rownames_to_column(var = "gene") %>%
   as_tibble() %>%
   filter(baseMean >= 10) %>%
   mutate(abslfc = abs(log2FoldChange))
 
-## Sex
+# Sex
 # filter to get mean of 10 reads across all samples (per gene)
-DE_base_sex_liver_warm <- res_sex_liver_warm_S %>%
+DE_base_resS <- resS %>%
   data.frame() %>%
   rownames_to_column(var = "gene") %>%
   as_tibble() %>%
   filter(baseMean >= 10) %>%
   mutate(abslfc = abs(log2FoldChange))
 
-## GxS
+# GxS
 # filter to get mean of 10 reads across all samples
-DE_base_GxS_liver_warm <- res_sex_liver_warm_GxS %>%
+DE_base_resGS <- resGS %>%
   data.frame() %>%
   rownames_to_column(var = "gene") %>%
   as_tibble() %>%
   filter(baseMean >= 10) %>%
   mutate(abslfc = abs(log2FoldChange))
 
-## merge
-merge_gs_liver_warm <- dplyr::full_join(DE_base_geno_sex_liver_warm, DE_base_sex_liver_warm, by = "gene") %>%
+# merge datasets
+merge_resGS <- dplyr::full_join(DE_base_resG, DE_base_resS, by = "gene") %>%
   dplyr::select("gene",
          "lfc.g" = "log2FoldChange.x",
          "padj.g" = "padj.x",
@@ -65,9 +68,8 @@ merge_gs_liver_warm <- dplyr::full_join(DE_base_geno_sex_liver_warm, DE_base_sex
          "padj.s" = "padj.y",
          "abslfc.s" = "abslfc.y"
          )
-#nrow(merge_gs_liver_warm) 14,153 genes
 
-mergeall_sex_liver_warm <- dplyr::full_join(merge_gs_liver_warm, DE_base_GxS_liver_warm, by = "gene") %>%
+mergeall_resGS <- dplyr::full_join(merge_resGS, DE_base_resGS, by = "gene") %>%
   dplyr::select("gene",
          "lfc.g", "padj.g", "abslfc.g",
          "lfc.s", "padj.s", "abslfc.s",
@@ -75,37 +77,30 @@ mergeall_sex_liver_warm <- dplyr::full_join(merge_gs_liver_warm, DE_base_GxS_liv
          "padj.gxs" = "padj",
          "abslfc.gxs" = "abslfc"
          )
-#nrow(mergeall_sex_liver_warm) 14,153 genes
 
+n_total_genes <- nrow(mergeall_resGS)
+n_sig_genes <- mergeall_resGS %>% filter(padj.g < 0.05 | padj.s < 0.05 | padj.gxs < 0.05) %>% nrow()
 
-## effect sizes
-
+# effect sizes
 # How many sig. DEG for genotype only, with no influence of sex?
-g_liver_warm <- mergeall_sex_liver_warm %>%
+g <- mergeall_resGS %>%
   filter(padj.g < 0.05 &
-         (!gene %in% sex_warm_liver_GxS_list)) # this list of genes has been generated in ./code/plot_parental_GxS.R
-#nrow(g_liver_warm) 5,307 at FDR < 0.05
+         (!gene %in% GxS_list)) # this list of genes has been generated in ./code/plot_parental_GxS.R
 #effectsize_g_liver_warm <- g_liver_warm %>% summarise(effectsize = mean(abslfc.g)) # 0.782
 
 # How many sig. DEG for sex only, with no genotype influence?
-s_liver_warm <- mergeall_sex_liver_warm %>%
+s <- mergeall_resGS %>%
   filter(padj.s < 0.05 &
-         (!gene %in% sex_warm_liver_GxS_list))
+         (!gene %in% GxS_list))
 #nrow(s_liver_warm) 714 at FDR < 0.05
 #effectsize_s_liver_warm <- s_liver_warm %>% summarise(effectsize = mean(abslfc.s)) # 0.844
 
-# Double-check that number of sig. DEG for GxS is same as before (in ./code/plot_parental_GxS.R)
-#nrow(sex_warm_liver_GxS) # yes
-# 908 at FDR < 0.05
-
-
-## assign each gene to a main category for plotting purposes
-
-sig_sex_liver_warm <- mergeall_sex_liver_warm %>%
-  filter((padj.g < 0.05) | (padj.s < 0.05) | (gene %in% sex_warm_liver_GxS_list)) %>%
-  mutate(main_category = case_when(padj.g < 0.05 & (!gene %in% sex_warm_liver_GxS_list) ~ 1, # g_liver_warm = 1
-                             padj.s < 0.05 & (!gene %in% sex_warm_liver_GxS_list) ~ 2, # s_liver_warm = 2
-                             gene %in% sex_warm_liver_GxS_list ~ 3)) %>% # gxs_liver_warm = 3
+# assign each gene to a main category for plotting purposes
+sig_cats <- mergeall_resGS %>%
+  filter((padj.g < 0.05) | (padj.s < 0.05) | (GxS_list)) %>%
+  mutate(main_category = case_when(padj.g < 0.05 & (!gene %in% GxS_list) ~ 1, # g_liver_warm = 1
+                             padj.s < 0.05 & (!gene %in% GxS_list) ~ 2, # s_liver_warm = 2
+                             gene %in% GxS_list ~ 3)) %>% # gxs_liver_warm = 3
   mutate(totalvar = (abslfc.g + abslfc.s + abslfc.gxs)) %>%
   mutate(g_propvar = (abslfc.g/totalvar),
          s_propvar = (abslfc.s/totalvar),
@@ -134,6 +129,14 @@ sex_liver_warm_tern <- sig_sex_liver_warm %>%
        zarrow = NULL) #+
   # geom_density_tern(color="#884C48",linetype=1, alpha=1, size = 1, n = 100, bins = 5,
   #                   stat = "DensityTern", base = "ilr", bdl = 0.010, na.rm = FALSE)
+
+}
+
+
+res_sex_liver_warm_G
+res_sex_liver_warm_S
+res_sex_liver_warm_GxS
+warm_liver_GxS_list
 ggsave("results/figures/GxS_ternary_liver_warm.pdf", plot = sex_liver_warm_tern,
        height = 3, width = 3.5)
 

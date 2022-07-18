@@ -9,6 +9,8 @@
 # as the evolved response of New York mice at room temperature.
 # This script generates Figures 2C (males) and S3D (females) in BallingerMack_2022.
 
+# Main Result: across both tissues and sexes, Brazil mice exhibit patterns of adaptive plasticity
+
 ##############################################################
 # Required packages
 ##############################################################

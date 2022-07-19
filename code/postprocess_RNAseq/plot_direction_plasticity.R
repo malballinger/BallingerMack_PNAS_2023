@@ -25,7 +25,7 @@ library(glue)
 
 set.seed(1991118)
 
-source("./code/get_DE_parents_analysis.R") # where DESeq data frames are generated
+source("./code/postprocess_RNAseq/get_DE_parents_analysis.R") # where DESeq data frames are generated
 
 ##############################################################
 # Male liver expression (DE in warm (NY vs BZ), and plasticity in Brazil (BZ warm vs cold))

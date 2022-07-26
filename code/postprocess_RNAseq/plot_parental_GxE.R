@@ -132,21 +132,29 @@ GxE <- function(resNY, resBZ, resGxE)
 male_liver_gxe <- GxE(resNY = res_NY_males_liver_WvC, resBZ = res_BZ_males_liver_WvC, resGxE = res_males_liver_GxE)
 plot_male_liver_gxe <- male_liver_gxe$plot
 male_liver_GxE_list <- male_liver_gxe$GxE_list
+n_GxE_genes_male_liver <- male_liver_gxe$n_GxE
+n_total_genes_male_liver <- male_liver_gxe$n_total_genes
 ggsave("results/figures/males_DE_plasticity_liver.pdf", plot = plot_male_liver_gxe, height = 2, width = 2.1)
 
 male_BAT_gxe <- GxE(resNY = res_NY_males_BAT_WvC, resBZ = res_BZ_males_BAT_WvC, resGxE = res_males_BAT_GxE)
 plot_male_BAT_gxe <- male_BAT_gxe$plot
 male_BAT_GxE_list <- male_BAT_gxe$GxE_list
+n_GxE_genes_male_BAT <- male_BAT_gxe$n_GxE
+n_total_genes_male_BAT <- male_BAT_gxe$n_total_genes
 ggsave("results/figures/males_DE_plasticity_BAT.pdf", plot = plot_male_BAT_gxe, height = 2, width = 2.1)
 
 female_liver_gxe <- GxE(resNY = res_NY_females_liver_WvC, resBZ = res_BZ_females_liver_WvC, resGxE = res_females_liver_GxE)
 plot_female_liver_gxe <- female_liver_gxe$plot
 female_liver_GxE_list <- female_liver_gxe$GxE_list
+n_GxE_genes_female_liver <- female_liver_gxe$n_GxE
+n_total_genes_female_liver <- female_liver_gxe$n_total_genes
 ggsave("results/figures/females_DE_plasticity_liver.pdf", plot = plot_female_liver_gxe, height = 2, width = 2.1)
 
 female_BAT_gxe <- GxE(resNY = res_NY_females_BAT_WvC, resBZ = res_BZ_females_BAT_WvC, resGxE = res_females_BAT_GxE)
 plot_female_BAT_gxe <- female_BAT_gxe$plot
 female_BAT_GxE_list <- female_BAT_gxe$GxE_list
+n_GxE_genes_female_BAT <- female_BAT_gxe$n_GxE
+n_total_genes_female_BAT <- female_BAT_gxe$n_total_genes
 ggsave("results/figures/females_DE_plasticity_BAT.pdf", plot = plot_female_BAT_gxe, height = 2, width = 2.1)
 
 

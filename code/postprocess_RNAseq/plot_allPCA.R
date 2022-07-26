@@ -7,6 +7,8 @@
 # This script plots expression level variation across tissue-type, genotype, sex, and environment (via PCA),
 # and generates Figure S1 in BallingerMack_2022.
 
+# Major Result(s): tissue-type explains the most variation
+
 ##############################################################
 # Required packages
 ##############################################################
@@ -188,7 +190,6 @@ all_plot_12 <-
         axis.title = element_text(family = "sans"))
 
 
-
 # FigS1B
 all_liver_PCA_12 <- plotPCA_all_12(object = vsd_liver, shape = 24)
 all_BAT_PCA_12 <- plotPCA_all_12(object = vsd_BAT, shape = 21)
@@ -197,15 +198,13 @@ all_BAT_PCA_12 <- plotPCA_all_12(object = vsd_BAT, shape = 21)
 all_liver_PCA_13 <- plotPCA_all_13(object = vsd_liver, shape = 24)
 all_BAT_PCA_13 <- plotPCA_all_13(object = vsd_BAT, shape = 21)
 
+
 ##############################################################
 # Plot Figure S1
 ##############################################################
 # combine liver and BAT plots
 all_liver_BAT_123 <- cowplot::plot_grid(all_liver_PCA_12, all_BAT_PCA_12, all_liver_PCA_13, all_BAT_PCA_13,
                                         nrow = 2, ncol = 2)
-
 # combine all plots together
 figS1 <- cowplot::plot_grid(all_plot_12, all_liver_BAT_123, nrow = 2)
-
-
 ggsave("results/figures/FigS1_allPCA.pdf", plot = figS1, height = 7, width = 5)

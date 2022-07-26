@@ -141,23 +141,39 @@ return(list(n_total_genes = n_total_genes, n_sig_genes = n_sig_genes, n_sig_gene
 males_liver_tern <- ternary_env(resG = res_males_liver_G, resE = res_males_liver_E,
                                 resGE = res_males_liver_GxE, GxE_list = male_liver_GxE_list)
 males_liver_tern_plot <- males_liver_tern$plot
+males_liver_tern_n_g_genes <- males_liver_tern$n_g_genes
+males_liver_tern_n_e_genes <- males_liver_tern$n_e_genes
+males_liver_tern_effectsize_g <- males_liver_tern$effectsize_g
+males_liver_tern_effectsize_e <- males_liver_tern$effectsize_e
 ggsave("results/figures/males_GxE_ternary_liver.pdf", plot = males_liver_tern_plot, height = 3, width = 3.5)
 
 
 males_BAT_tern <- ternary_env(resG = res_males_BAT_G, resE = res_males_BAT_E,
                               resGE = res_males_BAT_GxE, GxE_list = male_BAT_GxE_list)
 males_BAT_tern_plot <- males_BAT_tern$plot
+males_BAT_tern_n_g_genes <- males_BAT_tern$n_g_genes
+males_BAT_tern_n_e_genes <- males_BAT_tern$n_e_genes
+males_BAT_tern_effectsize_g <- males_BAT_tern$effectsize_g
+males_BAT_tern_effectsize_e <- males_BAT_tern$effectsize_e
 ggsave("results/figures/males_GxE_ternary_BAT.pdf", plot = males_BAT_tern_plot, height = 3, width = 3.5)
 
 
 females_liver_tern <- ternary_env(resG = res_females_liver_G, resE = res_females_liver_E,
                                   resGE = res_females_liver_GxE, GxE_list = female_liver_GxE_list)
 females_liver_tern_plot <- females_liver_tern$plot
+females_liver_tern_n_g_genes <- females_liver_tern$n_g_genes
+females_liver_tern_n_e_genes <- females_liver_tern$n_e_genes
+females_liver_tern_effectsize_g <- females_liver_tern$effectsize_g
+females_liver_tern_effectsize_e <- females_liver_tern$effectsize_e
 ggsave("results/figures/females_GxE_ternary_liver.pdf", plot = females_liver_tern_plot, height = 3, width = 3.5)
 
 
 females_BAT_tern <- ternary_env(resG = res_females_BAT_G, resE = res_females_BAT_E,
                                 resGE = res_females_BAT_GxE, GxE_list = female_BAT_GxE_list)
 females_BAT_tern_plot <- females_BAT_tern$plot
+females_BAT_tern_n_g_genes <- females_BAT_tern$n_g_genes
+females_BAT_tern_n_e_genes <- females_BAT_tern$n_e_genes
+females_BAT_tern_effectsize_g <- females_BAT_tern$effectsize_g
+females_BAT_tern_effectsize_e <- females_BAT_tern$effectsize_e
 ggsave("results/figures/females_GxE_ternary_BAT.pdf", plot = females_BAT_tern_plot, height = 3, width = 3.5)
 

@@ -8,6 +8,8 @@
 # tissue and sex separately. The male-specific plots are used in the main manuscript (Fig1D),
 # while female-specific plots are included in the supplement (Figure S2) of BallingerMack_2022.
 
+# Major Result(s): genotype explains the most variation
+
 ##############################################################
 # Required packages
 ##############################################################
@@ -84,7 +86,7 @@ plotPCA_12 <- function (object, intgroup = c("population", "temperature"),
     return(d)
   }
   ggplot(data = d, aes_string(x = "PC1", y = "PC2", fill = "interaction(population, temperature)")) +
-    geom_point(aes_string(color = "interaction(population, temperature)"), stroke = 0.5, size = 2.5, alpha = 0.9, shape = shape) + #2
+    geom_point(aes_string(color = "interaction(population, temperature)"), stroke = 0.5, size = 2.5, alpha = 0.9, shape = shape) +
     scale_fill_manual(breaks = c("Brazil.Cold", "Brazil.Warm", "NewYork.Cold", "NewYork.Warm"),
                       values = c("#FFFFFF", "#E09832", "#FFFFFF", "#1683B5")) +
     scale_color_manual(breaks = c("Brazil.Cold", "Brazil.Warm", "NewYork.Cold", "NewYork.Warm"),
@@ -96,8 +98,8 @@ plotPCA_12 <- function (object, intgroup = c("population", "temperature"),
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.position = 'none',
-          axis.text = element_text (size = 10, family = "sans"), #7
-          axis.title.y = element_text(vjust = 1, size = 10.5, family = "sans"), #7.5
+          axis.text = element_text (size = 10, family = "sans"),
+          axis.title.y = element_text(vjust = 1, size = 10.5, family = "sans"),
           axis.title.x = element_text(vjust = -1, size = 10.5, family = "sans"))
 }
 
@@ -125,7 +127,7 @@ plotPCA_13 <- function (object, intgroup = c("population", "temperature"),
     return(d)
   }
   ggplot(data = d, aes_string(x = "PC1", y = "PC3", fill = "interaction(population, temperature)")) +
-    geom_point(aes_string(color = "interaction(population, temperature)"), stroke = 1.75, size = 4.75, alpha = 0.9, shape = shape) + #2
+    geom_point(aes_string(color = "interaction(population, temperature)"), stroke = 1.75, size = 4.75, alpha = 0.9, shape = shape) +
     scale_fill_manual(breaks = c("Brazil.Cold", "Brazil.Warm", "NewYork.Cold", "NewYork.Warm"),
                       values = c("#FFFFFF", "#E09832", "#FFFFFF", "#1683B5")) +
     scale_color_manual(breaks = c("Brazil.Cold", "Brazil.Warm", "NewYork.Cold", "NewYork.Warm"),
@@ -137,8 +139,8 @@ plotPCA_13 <- function (object, intgroup = c("population", "temperature"),
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.position = 'none',
-          axis.text = element_text (size = 12.5, family = "sans"), #7
-          axis.title.y = element_text(vjust = 1, size = 14, family = "sans"), #7.5
+          axis.text = element_text (size = 12.5, family = "sans"),
+          axis.title.y = element_text(vjust = 1, size = 14, family = "sans"),
           axis.title.x = element_text(vjust = -1, size = 14, family = "sans"))
 }
 
@@ -166,7 +168,7 @@ plotPCA_13_supp <- function (object, intgroup = c("population", "temperature"),
     return(d)
   }
   ggplot(data = d, aes_string(x = "PC1", y = "PC3", fill = "interaction(population, temperature)")) +
-    geom_point(aes_string(color = "interaction(population, temperature)"), stroke = 0.5, size = 2.5, alpha = 0.9, shape = shape) + #2
+    geom_point(aes_string(color = "interaction(population, temperature)"), stroke = 0.5, size = 2.5, alpha = 0.9, shape = shape) +
     scale_fill_manual(breaks = c("Brazil.Cold", "Brazil.Warm", "NewYork.Cold", "NewYork.Warm"),
                       values = c("#FFFFFF", "#E09832", "#FFFFFF", "#1683B5")) +
     scale_color_manual(breaks = c("Brazil.Cold", "Brazil.Warm", "NewYork.Cold", "NewYork.Warm"),
@@ -178,11 +180,12 @@ plotPCA_13_supp <- function (object, intgroup = c("population", "temperature"),
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.position = 'none',
-          axis.text = element_text (size = 10, family = "sans"), #7
-          axis.title.y = element_text(vjust = 1, size = 10.5, family = "sans"), #7.5
+          axis.text = element_text (size = 10, family = "sans"),
+          axis.title.y = element_text(vjust = 1, size = 10.5, family = "sans"),
           axis.title.x = element_text(vjust = -1, size = 10.5, family = "sans"))
 }
 
+### execute function and save resulting plots
 
 ## males
 # liver
@@ -215,9 +218,7 @@ females_BAT_PCA_12 <- plotPCA_12(object = vsd_BAT_females, shape = 21)
 females_BAT_PCA_13 <- plotPCA_13_supp(object = vsd_BAT_females, shape = 21)
 #ggsave("results/figures/females_BAT_PCA13.pdf", plot = females_BAT_PCA_13, height = 1.75, width = 2) # 1.75 by 2
 
+## plot figure S2
 figS2 <- cowplot::plot_grid(males_BAT_PCA_12, males_liver_PCA_12, females_BAT_PCA_12, females_liver_PCA_12, females_BAT_PCA_13, females_liver_PCA_13,
                    nrow = 3, ncol = 2)
-
 ggsave("results/figures/FigS2_PCA.pdf", plot = figS2, height = 5.5, width = 4)
-
-

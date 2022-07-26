@@ -4,8 +4,8 @@
 
 # Author: Mallory A. Ballinger
 
-# This script filters and subsets the metadata files: data/raw/all_parents_counts.txt & data/raw/all_parents_sample_info.txt
-# The generated subsets (matrices) are used for downstream analyses in BallingerMack_2022.
+# This script filters and subsets the counts metadata files, and
+# generates matrices that are used for downstream analyses in BallingerMack_2022.
 
 ##############################################################
 # Required packages

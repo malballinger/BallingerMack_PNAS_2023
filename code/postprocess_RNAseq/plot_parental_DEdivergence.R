@@ -7,7 +7,7 @@
 # This script plots differential expression in parental samples, with specific focus on patterns of divergence.
 # This script generates Figures 1E (males), S3A (females), and S4A (sex) in BallingerMack_2022.
 
-# Major Result(s): divergence is main gene expression pattern, as expression divergence between NY and BZ is
+# Major Result(s): divergence is main expression pattern, as expression divergence between NY and BZ is
 # concordant across both environments and sexes
 
 ##############################################################
@@ -55,8 +55,7 @@ env_divergence <- function(resW, resC)
       "padj.c" = "padj.y"
       )
   n_total_genes <- nrow(merge_resWC)
-  n_sig_DE_W_genes <- merge_resWC %>% filter(padj.w < 0.05) %>% nrow()
-  n_sig_DE_C_genes <- merge_resWC %>% filter(padj.c < 0.05) %>% nrow()
+  n_sig_DE_genes <- merge_resWC %>% filter(padj.w < 0.05 | padj.c < 0.05) %>% nrow()
   
   # add a column indicating whether warm and cold groups are in the same direction
   merge_resWC_direction <-  merge_resWC %>%
@@ -105,32 +104,39 @@ env_divergence <- function(resW, resC)
     # labs(x = "Log<sub>2</sub> Fold Change in warm<br>(NY vs BZ)",
     #      y = "Log<sub>2</sub> Fold Change in cold<br>(NY vs BZ)")
   
-  return(list(n_total_genes = n_total_genes, n_sig_DE_W_genes = n_sig_DE_W_genes, n_sig_DE_C_genes = n_sig_DE_C_genes,
-              n_sigW = n_sigW, n_sigC = n_sigC, n_sigsame = n_sigsame, n_sigopps = n_sigopps, plot = plot))
+  return(list(n_total_genes = n_total_genes, n_sig_DE_genes = n_sig_DE_genes, n_sigW = n_sigW,
+              n_sigC = n_sigC, n_sigsame = n_sigsame, n_sigopps = n_sigopps, plot = plot))
 }
 
 # execute function and save resulting plots
 male_liver <- env_divergence(resW = res_warm_males_liver_NYvsBZ, resC = res_cold_males_liver_NYvsBZ)
 plot_male_liver <- male_liver$plot
+n_sig_DE_genes_liver_male <- male_liver$n_sig_DE_genes
+n_total_genes_liver_male <- male_liver$n_total_genes
 ggsave("results/figures/males_DE_divergence_liver.pdf", plot = plot_male_liver, height = 3.25, width = 3.5)
 
 male_BAT <- env_divergence(resW = res_warm_males_BAT_NYvsBZ, resC = res_cold_males_BAT_NYvsBZ)
 plot_male_BAT <- male_BAT$plot
+n_sig_DE_genes_BAT_male <- male_BAT$n_sig_DE_genes
+n_total_genes_BAT_male <- male_BAT$n_total_genes
 ggsave("results/figures/males_DE_divergence_BAT.pdf", plot = plot_male_BAT, height = 3.25, width = 3.5)
 
 female_liver <- env_divergence(resW = res_warm_females_liver_NYvsBZ, resC = res_cold_females_liver_NYvsBZ)
 plot_female_liver <- female_liver$plot
+n_sig_DE_genes_liver_female <- female_liver$n_sig_DE_genes
+n_total_genes_liver_female <- female_liver$n_total_genes
 ggsave("results/figures/females_DE_divergence_liver.pdf", plot = plot_female_liver, height = 2, width = 2.1)
 
 female_BAT <- env_divergence(resW = res_warm_females_BAT_NYvsBZ, resC = res_cold_females_BAT_NYvsBZ)
 plot_female_BAT <- female_BAT$plot
+n_sig_DE_genes_BAT_female <- female_BAT$n_sig_DE_genes
+n_total_genes_BAT_female <- female_BAT$n_total_genes
 ggsave("results/figures/females_DE_divergence_BAT.pdf", plot = plot_female_BAT, height = 2, width = 2.1)
 
 
 
-
 ##############################################################
-# Sex expression patterns (males vs females) - divergence
+# Expression divergence (NY vs BZ) across sexes (males vs females)
 ##############################################################
 
 # create function
@@ -231,7 +237,6 @@ ggsave("results/figures/MvF_cold_BAT_DE_divergence.pdf", plot = plot_cold_BAT_se
 
 
 
-
 ##############################################################
 # Statistical Analysis - Chi-square Test
 ##############################################################
@@ -269,7 +274,7 @@ female_BAT_x2_test <- chisq.test(female_BAT_x2, correct = FALSE)
 
 
 # create function for sex analysis
-x2_setup_sex <- function(n_M, all_subM, n_F, all_subF) #
+x2_setup_sex <- function(n_M, all_subM, n_F, all_subF)
 {
   data <- matrix(c(n_M, all_subM, n_F, all_subF), ncol = 2, byrow = TRUE)
   colnames(data) <- c("DE", "not_DE")

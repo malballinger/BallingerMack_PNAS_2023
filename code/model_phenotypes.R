@@ -38,89 +38,17 @@ phenotype_data <- read_csv(here("data/processed/all_phenotypes.csv"))
 
 ### Thermal Conductance differences
 
+## Note: it isn't well established that conductance co-varies with body size so we only
+## analyze and report raw conductance values
+
 ggplot(data = phenotype_data, aes(x = Population, y = AVG_conductance, color = Population)) +
   geom_boxplot(show.legend = FALSE) +
   geom_jitter(show.legend = FALSE)
 
-TC_mod <- lmer(AVG_conductance ~ BodyWeight_g + Population + Sex + (1|Generation),
+TC_mod <- lmer(AVG_conductance ~ Population + Sex + (1|Generation),
                data = phenotype_data)
 car::Anova(TC_mod, type = "III")
 effectsize::omega_squared(TC_mod)
-
-# body mass is a significant main effect of thermal conductance
-# let's see if relative thermal conductance is better
-
-rel_TC <- phenotype_data %>%
-  mutate(rel_conductance = AVG_conductance / BodyWeight_g)
-
-ggplot(data = rel_TC, aes(x = Population, y = rel_conductance, color = Population)) +
-  geom_boxplot(show.legend = FALSE) +
-  geom_jitter(show.legend = FALSE)
-
-rel_TC_mod <- lmer(rel_conductance ~ Population + Sex + (1|Generation),
-               data = rel_TC)
-car::Anova(rel_TC_mod, type = "III")
-effectsize::omega_squared(rel_TC_mod)
-
-# let's see how relative compares to residuals
-
-residsTCBW <- lm(AVG_conductance ~ BodyWeight_g, data = phenotype_data,
-                 na.action = na.exclude)
-phenotype_data$resids_TCBW <- resid(residsTCBW)
-
-ggplot(data = phenotype_data, aes(x = Population, y = resids_TCBW, color = Population)) +
-  geom_boxplot(show.legend = FALSE) +
-  geom_jitter(show.legend = FALSE)
-
-resids_TC_mod <- lmer(resids_TCBW ~ Population + Sex + (1|Generation),
-                      data = phenotype_data)
-car::Anova(resids_TC_mod, type = "III")
-effectsize::omega_squared(resids_TC_mod)
-
-# both resids and relative give similar results
-
-
-### Fur Length differences
-
-ggplot(data = phenotype_data, aes(x = Population, y = Dorsal_fur_length, color = Population)) +
-  geom_boxplot(show.legend = FALSE) +
-  geom_jitter(show.legend = FALSE)
-
-FL_mod <- lmer(Dorsal_fur_length ~ BodyWeight_g + Population * Sex + (1|Generation),
-               data = phenotype_data)
-car::Anova(FL_mod, type = "III")
-effectsize::omega_squared(FL_mod)
-
-# body mass is a significant main effect of fur length
-# let's see if relative fur length is better
-
-rel_FL <- phenotype_data %>%
-  mutate(rel_fur = Dorsal_fur_length / BodyWeight_g)
-
-ggplot(data = rel_FL, aes(x = Population, y = rel_fur, color = Population)) +
-  geom_boxplot(show.legend = FALSE) +
-  geom_jitter(show.legend = FALSE)
-
-rel_FL_mod <- lmer(rel_fur ~ Population * Sex + (1|Generation),
-                   data = rel_FL)
-car::Anova(rel_FL_mod, type = "III")
-effectsize::omega_squared(rel_FL_mod)
-
-# let's see how relative compares to residuals
-
-residsFLBW <- lm(Dorsal_fur_length ~ BodyWeight_g, data = phenotype_data,
-                 na.action = na.exclude)
-phenotype_data$resids_FLBW <- resid(residsFLBW)
-
-ggplot(data = phenotype_data, aes(x = Population, y = resids_FLBW, color = Population)) +
-  geom_boxplot(show.legend = FALSE) +
-  geom_jitter(show.legend = FALSE)
-
-resids_FL_mod <- lmer(resids_FLBW ~ Population * Sex + (1|Generation),
-                      data = phenotype_data)
-car::Anova(resids_FL_mod, type = "III")
-effectsize::omega_squared(resids_FL_mod)
-
 
 
 
@@ -138,8 +66,6 @@ BW_mod <- lmer(BodyWeight_g ~ Population + Sex + (1|Generation),
                data = age_ctrl_data)
 car::Anova(BW_mod, type = "III")
 effectsize::omega_squared(BW_mod)
-
-
 
 
 
@@ -185,6 +111,7 @@ car::Anova(resids_TL_mod, type = "III")
 effectsize::omega_squared(resids_TL_mod)
 
 # resids and relative give similar results
+
 
 
 ### Ear Length differences

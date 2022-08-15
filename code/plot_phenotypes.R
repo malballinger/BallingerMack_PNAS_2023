@@ -50,8 +50,8 @@ TL_deets <- ("&#42;line<br>\
 
 ## thermal conductance
 
-rel_TC_plot <- phenotype_data %>%
-  ggplot(aes(x=Population, y=rel_conductance)) +
+TC_plot <- phenotype_data %>%
+  ggplot(aes(x=Population, y=AVG_conductance)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
   geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
@@ -59,20 +59,19 @@ rel_TC_plot <- phenotype_data %>%
                     labels=c("Brazil", "New York")) +
   scale_x_discrete(breaks=c("BRAZIL", "NEW_YORK"),
                    labels=c("Brazil", "New York")) +
-  scale_y_continuous(breaks = seq(from=0.5, to=2.5, by=0.5), labels = seq(from=0.5, to=2.5, by=0.5), limits = c(0.5,2.5)) +
   theme_bw() + 
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
+        axis.title.y = element_markdown(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
-        plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
+        plot.tag = element_markdown(family = "sans", size = 10.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.95)) +
   labs(x = "",
-       y = "Relative Pelage Conductance",
+       y = "Pelage Conductance",
        tag = TC_deets)
-ggsave("results/figures/rel_TC.pdf", plot = rel_TC_plot, height = 2.75, width = 2.8, units = "in")
+ggsave("results/figures/pelage_cond.pdf", plot = TC_plot, height = 2.75, width = 2.8, units = "in")
 
 
 ### for body mass and extremity length, filter for age
@@ -97,7 +96,7 @@ BW_plot <- age_ctrl_data %>%
         axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
-        plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
+        plot.tag = element_markdown(family = "sans", size = 10.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.93)) +
   labs(x = "",
        y = "Body Mass (g)",
@@ -123,7 +122,7 @@ rel_TL_plot <- age_ctrl_data %>%
         axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
-        plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
+        plot.tag = element_markdown(family = "sans", size = 10.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.93)) +
   labs(x = "",
        y = "Relative Tail Length",
@@ -150,7 +149,7 @@ rel_EL_plot <- age_ctrl_data %>%
         axis.title.y = element_text(vjust = 1, size = 13, family = "sans"),
         axis.text = element_text(size = 12.5, family = "sans"),
         axis.text.x = element_text(color = "black"),
-        plot.tag = element_markdown(family = "sans", size = 9.5, face = "italic", hjust = 1, color = "grey30"),
+        plot.tag = element_markdown(family = "sans", size = 10.5, face = "italic", hjust = 1, color = "grey30"),
         plot.tag.position = c(0.97,0.93)) +
   labs(x = "",
        y = "Relative Ear Length",

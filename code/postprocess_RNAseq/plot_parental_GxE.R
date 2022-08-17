@@ -97,6 +97,7 @@ GxE <- function(resNY, resBZ, resGxE)
   
   # sample sizes of categories:
   n_sigNY <- nrow(sigNY)
+  list_sigNY <- sigNY %>% pull(gene)
   n_sigsame <- nrow(sigsame)
   n_sigBZ <- nrow(sigBZ)
   n_sigopps <- nrow(sigopps)
@@ -124,7 +125,7 @@ GxE <- function(resNY, resBZ, resGxE)
          #y = "Log<sub>2</sub> Fold Change in BZ<br>(warm vs cold)")
   
   return(list(n_total_genes = n_total_genes, n_sig_DE_NY_genes = n_sig_DE_NY_genes, n_sig_DE_BZ_genes = n_sig_DE_BZ_genes,
-              n_sigNY = n_sigNY, n_sigBZ = n_sigBZ, n_sigsame = n_sigsame,
+              n_sigNY = n_sigNY, n_sigBZ = n_sigBZ, n_sigsame = n_sigsame, merge_resBZNY = merge_resBZNY,
               n_sigopps = n_sigopps, n_GxE = n_GxE, GxE_list = GxE_list, plot = plot))
 }
 

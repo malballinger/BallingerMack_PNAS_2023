@@ -1,4 +1,4 @@
-### Trim and clean raw reads with [FastP v.0.19.6](https://github.com/OpenGene/fastp) [(Chen et al., 2018)](https://doi.org/10.1093/bioinformatics/bty560) ([runFastP.MAB.May21.sh]())
+> Trim and clean raw reads with [FastP v.0.19.6](https://github.com/OpenGene/fastp) [(Chen et al., 2018)](https://doi.org/10.1093/bioinformatics/bty560) ([runFastP.MAB.May21.sh]())
 ```
 fastp \
         -i $seq\_R1.fastq \ # input read1 file
@@ -17,7 +17,7 @@ fastp \
         -w 2 # number of threads to use
 ```
 
-### Align sequences to mouse genome via [STAR v.2.7.7a](https://github.com/alexdobin/STAR) ([IndexGenome.MAB.Jan21.sh]())
+> Index mouse genome via [STAR v.2.7.7a](https://github.com/alexdobin/STAR) ([IndexGenome.MAB.Jan21.sh]())
 ```
 STAR --runThreadN 16 \
 --runMode genomeGenerate \
@@ -28,7 +28,7 @@ STAR --runThreadN 16 \
 --sjdbOverhang 149 # Readlength-1
 ```
 
-> Align sequences with [STAR](https://github.com/alexdobin/STAR) ([STARalign.MAB.May21.sh]())
+> Align sequences with [STAR v.2.7.7a](https://github.com/alexdobin/STAR) ([STARalign.MAB.May21.sh]())
 ```
 STAR --runMode alignReads \
 --runThreadN 16 \
@@ -40,7 +40,7 @@ STAR --runMode alignReads \
 --outFileNamePrefix /mapped_reads/${Sample}
 ```
 
-### Count reads with [HTseq v.0.11.0](https://htseq.readthedocs.io/en/release_0.11.1/index.html) ([HTSEQ_count.MAB.Jun21.sh]())
+> Count reads with [HTseq v.0.11.0](https://htseq.readthedocs.io/en/release_0.11.1/index.html) ([HTSEQ_count.MAB.Jun21.sh]())
 ```
 htseq-count -f bam --order=pos --stranded=no /mapped_reads/${Sample}_L001Aligned.sortedByCoord.out.bam Mus_musculus.GRCm38.98.gtf > /countfiles/${Sample}.L001.count
 
@@ -50,7 +50,7 @@ htseq-count -f bam --order=pos --stranded=no /mapped_reads/${Sample}_L004Aligned
 paste /countfiles/${Sample}.L001.count /countfiles/${Sample}.L004.count | awk -F' ' '{print $1"\t"$2+$4}' > /countfiles/${Sample}.count.merge
 ```
 
-### Merge count files with [merge_tables.py](https://github.com/aiminy/SCCC-bioinformatics/blob/master/merge_tables.py) ([MergeCountTables.MAB.Jun21.sh])
+> Merge count files with [merge_tables.py](https://github.com/aiminy/SCCC-bioinformatics/blob/master/merge_tables.py) ([MergeCountTables.MAB.Jun21.sh])
 ```
 python merge_tables.py \
 

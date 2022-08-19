@@ -140,24 +140,32 @@ ternary_sex <- function(resG, resS, resGS, GxS_list)
 # execute function and save resulting plots
 warm_liver_tern <- ternary_sex(resG = res_sex_liver_warm_G, resS = res_sex_liver_warm_S,
                       resGS = res_sex_liver_warm_GxS, GxS_list = warm_liver_GxS_list)
+warm_liver_tern_effectsize_g = warm_liver_tern$effectsize_g
+warm_liver_tern_effectsize_s = warm_liver_tern$effectsize_s
 warm_liver_tern_plot <- warm_liver_tern$plot
 ggsave("results/figures/GxS_ternary_liver_warm.pdf", plot = warm_liver_tern_plot, height = 3, width = 3.5)
 
 
 warm_BAT_tern <- ternary_sex(resG = res_sex_BAT_warm_G, resS = res_sex_BAT_warm_S,
                          resGS = res_sex_BAT_warm_GxS, GxS_list = warm_BAT_GxS_list)
+warm_BAT_tern_effectsize_g = warm_BAT_tern$effectsize_g
+warm_BAT_tern_effectsize_s = warm_BAT_tern$effectsize_s
 warm_BAT_tern_plot <- warm_BAT_tern$plot
 ggsave("results/figures/GxS_ternary_BAT_warm.pdf", plot = warm_BAT_tern_plot, height = 3, width = 3.5)
 
 
 cold_liver_tern <- ternary_sex(resG = res_sex_liver_cold_G, resS = res_sex_liver_cold_S,
                            resGS = res_sex_liver_cold_GxS, GxS_list = cold_liver_GxS_list)
+cold_liver_tern_effectsize_g = cold_liver_tern$effectsize_g
+cold_liver_tern_effectsize_s = cold_liver_tern$effectsize_s
 cold_liver_tern_plot <- cold_liver_tern$plot
 ggsave("results/figures/GxS_ternary_liver_cold.pdf", plot = cold_liver_tern_plot, height = 3, width = 3.5)
 
 
 cold_BAT_tern <- ternary_sex(resG = res_sex_BAT_cold_G, resS = res_sex_BAT_cold_S,
                          resGS = res_sex_BAT_cold_GxS, GxS_list = cold_BAT_GxS_list)
+cold_BAT_tern_effectsize_g = cold_BAT_tern$effectsize_g
+cold_BAT_tern_effectsize_s = cold_BAT_tern$effectsize_s
 cold_BAT_tern_plot <- cold_BAT_tern$plot
 ggsave("results/figures/GxS_ternary_BAT_cold.pdf", plot = cold_BAT_tern_plot, height = 3, width = 3.5)
 

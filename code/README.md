@@ -1,6 +1,6 @@
 ## Scripts are largely categorized based on pre- and post-processing of:
-RNAseq data ([preprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_RNAseq),[postprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_RNAseq)) and \
-Population Genomic data([preprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_popgen),[postprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_popgen)).
+RNAseq data ([preprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_RNAseq), [postprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_RNAseq)) and \
+Population Genomic data([preprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_popgen), [postprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_popgen)).
 &nbsp;
 &nbsp;
 ## The following scripts are used to generate Figure 1A-B:

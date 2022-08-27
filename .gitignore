@@ -6,6 +6,14 @@
 Icon?
 ![iI]con[_a-zA-Z0-9]
 
-./code/Icon[\r]
+"/code/Icon[\r]"
 
-exploratory/*
+Icon
+
+Icon[^M]
+
+./exploratory/*Icon
+
+code/Icon
+
+Icon

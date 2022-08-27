@@ -5,7 +5,7 @@
 # Author: Mallory A. Ballinger
 
 # This script plots cis and trans patterns for each tissue and temperature separately,
-# and generates Figures 3A and 3B in BallingerMack_PNAS_2022.
+# and generates Figures 3B and 3C in BallingerMack_PNAS_2022.
 
 ##############################################################
 # Required packages
@@ -62,12 +62,12 @@ liver_warm_cistrans <- liver_warm_male_metadata %>%
   scale_y_continuous(limits = c(-3.5,3.5), expand = c(0.01,0.01)) +
   theme_bw() +
   theme(axis.title = element_blank(),
-        axis.text = element_text (size = 9.5, family = "sans"),
+        axis.text = element_text (size = 10, family = "sans"),
         panel.grid = element_blank())
   # labs(x = "Log<sub>2</sub> Fold Change (NY parent / BZ parent)",
   #      y = "Log<sub>2</sub> Fold Change (NY allele / BZ allele)")
 
-ggsave("results/figures/liver_warm_cistrans.pdf", plot = liver_warm_cistrans, height = 2.5, width = 2.5)
+ggsave("results/figures/liver_warm_cistrans.pdf", plot = liver_warm_cistrans, height = 2.75, width = 2.75)
 
 
 ### cold
@@ -107,10 +107,10 @@ liver_cold_cistrans <- liver_cold_male_metadata %>%
   scale_y_continuous(limits = c(-3.5,3.5), expand = c(0.01,0.01)) +
   theme_bw() +
   theme(axis.title = element_blank(),
-        axis.text = element_text (size = 9.5, family = "sans"),
+        axis.text = element_text (size = 10, family = "sans"),
         panel.grid = element_blank())
 
-ggsave("results/figures/liver_cold_cistrans.pdf", plot = liver_cold_cistrans, height = 2.5, width = 2.5)
+ggsave("results/figures/liver_cold_cistrans.pdf", plot = liver_cold_cistrans, height = 2.75, width = 2.75)
 
 
 ### aluvial plot for liver
@@ -153,9 +153,9 @@ WC_liver_alluvial <- WC_liver_format %>%
   theme_classic() +
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
-        axis.text = element_text (size = 9.5, family = "sans"))
+        axis.text = element_text (size = 10, family = "sans"))
 
-ggsave("results/figures/Liver_cistrans_alluvial.pdf", plot = WC_liver_alluvial, height = 2.4, width = 1.8)
+ggsave("results/figures/Liver_cistrans_alluvial.pdf", plot = WC_liver_alluvial, height = 2.6, width = 2)
 
 
 
@@ -200,10 +200,10 @@ BAT_warm_cistrans <- BAT_warm_male_metadata %>%
   scale_y_continuous(limits = c(-3.5,3.5), expand = c(0.01,0.01)) +
   theme_bw() +
   theme(axis.title = element_blank(),
-        axis.text = element_text (size = 9.5, family = "sans"),
+        axis.text = element_text (size = 10, family = "sans"),
         panel.grid = element_blank())
 
-ggsave("results/figures/BAT_warm_cistrans.pdf", plot = BAT_warm_cistrans, height = 2.5, width = 2.5)
+ggsave("results/figures/BAT_warm_cistrans.pdf", plot = BAT_warm_cistrans, height = 2.75, width = 2.75)
 
 
 ### cold
@@ -243,10 +243,10 @@ BAT_cold_cistrans <- BAT_cold_male_metadata %>%
   scale_y_continuous(limits = c(-3.5,3.5), expand = c(0.01,0.01)) +
   theme_bw() +
   theme(axis.title = element_blank(),
-        axis.text = element_text (size = 9.5, family = "sans"),
+        axis.text = element_text (size = 10, family = "sans"),
         panel.grid = element_blank())
 
-ggsave("results/figures/BAT_cold_cistrans.pdf", plot = BAT_cold_cistrans, height = 2.5, width = 2.5)
+ggsave("results/figures/BAT_cold_cistrans.pdf", plot = BAT_cold_cistrans, height = 2.75, width = 2.75)
 
 
 ### aluvial plot for BAT
@@ -294,9 +294,9 @@ WC_BAT_alluvial <- WC_BAT_format %>%
   theme_classic() +
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
-        axis.text = element_text (size = 9.5, family = "sans"))
+        axis.text = element_text (size = 10, family = "sans"))
 
-ggsave("results/figures/BAT_cistrans_alluvial.pdf", plot = WC_BAT_alluvial, height = 2.4, width = 1.8)
+ggsave("results/figures/BAT_cistrans_alluvial.pdf", plot = WC_BAT_alluvial, height = 2.6, width = 2)
 
 WC_BAT_alluvial_transhi <- WC_BAT_format %>%
   ggplot(aes(y = n, axis1 = category_warm, axis2 = category_cold)) +

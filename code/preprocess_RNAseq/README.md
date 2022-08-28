@@ -1,5 +1,5 @@
 ### Four main analyses are outlined here:
-1) Couting reads for parental samples
+1) Counting reads for parental samples
 2) Identifying fixed SNPs between Brazil and New York
 3) Counting alleleic reads in F1 hybrids
 4) Identifying *cis* and *trans* regulatory divergence
@@ -48,14 +48,14 @@ python merge_tables.py all_parents.txt > all_parents_counts.txt
 
 ### 2) Fixed SNPs between BZ and NY
 
-> Map genomic reads to mouse reference genome via [Bowtie2]()
+> Map genomic reads to mouse reference genome via [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
 ```bash
 
 
 samtools sort -o ${Sample}_merge.sort.bam ${Sample}_merge.bam
 ````
 
-> Mark duplicates with [Picard]()
+> Mark duplicates with [Picard](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard-)
 ```java
 picard MarkDuplicates INPUT=${Sample}_merge.sort.bam OUTPUT=${Sample}_markdups.bam METRICS_FILE=${Sample}_metrics.txt
 
@@ -65,7 +65,7 @@ picard AddOrReplaceReadGroups I=${Sample}_markdups.bam O=${Sample}_markdups.rehe
        RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}
 ```
 
-> Joint genotyping via GATK [HaplotypeCaller]() and [GenotypeGVCFs]()
+> Joint genotyping via GATK [HaplotypeCaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) and [GenotypeGVCFs](https://gatk.broadinstitute.org/hc/en-us/articles/360037057852-GenotypeGVCFs)
 ```bash
 gatk HaplotypeCaller -R Mus_musculus.GRCm38.dna.toplevel.fa -I ${Sample}_markdups.rehead.split.bam -ERC GVCF \
      -stand-call-conf 20 -O ${Sample}_rawvariants.g.vcf.gz
@@ -78,7 +78,7 @@ gatk --java-options \"-Xmx4g\" GenotypeGVCFs -R Mus_musculus.GRCm38.dna.toplevel
      -O Combined_BZ_NY.vcf.gz
 ```
 
-> Select and filter variants via GATK [SelectVariants]() and [VariantFiltration]()
+> Select and filter variants via GATK [SelectVariants](https://gatk.broadinstitute.org/hc/en-us/articles/360037055952-SelectVariants) and [VariantFiltration](https://gatk.broadinstitute.org/hc/en-us/articles/360037434691-VariantFiltration)
 ```bash
 gatk SelectVariants --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_BZ_NY.vcf.gz \
      --select-type-to-include SNP --output Combined_BZ_NY.SNPs.vcf.gz
@@ -99,13 +99,10 @@ STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
      --waspOutputMode SAMtag --outSAMattributes NH HI AS nM NM MD vA vG vW \
      --varVCFfile BZ_NY_filteredhetcalls.vcf --outFilterMultimapNmax 1 \
      --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}.STAR_ASE
+
+samtools view -h -o ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam ${Sample}.STAR_ASEAligned.sortedByCoord.out.bam 
 ```
 ###### Note: _BZ_NY_filteredhetcalls.vcf_ was produced in step '(2) Identifying fixed SNPs between BZ and NY'
-
-```bash
-#change to bam output and include header
-samtools view -h -o ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam ${Sample}.STAR_ASEAligned.sortedByCoord.out.bam 
-````
 
 > Filter files based on [WASP]() flags
 ```bash
@@ -134,7 +131,7 @@ samtools sort ${Sample}.geno2.withhead.bam -o ${Sample}.geno2.withhead.sorted.ba
 samtools sort ${Sample}.bothwhead.bam -o ${Sample}.bothwhead.sorted.bam
 ````
 
-> Produce count files
+> Produce count files via HTseq
 ```python
 python -m HTSeq.scripts.count -f bam -s no \
        -r pos ${Sample}.geno1.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno1.withhead.sorted.counts
@@ -175,7 +172,7 @@ gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.t
      -V BR_NY_hetcalls.vcf.gz -O ${line}.both_alleles.table
 ```
 
-##### 4) Patterns of *cis* and *trans*
+### 4) Patterns of *cis* and *trans*
 
 > Read in count tables
 ```R

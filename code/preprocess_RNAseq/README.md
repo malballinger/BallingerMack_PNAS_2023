@@ -27,7 +27,7 @@ STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
 ```
 
 > Count reads with [HTseq v.0.11.0](https://htseq.readthedocs.io/en/release_0.11.1/index.html)
-```bash
+```python
 python -m HTSeq.scripts.count -f bam --order=pos --stranded=no ${Sample}_L001Aligned.sortedByCoord.out.bam Mus_musculus.GRCm38.98.gtf > ${Sample}.L001.count
 
 python -m HTSeq.scripts.count -f bam --order=pos --stranded=no ${Sample}_L004Aligned.sortedByCoord.out.bam Mus_musculus.GRCm38.98.gtf > ${Sample}.L004.count
@@ -37,13 +37,13 @@ paste ${Sample}.L001.count ${Sample}.L004.count | awk -F' ' '{print $1"\t"$2+$4}
 ```
 
 > Merge count files with [merge_tables.py](https://github.com/aiminy/SCCC-bioinformatics/blob/master/merge_tables.py)
-```bash
+```python
 python merge_tables.py all_parents.txt > all_parents_counts.txt
 
 # format of 'all_parents.txt':
 # {Sample}.count.merge Pop_Trt_Sex_{Sample}  (e.g.: 002.count.merge BZrtM_002)
 ```
-###### _Note: all_parents_counts.txt is provided in data/raw/ReadCounts/all_parents_counts.txt_ ######
+###### Note: _all_parents_counts.txt_ is provided in data/raw/ReadCounts/all_parents_counts.txt ######
 
 
 ### 2) Fixed SNPs between BZ and NY
@@ -56,7 +56,7 @@ samtools sort -o ${Sample}_merge.sort.bam ${Sample}_merge.bam
 ````
 
 > Mark duplicates with [Picard]()
-```bash
+```java
 picard MarkDuplicates INPUT=${Sample}_merge.sort.bam OUTPUT=${Sample}_markdups.bam METRICS_FILE=${Sample}_metrics.txt
 
 picard BuildBamIndex INPUT=${Sample}_markdups.bam
@@ -100,7 +100,7 @@ STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
      --varVCFfile BZ_NY_filteredhetcalls.vcf --outFilterMultimapNmax 1 \
      --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}.STAR_ASE
 ```
-###### Note: BZ_NY_filteredhetcalls.vcf was produced via code/preprocess_popgen/phased_VCF.sh
+###### Note: _BZ_NY_filteredhetcalls.vcf_ was produced in step '(2) Identifying fixed SNPs between BZ and NY'
 
 ```bash
 #change to bam output and include header
@@ -109,33 +109,33 @@ samtools view -h -o ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam ${Sample}.ST
 
 > Filter files based on [WASP]() flags
 ```bash
+# Sort reads into allele-specific pools (NY, BZ)
+
 #vW:i:1 means alignment passed WASP filtering, and all other values mean it did not pass:
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam > ${Sample}.STAR_ASEAligned.sortedByCoord.out.filter.sam
+# Note: geno1 and geno2 refer to NY and BZ reads
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,1\" \
      | awk -F' ' '{if(\$18 ~ /2/){}else{print}}' > ${Sample}.geno1.sam
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,2\" \
      | awk -F' ' '{if(\$18 ~ /1/){}else{print}}' > ${Sample}.geno2.sam
 
-#extract header
 grep \"@\" ${Sample}.geno2.sam > ${Sample}.head.sam
 
 cat ${Sample}.head.sam ${Sample}.geno1.sam > ${Sample}.geno1.withhead.sam
 cat ${Sample}.head.sam ${Sample}.geno2.sam > ${Sample}.geno2.withhead.sam
 cat ${Sample}.head.sam ${Sample}.STAR_ASEAligned.sortedByCoord.out.filter.sam > ${Sample}.bothwhead.sam
 
-#change to bam outputs
 samtools view -S -b ${Sample}.geno1.withhead.sam > ${Sample}.geno1.withhead.bam
 samtools view -S -b ${Sample}.geno2.withhead.sam > ${Sample}.geno2.withhead.bam
 samtools view -S -b ${Sample}.bothwhead.sam > ${Sample}.bothwhead.bam
 
-#sort bam files
 samtools sort ${Sample}.geno1.withhead.bam -o ${Sample}.geno1.withhead.sorted.bam
 samtools sort ${Sample}.geno2.withhead.bam -o ${Sample}.geno2.withhead.sorted.bam
 samtools sort ${Sample}.bothwhead.bam -o ${Sample}.bothwhead.sorted.bam
 ````
 
 > Produce count files
-```bash
+```python
 python -m HTSeq.scripts.count -f bam -s no \
        -r pos ${Sample}.geno1.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno1.withhead.sorted.counts
 
@@ -144,7 +144,7 @@ python -m HTSeq.scripts.count -f bam -s no \
 ```
 
 > Assign reads to specific genotypes via [GATK](https://gatk.broadinstitute.org/hc/en-us/articles/360037226472-AddOrReplaceReadGroups-Picard-)
-```bash
+```java
 java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups \
      I=${Sample}.geno1.withhead.sorted.bam O=${Sample}.geno1.withhead.plusreads.sorted.withgroup.bam \
      RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_geno1

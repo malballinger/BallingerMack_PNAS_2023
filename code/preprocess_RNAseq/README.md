@@ -4,7 +4,7 @@
 3) Counting alleleic reads in F1 hybrids
 4) Identifying *cis* and *trans* regulatory divergence
 
-##### 1) Parental Read Counts
+### 1) Parental Read Counts
 
 > Trim and clean raw reads with [FastP v.0.19.6](https://github.com/OpenGene/fastp)
 ```bash
@@ -21,8 +21,9 @@ STAR --runThreadN 16 --runMode genomeGenerate --limitGenomeGenerateRAM 335243994
 
 > Align sequences with [STAR v.2.7.7a](https://github.com/alexdobin/STAR)
 ```bash
-STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 --readFilesIn ${Sample}\_R1_cleaned.fq ${Sample}\_R2_cleaned.fq \
-     --outSAMtype BAM SortedByCoordinate --outFilterMultimapNmax 1 --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}
+STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
+     --readFilesIn ${Sample}\_R1_cleaned.fq ${Sample}\_R2_cleaned.fq --outSAMtype BAM SortedByCoordinate \
+     --outFilterMultimapNmax 1 --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}
 ```
 
 > Count reads with [HTseq v.0.11.0](https://htseq.readthedocs.io/en/release_0.11.1/index.html)
@@ -42,10 +43,10 @@ python merge_tables.py all_parents.txt > all_parents_counts.txt
 # format of 'all_parents.txt':
 # {Sample}.count.merge Pop_Trt_Sex_{Sample}  (e.g.: 002.count.merge BZrtM_002)
 ```
-###### Note: all_parents_counts.txt is provided in data/raw/ReadCounts/all_parents_counts.txt
+###### _Note: all_parents_counts.txt is provided in data/raw/ReadCounts/all_parents_counts.txt_ ######
 
 
-##### 2) Fixed SNPs between BZ and NY
+### 2) Fixed SNPs between BZ and NY
 
 > Map genomic reads to mouse reference genome via [Bowtie2]()
 ```bash
@@ -60,52 +61,60 @@ picard MarkDuplicates INPUT=${Sample}_merge.sort.bam OUTPUT=${Sample}_markdups.b
 
 picard BuildBamIndex INPUT=${Sample}_markdups.bam
 
-picard AddOrReplaceReadGroups I=${Sample}_markdups.bam O=${Sample}_markdups.rehead.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}
+picard AddOrReplaceReadGroups I=${Sample}_markdups.bam O=${Sample}_markdups.rehead.bam \
+       RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}
 ```
 
 > Joint genotyping via GATK [HaplotypeCaller]() and [GenotypeGVCFs]()
 ```bash
-gatk HaplotypeCaller -R Mus_musculus.GRCm38.dna.toplevel.fa -I ${Sample}_markdups.rehead.split.bam -ERC GVCF -stand-call-conf 20 \
-     -O ${Sample}_rawvariants.g.vcf.gz
+gatk HaplotypeCaller -R Mus_musculus.GRCm38.dna.toplevel.fa -I ${Sample}_markdups.rehead.split.bam -ERC GVCF \
+     -stand-call-conf 20 -O ${Sample}_rawvariants.g.vcf.gz
 
 #Combine files
-gatk CombineGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa --variant MANA_rawvariants.g.vcf.gz --variant SARA_rawvariants.g.vcf.gz \
-     -O Combined_BZ_NY.g.vcf.gz
+gatk CombineGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa --variant MANA_rawvariants.g.vcf.gz \
+     --variant SARA_rawvariants.g.vcf.gz -O Combined_BZ_NY.g.vcf.gz
 
-gatk --java-options \"-Xmx4g\" GenotypeGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa -V Combined_BZ_NY.g.vcf.gz -O Combined_BZ_NY.vcf.gz
+gatk --java-options \"-Xmx4g\" GenotypeGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa -V Combined_BZ_NY.g.vcf.gz \
+     -O Combined_BZ_NY.vcf.gz
 ```
 
 > Select and filter variants via GATK [SelectVariants]() and [VariantFiltration]()
 ```bash
-gatk SelectVariants --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_BZ_NY.vcf.gz --select-type-to-include SNP \
-     --output Combined_BZ_NY.SNPs.vcf.gz
+gatk SelectVariants --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_BZ_NY.vcf.gz \
+     --select-type-to-include SNP --output Combined_BZ_NY.SNPs.vcf.gz
 
 gatk VariantFiltration --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_BZ_NY.SNPs.vcf.g vcf gz \
      --filter-expression \"QD < 2.0 || QUAL < 30.0 || FS > 200.0 || ReadPosRankSum < -20.0\" --filter-name \"SNPFilter\" \
      --output Combined_BZ_NY.SNPsfilt.vcf.gz
 ```
 
-##### 3) Allelic Read Counts
+### 3) Allelic Read Counts
 
 ###### Note: F1 sequences were already trimmed, cleaned, and mapped as described above under '1) Parental Read Counts'. Here, we are remapping F1 sequences:
 
 > Align F1 sequences with [STAR v.2.7.7a](https://github.com/alexdobin/STAR)
 ```bash
-STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 --readFilesIn ${Sample}_R1.trim.fastq ${Sample}_R2.trim.fastq --outSAMtype BAM SortedByCoordinate --waspOutputMode SAMtag --outSAMattributes NH HI AS nM NM MD vA vG vW --varVCFfile BZ_NY_filteredhetcalls.vcf --outFilterMultimapNmax 1 --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}.STAR_ASE
+STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
+     --readFilesIn ${Sample}_R1.trim.fastq ${Sample}_R2.trim.fastq --outSAMtype BAM SortedByCoordinate \
+     --waspOutputMode SAMtag --outSAMattributes NH HI AS nM NM MD vA vG vW \
+     --varVCFfile BZ_NY_filteredhetcalls.vcf --outFilterMultimapNmax 1 \
+     --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}.STAR_ASE
 ```
 ###### Note: BZ_NY_filteredhetcalls.vcf was produced via code/preprocess_popgen/phased_VCF.sh
 
 ```bash
 #change to bam output and include header
-samtools view -h -o ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam  ${Sample}.STAR_ASEAligned.sortedByCoord.out.bam 
+samtools view -h -o ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam ${Sample}.STAR_ASEAligned.sortedByCoord.out.bam 
 ````
 
 > Filter files based on [WASP]() flags
 ```bash
 #vW:i:1 means alignment passed WASP filtering, and all other values mean it did not pass:
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam > ${Sample}.STAR_ASEAligned.sortedByCoord.out.filter.sam
-grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,1\"  | awk -F' ' '{if(\$18 ~ /2/){}else{print}}' > ${Sample}.geno1.sam
-grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,2\"  | awk -F' ' '{if(\$18 ~ /1/){}else{print}}' > ${Sample}.geno2.sam
+grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,1\" \
+     | awk -F' ' '{if(\$18 ~ /2/){}else{print}}' > ${Sample}.geno1.sam
+grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,2\" \
+     | awk -F' ' '{if(\$18 ~ /1/){}else{print}}' > ${Sample}.geno2.sam
 
 #extract header
 grep \"@\" ${Sample}.geno2.sam > ${Sample}.head.sam
@@ -127,32 +136,43 @@ samtools sort ${Sample}.bothwhead.bam -o ${Sample}.bothwhead.sorted.bam
 
 > Produce count files
 ```bash
-python -m HTSeq.scripts.count -f bam -s no -r pos ${Sample}.geno1.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno1.withhead.sorted.counts
+python -m HTSeq.scripts.count -f bam -s no \
+       -r pos ${Sample}.geno1.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno1.withhead.sorted.counts
 
-python -m HTSeq.scripts.count -f bam -s no -r pos ${Sample}.geno2.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno2.withhead.sorted.counts
+python -m HTSeq.scripts.count -f bam -s no \
+       -r pos ${Sample}.geno2.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno2.withhead.sorted.counts
 ```
 
 > Assign reads to specific genotypes via [GATK](https://gatk.broadinstitute.org/hc/en-us/articles/360037226472-AddOrReplaceReadGroups-Picard-)
 ```bash
-java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups I=${Sample}.geno1.withhead.sorted.bam O=${Sample}.geno1.withhead.plusreads.sorted.withgroup.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_geno1
+java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups \
+     I=${Sample}.geno1.withhead.sorted.bam O=${Sample}.geno1.withhead.plusreads.sorted.withgroup.bam \
+     RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_geno1
 
-java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups I=${Sample}.geno2.withhead.sorted.bam O=${Sample}.geno2.withhead.plusreads.sorted.withgroup.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_geno2
+java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups \
+     I=${Sample}.geno2.withhead.sorted.bam O=${Sample}.geno2.withhead.plusreads.sorted.withgroup.bam \
+     RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_geno2
 
-java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups I=${Sample}.bothwhead.sorted.bam O=${Sample}.bothwhead.withgroup.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_both
+java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups I=${Sample}.bothwhead.sorted.bam \
+     O=${Sample}.bothwhead.withgroup.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}_both
 ```
 
 > Produce count tables per SNP via [GATK](https://gatk.broadinstitute.org/hc/en-us/articles/360037428291-ASEReadCounter)
 ```bash
-gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam O=${line}.bothwhead.withgroup.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
+gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam O=${line}.bothwhead.withgroup.bam \
+     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
      -O BZ_NY.bothgeno.table
 
-gatk ASEReadCounter -I ${line}.geno1.withhead.plusreads.sorted.withgroup.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
+gatk ASEReadCounter -I ${line}.geno1.withhead.plusreads.sorted.withgroup.bam \
+     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
      -O ${line}.geno1.table
 
-gatk ASEReadCounter -I ${line}.geno2.withhead.plusreads.sorted.withgroup.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
+gatk ASEReadCounter -I ${line}.geno2.withhead.plusreads.sorted.withgroup.bam \
+     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
      -O ${line}.geno2.table
 
-gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz -O ${line}.both_alleles.table
+gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.toplevel.fa \
+     -V BR_NY_hetcalls.vcf.gz -O ${line}.both_alleles.table
 ```
 
 ##### 4) Patterns of *cis* and *trans*
@@ -198,7 +218,8 @@ resultsNames(dds)
 
 > Sort categories by comparing log2 fold change and padj values between parents, F1's, and LRT (for trans component)
 ```bash
-# Note: we adjusted FDR for cases where genes were tested by DESeq2 for one test but not the other (i.e., FDR estimates for parents but not hybrid) -- this is done with p.adjust, method="BH"
+# Note: we adjusted FDR for cases where genes were tested by DESeq2 for one test but not the other
+# (i.e., FDR estimates for parents but not hybrid) -- this is done with p.adjust, method="BH"
 
 #0.05 cutoff
 awk -F' ' '{if($3<0.05 && $5<0.05 && $7>0.05){print $0,"CIS_only"}else{print}}' |
@@ -213,6 +234,6 @@ awk -F' ' '{if($8==""){print $0,"Ambiguous"}else{print}}'
 
 # add the following to condense cis+trans groups for plotting in R
  | awk -F' ' '{if($8=="Conserved" || $8=="Ambiguous"){print $1,$2,$3,$4,$5,$6,$7,"Ambiguous_orConserved"}else{print}}'  > categories.txt
- 
+
 ```
 

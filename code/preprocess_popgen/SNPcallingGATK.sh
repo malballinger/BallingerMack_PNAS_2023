@@ -11,7 +11,7 @@ picard MarkDuplicates INPUT=${line}_merge.sort.bam OUTPUT=${line}_markdups.bam M
 
 picard BuildBamIndex INPUT=${line}_markdups.bam
 
-picard AddOrReplaceReadGroups I=${line}_markdups.bam O=${line}_markdups.rehead.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=MBSD_102
+picard AddOrReplaceReadGroups I=${line}_markdups.bam O=${line}_markdups.rehead.bam RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${line}
 
 gatk HaplotypeCaller -R Mus_musculus.GRCm38.dna.toplevel.fa -I ${line}_markdups.rehead.split.bam -ERC GVCF -stand-call-conf 20 -O ${line}_rawvariants.g.vcf.gz
 "
@@ -19,7 +19,7 @@ done
 
 echo "
 #Combine files
-gatk CombineGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa --variant ind1_rawvariants.g.vcf.gz --variant ind1_rawvariants.g.vcf.gz -O Combined_Ind.g.vcf.gz
+gatk CombineGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa --variant indX_rawvariants.g.vcf.gz --variant indY_rawvariants.g.vcf.gz -O Combined_Ind.g.vcf.gz
 
 gatk --java-options \"-Xmx4g\" GenotypeGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa -V Combined_Ind.g.vcf.gz -O Combined_Ind.vcf.gz
 

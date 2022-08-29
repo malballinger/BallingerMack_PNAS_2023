@@ -1,0 +1,1530 @@
+\documentclass[9pt,twocolumn,twoside,lineno]{pnas-new}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+% Pandoc citation processing
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+\templatetype{pnasresearcharticle}  % Choose template
+
+\title{Environmentally robust \emph{cis}-regulatory changes underlie
+rapid climatic adaptation}
+
+\author[a,b,1,2]{Mallory A. Ballinger}
+\author[c,1]{Katya L. Mack}
+\author[a,b]{Sylvia M. Durkin}
+\author[a,d]{Eric A. Riddell}
+\author[a,b,2]{Michael W. Nachman}
+
+  \affil[a]{Museum of Vertebrate Zoology, University of California,
+Berkeley, Berkeley, CA, 94720}
+  \affil[b]{Department of Integrative Biology, University of California,
+Berkeley, Berkeley, CA, 94720}
+  \affil[c]{Department of Biology, Stanford University, Stanford, CA,
+94305}
+  \affil[d]{Department of Ecology, Evolution, and Organismal Biology,
+Iowa State University, Ames, Iowa, 50011}
+
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Ballinger, Mack}
+
+% Please add here a significance statement to explain the relevance of your work
+\significancestatement{Little is known about the relative contributions
+of genetic versus environmental factors to gene expression variation in
+natural populations. Here, we discovered that genetic effects were far
+more pervasive than environmental effects on gene expression differences
+between house mice that have rapidly adapted to new environments.
+Notably, many of these genetic effects are under selection and underlie
+adaptive body size differences between populations. However, we also
+identified a few genes controlling plastic expression across different
+environments. Our study is one of the few to identify loci associated
+with plasticity in natural populations and supports the central role of
+genetic effects in the form of \textit{cis}-regulatory divergence in
+adaptive evolution over extremely short timescales (a few hundred
+generations).}
+
+
+\authorcontributions{M.A.B. and M.W.N. designed research. M.A.B.,
+S.M.D., and E.A.R. performed research. M.A.B. and K.L.M. analyzed data.
+M.A.B., K.L.M., and M.W.N. wrote the paper.}
+
+\authordeclaration{The authors declare no conflict of interest.}
+
+\equalauthors{\textsuperscript{1} M.A.B. and K.L.M. contributed equally
+to this work.}
+
+\correspondingauthor{\textsuperscript{2} To whom correspondence should
+be addressed. M.A.B.,
+\href{mailto:mallory.ballinger@berkeley.edu}{\nolinkurl{mallory.ballinger@berkeley.edu}};
+M.W.N.,
+\href{mailto:mnachman@berkeley.edu}{\nolinkurl{mnachman@berkeley.edu}}}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  adaptation |  \textit{cis}-regulatory
+evolution |  \textit{plasticity}-eQTL |  \textit{Mus}  } 
+
+\begin{abstract}
+Changes in gene expression have been proposed to play a major role in
+adaptive evolution. However, gene expression is highly context-dependent
+and very few studies have determined the influence of genetic and
+non-genetic effects on adaptive gene regulation in natural populations.
+Here, we utilize context-dependent allele-specific expression to
+characterize \textit{cis} and \textit{trans} changes underlying
+divergence in temperate and tropical house mice in two metabolic tissues
+under two thermal conditions. First, we show that gene expression
+divergence is pervasive between populations and across thermal
+conditions, with roughly 5-10\% of genes exhibiting
+genotype-by-environment interactions. Second, we found that most
+intraspecific regulatory divergence was due to \textit{cis}-regulatory
+changes that were stable across temperatures. In contrast, patterns of
+expression plasticity were largely attributable to
+\textit{trans}-effects, which showed greater sensitivity to temperature.
+Nonetheless, we discovered a small subset of temperature-dependent
+\textit{cis}-regulatory changes, thereby identifying loci underlying
+expression plasticity. Finally, we performed scans for selection in wild
+house mice to identify genomic signatures of rapid adaptation. Genomic
+outliers were enriched in genes with evidence for
+\textit{cis}-regulatory divergence. Strikingly, these genes were
+associated with phenotypes that affected body weight and metabolism,
+identifying \textit{cis}-regulatory changes as a mechanism for adaptive
+body size evolution between populations. Together, these results support
+the central role of \textit{cis}-regulatory divergence in adaptive
+evolution over extremely short timescales.
+\end{abstract}
+
+\dates{This manuscript was compiled on \today}
+\doi{\url{www.pnas.org/cgi/doi/10.1073/pnas.XXXXXXXXXX}}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+\acknow{We thank Beth Dumont for providing whole genome sequences of
+MANA and SARA. We thank Yocelyn Gutiérrez-Guerrero for providing exome
+sequences from a population from Manaus, Brazil. Funding and support for
+this work was provided by the National Institutes of Health (NIH; R01
+GM074245 and R01 GM127468 to M.W.N.). This work used the Extreme Science
+and Engineering Discovery Environment (XSEDE), which is supported by
+National Science Foundation grant number ACI-1548562. M.A.B. was
+supported by a National Science Foundation Graduate Research Fellowship
+(DGE-1106400), a Junea W. Kelly Museum of Vertebrate Zoology Graduate
+Fellowship, and a University of California Berkeley Philomathia Graduate
+Fellowship. K.L.M. was supported by a Ruth Kirschstein National Research
+Service Award from NIH and a Stanford Center for Computational,
+Evolutionary and Human Genomics postdoctoral fellowship.}
+
+A central goal in evolutionary biology is to understand how organisms
+adapt to novel environments. Gene regulation has long been recognized to
+play a major role in adaptive evolution (1, 2), especially across short
+evolutionary timescales (e.g., refs. 3, 4). Yet, we still have a poor
+understanding of how changes in regulatory architecture shape adaptive
+evolution. \emph{Cis}-regulatory elements (e.g.~promoters, enhancers)
+are predicted to be the primary substrate of adaptive evolution as they
+tend to be less pleiotropic than protein-coding changes (5--8). However,
+selection may favor divergence through \emph{trans}-acting mechanisms
+(e.g., transcription factors), particularly when \emph{trans}-effects
+modulate gene regulatory networks that are beneficial in new
+environments (9, 10). \emph{Trans}-effects may also play a significant
+role in plastic changes in gene expression (11--13), and selection on
+genetic variation underlying plasticity may facilitate adaptation to new
+environments (14, 15). However, determining the relative importance of
+\emph{cis}- and \emph{trans}-changes to adaptation is challenging given
+that gene regulation is highly dependent on the environment,
+tissue-type, sex, and developmental stage (16--21). In most studies,
+regulatory patterns are often quantified under a single context,
+limiting our understanding of how gene regulatory architecture shapes
+adaptive evolution in natural populations. \bigskip
+
+The recent expansion of house mice into the Americas provides an
+opportunity to address the role of gene regulatory changes in adaptive
+evolution. Since their arrival from Western Europe \textasciitilde500
+years ago, house mice (\emph{Mus musculus domesticus}) have rapidly
+adapted to various climatic extremes through changes in morphology,
+physiology, and behavior (22--26). One striking example of this is
+changes in body size, as mice from more northern populations are
+significantly larger than mice closer to the equator, likely reflecting
+adaptation to thermal environments (26). Previous studies point to an
+important role for gene regulation in driving this local adaptation.
+First, genomic scans have primarily identified positive selection on
+noncoding regions (23, 24), which have been linked to differences in
+gene expression (24, 27). Second, changes in \emph{cis}-regulation at
+specific loci have been associated with variation in body weight in
+North American mice (27). Finally, gene expression plasticity has been
+shown to differ between populations in response to environmental
+stressors (25), suggesting a role for context-specific regulatory
+divergence in local adaptation.
+
+\begin{figure*}[t]
+  \includegraphics[width=\textwidth]{./figure_1.pdf}
+  \caption{\textbf{Evolved differences in phenotypes and gene expression. (A)} Variation in mean annual temperature across North and South America. Wild-caught individuals were collected in upstate New York (43$^{\circ}$N) and equatorial Brazil (3$^{\circ}$S). \textbf{(B)} Genetic differences in body mass (g), pelage conductance (W\textsuperscript{-1}m\textsuperscript{-2}C\textsuperscript{-1}), tail length (mm), and ear length (mm) between New York and Brazil. Tail length and ear length are plotted relative to body mass for each individual. Individuals are represented as individual points, and boxplots indicate the 25th, median, and 75th quartiles. Results from linear mixed models are presented in upper right corners (\textit{*P} < 0.05; Table S1). Males and females show similar patterns and are combined for plotting simplicity. \textbf{(C)} Common garden experimental design. Individuals were reared under two temperatures from weaning until adults. \textbf{(D)} Principal component plots for PC1 vs PC3 based on male gene expression in BAT and liver. PC1 separates individuals based on genotype while PC3 reflects environmental differences. \textbf{(E)} Expression divergence between New York and Brazil males in warm and cold for both BAT and liver. Log2 fold changes between parents were calculated for all genes independently. In each panel, points (representing individual genes) are colored depending on their direction and significance of the log2 fold change. Insets depict the total number of differentially expressed genes for each comparison (FDR < 0.05). Females show similar patterns and are depicted in Figures S2-S3.}
+\end{figure*}
+\vspace{-1pt}
+
+Here, we investigate the role of gene regulation in adaptation in house
+mice from contrasting thermal environments. Specifically, using RNA-seq
+data collected from liver and brown adipose tissue in males and females,
+we measured gene expression in temperate and tropical mice and in their
+F1 hybrids when reared under warm and cold temperatures. This allowed us
+to describe the proportion of divergently expressed genes that are due
+to changes in \emph{cis}, \emph{trans}, or both, and to determine the
+degree to which \emph{cis}- and \emph{trans}-regulation is
+context-dependent. Finally, we performed scans for selection in wild
+populations of house mice to identify genomic signatures of adaptation.
+We then intersect these genomic outliers with genes exhibiting
+\emph{cis}-regulatory divergence to identify putatively adaptive
+\emph{cis}-regulatory mutations associated with local adaptation. Our
+results provide insight into how gene expression is regulated across
+multiple contexts and how this complex regulatory divergence within
+species may contribute to adaptive evolution.
+
+\hypertarget{results}{%
+\section*{Results}\label{results}}
+\addcontentsline{toc}{section}{Results}
+
+\hypertarget{extensive-gene-expression-divergence-between-temperate-and-tropical-house-mice}{%
+\subsection*{Extensive gene expression divergence between temperate and
+tropical house
+mice}\label{extensive-gene-expression-divergence-between-temperate-and-tropical-house-mice}}
+\addcontentsline{toc}{subsection}{Extensive gene expression divergence
+between temperate and tropical house mice}
+
+To characterize the regulatory architecture of adaptation, we first
+examined gene expression differences in mice from two drastically
+different environments in the Americas: Saratoga Springs, New York, USA
+(SARA), located at 43\(^{\circ}\)N, and Manaus, Amazonas, Brazil (MANA),
+located near the equator at 3\(^{\circ}\)S. Saratoga Springs and Manaus
+differ considerably in climate, such as mean annual temperature (Figure
+1A), and mice from these environments show several phenotypic
+differences consistent with climatic adaptation. Specifically, mice from
+New York are larger, retain more heat through their fur, and have
+shortened extremities compared to mice from Brazil (ANOVA tests,
+\emph{P} \textless{} 0.05) (Figure 1B; Table S1), suggesting adaptation
+to cold environments (26).
+
+\vspace{-1pt}
+
+We explored patterns of gene expression evolution by rearing New York
+and Brazil mice under two temperatures (5\(^{\circ}\)C and
+21\(^{\circ}\)C) and sequenced brown adipose tissue (BAT) and liver
+transcriptomes of 48 individuals (6 / line / sex / environment) (Figure
+1C). We chose these two tissues as they play important roles in both
+metabolism and adaptive thermogenesis (28--30). Principal component
+analysis (PCA) of all gene expression data revealed tissue type as the
+largest source of variance (PC1 \textasciitilde97\% of variance
+explained), followed by sex (PC2 \textasciitilde1.5\%) (Figure S1).
+Within each tissue and sex, New York and Brazil mice cleanly separated
+along PC1 (\textgreater60\% of variance explained), while PC3 largely
+separated warm- and cold-reared mice (\textgreater4\% of variance
+explained) (Figures 1D, S2). We also identified more than a third of
+genes to be differentially expressed between New York and Brazil mice
+(false discovery rate (FDR) \textless{} 0.05) (Figures 1E, S3-S4), with
+most expression differences concordant across environments and sexes.
+
+This strong pattern of divergence was also apparent when we categorized
+differentially expressed genes as those showing genetic variation (G),
+environmental variation {[}i.e., plasticity (E){]}, or genetic variation
+for plasticity (i.e., GxE) (Figures 2A, S3). Genotype had
+\textgreater1.5x larger effect size (calculated as the mean absolute
+value of the log2 fold change) on gene expression than environment
+across both tissues (Figures 2A, S3). Similar effects were identified
+when we attributed expression differences to genotype and sex, though
+these patterns were largely tissue-dependent (Figure S4). Overall, these
+results demonstrate that within sexes and tissues, genotype plays a
+larger role than either environment or GxE interactions in shaping
+expression differences between temperate and tropical house mice.
+
+\hypertarget{reduced-gene-expression-plasticity-in-cold-adapted-mice}{%
+\subsection*{Reduced gene expression plasticity in cold-adapted
+mice}\label{reduced-gene-expression-plasticity-in-cold-adapted-mice}}
+\addcontentsline{toc}{subsection}{Reduced gene expression plasticity in
+cold-adapted mice}
+
+Given that New York and Brazil mice have evolved under different thermal
+environments, we reasoned that gene expression responses to temperature
+would differ between these lines. Roughly \textasciitilde5\% and
+\textasciitilde10\% of all expressed genes showed significant GxE in
+liver and BAT, respectively (FDR \textless{} 0.05) (Figures 2B, S3).
+Notably, we found fewer differentially expressed genes in New York mice
+(\textasciitilde5\% BAT; \textasciitilde1\% liver) than Brazil mice
+(\textasciitilde10\% BAT; \textasciitilde5\% liver) (Chi-square tests,
+liver and BAT: \emph{P} \textless{} 0.05), suggesting that New York mice
+may be more buffered against cold stress.
+
+Next, we explored the relationship between plastic gene expression
+changes and evolved gene expression differences. Adaptive plasticity may
+facilitate the colonization of new environments by moving a population
+closer to the phenotypic optimum, while non-adaptive plasticity may do
+the opposite (31, 32). To determine if the pronounced temperature
+response of Brazil mice is adaptive or non-adaptive, we asked whether
+the direction of expression plasticity of Brazil mice correlates with
+expression divergence between New York and Brazil mice (see Methods). We
+found that expression plasticity generally goes in the same direction as
+evolved divergence for both tissues (positive Spearman's correlations,
+\emph{P} \textless{} 0.05) (Figures 2C, S3), consistent with patterns of
+adaptive plasticity (25, 33, 34). These results suggest that plasticity
+may have facilitated the rapid expansion of house mice into new
+environments.
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=1\columnwidth]{./figure_2.pdf}
+  \caption{\textbf{Patterns of genotype-by-environment interactions (GxE). (A)} Ternary plots depicting the proportion of each gene’s expression variance explained by genotype (G), environment (E), and GxE. The relative proportion of each factor is shown for all differentially expressed male genes in BAT and liver. Total variance is the sum of all three components. \textbf{(B)} Comparison of gene expression differences between temperature regimes in NY and BZ males in both BAT and liver. Log2 fold changes between temperatures were calculated for all genes independently. In each panel, points (representing individual genes) are colored depending on their direction and significance of the log2 fold change. GxE categories include line-specific responses or opposite responses between lines. Insets depict the total number of differentially expressed genes for each comparison (FDR < 0.05). \textbf{(C)} The relationship between gene expression plasticity and evolved divergence in BAT and liver. Points represent expression differences with statistically significant plasticity in BZ (cold vs warm; FDR < 0.05) as well as significant expression divergence between NY and BZ at warm temperature (FDR < 0.05). Points colored in orange represent genes with a positive correlation between plasticity and evolved divergence and represent adaptive plasticity. Points in black represent genes with a negative association and represent non-adaptive plasticity. Insets depict the observed correlation coefficient (orange solid lines) is more positive than a randomized distribution of correlation coefficients for each tissue (see Methods for details). Asterisks denote significance of adaptive plasticity for each tissue (binomial exact tests, \textit{P} < 0.05). Females show similar patterns and are depicted in Figures S2-S3.}
+\end{figure}
+
+\hypertarget{expression-divergence-is-predominantly-due-to-cis-regulatory-changes-and-most-cis-changes-are-robust-to-environmental-temperature}{%
+\subsection*{\texorpdfstring{Expression divergence is predominantly due
+to \emph{cis}-regulatory changes, and most \emph{cis}-changes are robust
+to environmental
+temperature}{Expression divergence is predominantly due to cis-regulatory changes, and most cis-changes are robust to environmental temperature}}\label{expression-divergence-is-predominantly-due-to-cis-regulatory-changes-and-most-cis-changes-are-robust-to-environmental-temperature}}
+\addcontentsline{toc}{subsection}{Expression divergence is predominantly
+due to \emph{cis}-regulatory changes, and most \emph{cis}-changes are
+robust to environmental temperature}
+
+To investigate the gene regulatory mechanisms underlying expression
+differences between New York and Brazil mice, we generated BAT and liver
+RNA-seq from NY x BZ F1 hybrids reared in both warm and cold
+environments (Figures 1C, S5). Measuring gene expression in F1 hybrids
+allowed us to discern if parental gene expression differences are due to
+\emph{cis}- and/or \emph{trans}-acting changes by assessing patterns of
+allele-specific expression (ASE) (Figure 3A). Specifically, as F1
+hybrids inherit both a Brazil allele and New York allele within in the
+same \emph{trans}-acting environment, differences in expression between
+alleles are indicative of one or more \emph{cis}-acting elements
+(35--37). In contrast, if no ASE is detected in hybrids but differences
+are observed between parental lines, we can infer divergence is likely
+due to \emph{trans}-acting factors (35--37).
+
+\begin{figure*}[t]
+  \includegraphics[width=\textwidth]{./figure_3.pdf}
+  \caption{\textbf{The relative distribution of regulatory changes between New York and Brazil house mice across environments and tissues. (A)} Schematic depicting how \textit{cis}- and \textit{trans}-changes can be inferred with F1 hybrids, and how environmental differences may result in \textit{cis} x temperature and \textit{trans} x temperature effects. Blue and gold boxes represent \textit{cis}-regulatory regions for NY and BZ, respectively. Wavy lines depict transcript levels of an allele. TF = transcription factor. \textbf{(B)} Points (individual genes) represent log2 fold changes between reads mapping to each allele in the hybrid (BZ allele / NY allele; y-axis) and the reads mapping to each parental line (BZ parent / NY parent; x-axis). Genes are colored based on their inferred regulatory category: orange = $\textit{cis}$, purple = $\textit{trans}$, green = $\textit{cis}  \& \textit{trans}$, gray = conserved or ambiguous. Genes categorized as conserved or ambiguous (gray points) constitute roughly $75\%$ of all genes and are centered on the origin and mostly hidden behind other genes. \textbf{(C)} Changes in the number of genes for each inferred regulatory category between temperature regimes are illustrated in the alluvial plot. Genes that were conserved or ambiguous (gray) at both temperatures are not shown.}
+\end{figure*}
+
+We tested 5,898 genes for ASE based on the presence of fixed differences
+between parental Brazil and New York lines (see Methods). While most
+genes showed conserved gene regulation between New York and Brazil mice
+(\textasciitilde75\%), genes with evidence for expression divergence
+tended to involve changes in \emph{cis} (Figure 3B). Specifically, 7-8\%
+of genes showed expression divergence due to \emph{cis} alone and 5-6\%
+genes showed evidence of divergence due to \emph{cis} and \emph{trans}
+(Figure 3B). Only \textasciitilde5\% of genes involved regulatory
+changes solely in \emph{trans} (Figure 3B). Moreover, the magnitude of
+\emph{cis}-effects were greater than \emph{trans}-effects per gene
+(Wilcoxon signed-rank test, \emph{P} \textless{} 2.2 x
+10\textsuperscript{-16}). The predominance of \emph{cis}-regulatory
+changes relative to \emph{trans}-changes is consistent with previous
+studies in house mice (38--40).
+
+We next asked how the environment modulates gene regulatory evolution by
+comparing patterns of \emph{cis}- and \emph{trans}-regulatory
+differences across environments. Similar to expression patterns observed
+in the parents, the majority of genes that could be categorized across
+temperature treatments showed the same regulatory control in both
+environments (\textasciitilde88\%) (Figure 3C). For the genes that did
+show a change in regulatory control, we found that \emph{cis}-regulatory
+changes were more insensitive to temperature than \emph{trans}-changes.
+Comparing the difference in magnitude of the \emph{cis}- and
+\emph{trans}-differences between warm and cold conditions, we found that
+\emph{trans}-differences were greater between environments for both
+tissues (Wilcoxon signed-rank tests, \emph{P} \textless{} 2.2 x
+10\textsuperscript{-16}) (Figure S6). The cold environment also had a
+lower proportion of genes with \emph{trans}-divergence (Chi-square
+tests; BAT, \emph{P}=0.0003; liver, \emph{P}=0.02), where the proportion
+of genes with only \emph{cis}-divergence was the same across temperature
+conditions (Chi-square tests; BAT, \emph{P}=0.51; liver, \emph{P}=0.66).
+These results suggest that \emph{trans}-effects play a larger role in
+gene expression plasticity than \emph{cis}-effects.
+
+\hypertarget{a-small-number-of-genes-show-temperature-dependent-cis-regulation}{%
+\subsection*{\texorpdfstring{A small number of genes show
+temperature-dependent
+\emph{cis}-regulation}{A small number of genes show temperature-dependent cis-regulation}}\label{a-small-number-of-genes-show-temperature-dependent-cis-regulation}}
+\addcontentsline{toc}{subsection}{A small number of genes show
+temperature-dependent \emph{cis}-regulation}
+
+While most \emph{cis}-effects were robust to temperature, we were
+specifically interested in exploring whether any genes showed
+temperature-dependent \emph{cis}-effects. Such genes are of particular
+interest since they correspond to \emph{plasticity}-eQTL (i.e., loci
+that harbor mutations underlying a plastic response)(41). To identify
+genes for which there was a significant effect of temperature on
+regulatory divergence, we determined if either the \emph{cis} and/or the
+\emph{trans} component showed a significant interaction with temperature
+(see Methods). We identified \emph{cis} x temperature effects for 11
+genes in BAT (\emph{gstt1}, \emph{wars2}, \emph{hsd11b1}, \emph{itih5},
+\emph{dst}, \emph{tmed2}, \emph{plbd1}, \emph{cdh13}, \emph{scd1},
+\emph{tmem45b}, \emph{s100a13}) and 4 in the liver (\emph{elovl3},
+\emph{hmgcs2}, \emph{wars2}, \emph{ebpl}) (FDR \textless{} 0.1). Most of
+these genes showed differences in the magnitude of ASE between
+temperatures, but we also observed cases where ASE was induced by one
+temperature treatment (i.e., \emph{wars2}, \emph{tmed2}, \emph{cdh13},
+\emph{s100a13}, \emph{ebpl}, \emph{hmgcs2}). Over half of the genes
+corresponding to \emph{plasticity}-eQTL showed a smaller plastic
+response in New York than in Brazil, consistent with the overall
+reduction in expression plasticity in cold-adapted mice. We also
+identified a small number of genes with significant \emph{trans} x
+temperature effects in BAT (18 genes) and liver (1 gene) (FDR
+\textless{} 0.1) (Table S2). Several of these genes with
+temperature-induced regulatory differences have suggested roles in
+energy metabolism and thermal tolerance (e.g., refs 42, 43--45). The
+identification of temperature-dependent gene regulatory effects
+(especially \emph{plasticity}-eQTL) indicates a role for evolved changes
+in plasticity between temperate and tropical mice.
+
+\hypertarget{regulatory-changes-are-largely-tissue-specific-and-are-enriched-for-body-size-and-metabolism}{%
+\subsection*{\texorpdfstring{\textit{Cis}-regulatory changes are largely
+tissue-specific and are enriched for body size and
+metabolism}{-regulatory changes are largely tissue-specific and are enriched for body size and metabolism}}\label{regulatory-changes-are-largely-tissue-specific-and-are-enriched-for-body-size-and-metabolism}}
+\addcontentsline{toc}{subsection}{\textit{Cis}-regulatory changes are
+largely tissue-specific and are enriched for body size and metabolism}
+
+While both liver and BAT play essential roles in metabolism and
+thermogenesis, these tissues have distinct functional properties that
+differentiate their role in environmental adaptation. In both tissues,
+genes with evidence for \emph{cis}-divergence were enriched for GO terms
+related to metabolic processes, as well as the pathway for metabolism
+(Reactome R-MMU-1430728; liver, FDR=6.55 x 10\textsuperscript{-8}; BAT,
+FDR=1.49 x 10\textsuperscript{-8}). Genes with \emph{cis}-regulatory
+changes in the liver were enriched for several mutant phenotype
+annotations for homeostasis and metabolism, including abnormal lipid
+homeostasis (FDR=6.248 x 10\textsuperscript{-5}), abnormal cholesterol
+level (FDR=0.003), abnormal energy expenditure (FDR=0.001), and abnormal
+triglyceride level (FDR=0.008). Additionally, genes with
+\emph{cis}-changes in the liver showed a greater than 2-fold enrichment
+of genes with mutant phenotypes for abnormal susceptibility to weight
+gain (FDR=0.014) and were nominally significantly enriched for several
+other phenotypes related to body weight, size, and composition (Figure
+S7). Interestingly, two genes (\emph{bcat2}, \emph{adam17}) exhibiting
+\emph{cis}-regulatory divergence were previously implicated in body
+weight differences in North American populations (27), further
+supporting their role in adaptive divergence between house mouse
+populations.
+
+Next, we assessed the extent to which regulatory control is
+tissue-biased. Comparing gene expression evolution in BAT and liver, we
+found regulatory divergence to be largely tissue-biased. The majority of
+genes (80\%) for which we could assign a regulatory category in each
+tissue were assigned to a different regulatory category in the other
+tissue (2954/3672 genes). In particular, we found that
+\emph{trans}-divergence was more likely to be restricted to one tissue
+(with expression conserved between lines in the other tissue), compared
+to \emph{cis}-changes which were more often shared (\textgreater2-fold
+more) (Chi-square test \emph{P} \textless{} 0.0001). This may reflect
+the general observation of increased tissue-specificity of
+\emph{trans}-effects relative to \emph{cis}-effects (46).
+
+To formally identify tissue-biased ASE, we contrasted ASE measurements
+in BAT and liver for paired hybrid samples (see Methods). We identified
+338 genes with evidence for differential allele-specific expression
+between tissues (Figure S8). While the majority of these genes (77\%)
+showed significant allele-specific expression in just one tissue, we
+also identified cases where allele-specific expression was present in
+both tissues but with differences in expression magnitude or direction
+(23\%). Of these genes, forty-three had discordant allele-specific
+expression between tissues, where the opposite parental allele was
+up-regulated between tissues. Genes with tissue-biased ASE were enriched
+for metabolic phenotypes (e.g., abnormal lipid homeostasis, FDR=0.00027;
+increased food intake, FDR=0.036) and tissue specific functions and
+physiology (e.g., abnormal adipose tissue physiology, FDR=0.007;
+abnormal liver morphology, FDR=0.00097). These results highlight the
+importance of tissue-specific gene regulation in population divergence.
+
+\hypertarget{positive-selection-on-genes-with-cis-regulatory-divergence-in-wild-house-mouse-populations}{%
+\subsection*{\texorpdfstring{Positive selection on genes with
+\emph{cis}-regulatory divergence in wild house mouse
+populations}{Positive selection on genes with cis-regulatory divergence in wild house mouse populations}}\label{positive-selection-on-genes-with-cis-regulatory-divergence-in-wild-house-mouse-populations}}
+\addcontentsline{toc}{subsection}{Positive selection on genes with
+\emph{cis}-regulatory divergence in wild house mouse populations}
+
+As \emph{cis}-regulatory variants are often drivers of local adaptation
+(4, 47, 48), and because most regulatory divergence between New York and
+Brazil house mice is governed in \emph{cis}, we next explored whether
+genes regulated in \emph{cis} are under positive selection in wild mice
+from the Americas. To test this, we utilized previously published whole
+exome data from wild-caught individuals collected from New
+Hampshire/Vermont, USA (NH/VT) (24) and Manaus, Brazil (MAN)
+(Gutiérrez-Guerrero et al., \emph{in prep}), and compared these data to
+previously published whole genome data from Eurasian populations of
+house mice (49). Genetic PCA distinguished mice based on subspecies and
+population-of-origin (Figures 4A, S9), with mice from NH/VT clustering
+most closely with mice from Germany. These results are consistent with
+the suggestion that mice from eastern North America are most closely
+related to populations in northern Europe (50, 51).
+
+\begin{figure*}[t]
+  \includegraphics[width=\textwidth]{./figure_4.pdf}
+  \caption{\textbf{Genomic outliers are enriched in genes with evidence for} \textbf{\textit{cis}-regulatory divergence. (A)} Genetic PCA of wild house mice distinguished mouse populations based on population-of-origin (\textit{Mus musculus domesticus} (M.m.d.)) and subspecies (\textit{Mus musculus castaneus} (M.m.c.), \textit{Mus musculus musculus} (M.m.m.)). The x and y axes show the first and second SNP eigenvectors, respectively (EV; PC1: 29\% of variance, PC2: 8\% of variance. \textbf{(B)} Autosomal selection scan showing \textit{PBSn1} results for the New Hampshire/Vermont (NH/VT) focal population. Orange points depict genes that exhibit \textit{cis}-regulatory divergence and overlap with outlier regions. \textbf{(C)} Gene set enrichment analysis for genes with ASE that overlap genomic outliers in the NH/VT population. ASE outliers were highly enriched for mouse phenotypes related to body size differences and metabolic features, across both temperature treatments. \textbf{(D)} Candidate gene that exhibits \textit{cis}-regulatory divergence and overlaps with outlier region. Allele frequencies (pie charts) of significant SNPs (gold asterisks) in the four populations.}
+\end{figure*}
+
+Next, to identify genetic signatures of adaptation in house mice from
+the Americas, we performed a scan for regions of genetic differentiation
+consistent with selection using a normalized version of the population
+branch statistic (\emph{PBSn1}). We used this test to identify highly
+differentiated loci in our focal populations in the Americas (MAN and
+NH/VT) relative to Eurasian populations (see Methods). In total, 83,538
+and 84,420 non-overlapping 5-SNP windows were analyzed for Manaus and
+NH/VT, respectively. Outlier windows in NH/VT and MAN overlapped 538 and
+530 genes, respectively (File S1).
+
+Finally, we asked to what extent genomic divergence among wild mice from
+temperate and tropical environments is associated with
+\emph{cis}-regulatory changes. Specifically, if natural selection
+associated with climatic adaptation has acted mainly on regulatory
+variants, we predicted an enrichment of \emph{PBSn1} outliers near genes
+displaying ASE (e.g., ref. 52). To test this prediction, we overlapped
+candidate regions for selection based on \emph{PBSn1} outlier windows
+with genes for which we identified evidence for allele-specific
+expression in BAT or liver. In NH/VT, we found outlier windows
+overlapped 71 and 62 genes with evidence for \emph{cis}-regulatory
+divergence under warm and cold conditions, respectively (overlap 44
+genes) (Figure 4B; File S1). The overlap between genes with
+\emph{cis}-regulatory divergence and outlier windows in this population
+was greater than expected by chance (hypergeometric test,
+\emph{P}=0.0016) and genes with allele-specific expression were
+associated with higher average \emph{PBSn1} scores than background genes
+(\emph{P}=0.00026, see Methods). ASE outliers were enriched for mutant
+phenotypes related to body size, growth, and metabolism relative to
+other genes with \emph{cis}-regulatory divergence (e.g., abnormal
+postnatal growth/weight/body size, abnormal susceptibility to weight
+gain, decreased susceptibility to diet-induced obesity, and increased
+energy expenditure; FDR \textless{} 0.05) (Figure 4C; File S1). This
+gene set also includes genes whose expression in the liver was
+previously associated with body mass variation in natural populations of
+North American house mice (\emph{bcat2}, \emph{col6a1}, \emph{col5a2},
+\emph{col3a1}) (24, 27). Additionally, this set included genes
+implicated in obesity and metabolic phenotypes in humans (e.g.,
+\emph{wrn}, \emph{plaat3}, \emph{prkar2b}, \emph{sulf2}, \emph{smoc1})
+(Figure 4D) (53) and mice (Table S3). Together, these results suggest
+that selection has acted on \emph{cis}-regulatory genes related to
+metabolism and body weight in New York mice.
+
+In contrast, we did not find significant overlap between genes with
+allele-specific expression and \emph{PBSn1} outliers for Manaus
+(\emph{P}=0.4). Outlier windows overlapped 49 and 51 genes with evidence
+for \emph{cis}-regulatory divergence under warm and cold conditions,
+respectively (Figure S10). Genes were not enriched for metabolic process
+terms or phenotypes. The significant overlap between \emph{PBSn1}
+outliers and ASE in the temperate mice but not in the tropical mice
+suggests that adaptive gene expression differences may predominantly
+reflect adaptation to cold environments (rather than to warm
+environments).
+
+\hypertarget{discussion}{%
+\section*{Discussion}\label{discussion}}
+\addcontentsline{toc}{section}{Discussion}
+
+Understanding how both genetic and non-genetic factors influence gene
+expression is essential to understanding adaptive evolution. Here, we
+utilized allele-specific expression in liver and brown adipose tissue to
+characterize \emph{cis} and \emph{trans} changes underlying expression
+differences between temperate and tropical house mice when reared under
+warm and cold laboratory environments. We found that most regulatory
+divergence was governed by \emph{cis}-regulatory variation, and that
+these \emph{cis}-effects were largely independent of environmental
+temperature. However, a subset of genes showed temperature-dependent
+\emph{cis}-effects and thus represent QTL for expression plasticity. We
+also found that many \emph{cis}-regulated genes were associated with
+metabolism and body size, but that these \emph{cis}-effects were often
+tissue-biased. Finally, overlap of genes exhibiting
+\emph{cis}-regulatory divergence with scans for selection identified
+several \emph{cis}-regulatory genes under positive selection, consistent
+with a role for these loci in local adaptation. The combination of
+allele-specific expression with genomic scans is a fruitful approach to
+identify the regulatory architecture of adaptive evolution in natural
+populations.
+
+Comparisons between New York and Brazil house mice provide insights into
+the evolution of gene regulation over very short evolutionary
+timescales. Although New York and Brazil house mice colonized the
+Americas only within the last \textasciitilde500 years, we find evidence
+for pervasive regulatory divergence. Moreover, the regulatory control
+underlying this intraspecific divergence is overwhelmingly due to
+\emph{cis} variants either alone or together with one or more
+\emph{trans} variants. The predominance of \emph{cis}-regulatory
+divergence is in agreement with previous interspecific studies in house
+mice (38, 40, 54), and has been observed in intraspecific comparisons of
+other species (55--61). Although some evidence suggests
+\emph{trans}-effects play larger roles within rather than between
+species (62--66), it is likely that certain evolutionary contexts,
+timescales, and selection pressures may favor either \emph{cis}- or
+\emph{trans}-acting mechanisms (67, 68). Regardless, our study indicates
+that strong intraspecific \emph{cis}-regulatory divergence between
+populations can accrue on extremely short timescales.
+
+Despite the plastic response of gene expression in both New York and
+Brazil house mice, \emph{cis}-regulatory divergence was relatively
+robust to environmental temperature. In contrast, changes in the
+environment preferentially affected \emph{trans}-regulation profiles,
+suggesting that \emph{trans}-effects play a more pronounced role in gene
+expression plasticity. Greater sensitivity of \emph{trans}-effects to
+the environment is in strong agreement with previous studies (11, 12,
+41, 57, 69--71) and may be due to the role \emph{trans}-acting factors
+play in signaling pathways that become activated in response to
+environmental change (72). Indeed, we found that the effect sizes of
+\emph{trans} were greater than those of \emph{cis} across environments,
+indicating that much of expression plasticity we observed is governed by
+changes in \emph{trans}. Moreover, the pronounced expression plasticity
+we observe in Brazil house mice largely goes in the same direction as
+evolved divergence (i.e., adaptive plasticity)(33, 34). Previous studies
+in house mice have implicated the role of adaptive gene expression
+plasticity in local adaptation (25), suggesting that plasticity in
+general may have aided in the colonization of new environments.
+
+Although ASE was generally observed at both temperatures for a given
+gene, a subset of genes showed temperature-dependent \emph{cis}-effects.
+These loci are of particular interest since these constitute
+\emph{plasticity}-eQTL and harbor mutations that directly affect
+plasticity of gene expression. Genetic assimilation refers to the
+conversion of a plastic response to a fixed response (73--76). If the
+ancestral allele at a \emph{plasticity}-eQTL encodes a plastic response
+and the derived allele encodes a fixed response, then the
+\emph{plasticity}-eQTL represents a case of genetic assimilation. For
+example, selection in a cold, temperate environment may have led to the
+reduced plasticity exhibited in New York mice. A similar mechanism was
+recently proposed to underlie rapid divergence in threespine stickleback
+(57). \emph{Cis}-regulatory variants could rapidly canalize expression
+through the loss or gain of specific binding sites for conditionally
+expressed transcription factors, thereby decoupling a gene's expression
+from the environment (72). Many of the \emph{cis} x environment
+candidates illustrate potential regulatory mechanisms underlying genetic
+assimilation as many of them exhibit reduced plasticity in New York mice
+(Figure S11). For example, \emph{scd1} plays an important role in basal
+and cold-induced thermogenesis (77, 78) and New York mice show higher
+and constitutive average expression of \emph{scd1} in BAT compared to
+Brazil mice (Figure S11). Further study of these genes may help us
+understand the relationship between adaptive plasticity and genetic
+adaptation to novel environments.
+
+Finally, we discovered significant overlap between genes exhibiting
+\emph{cis}-regulatory divergence and genomic SNPs that show evidence for
+positive selection in wild mice, suggesting that selection has acted
+mainly on regulatory variants associated with local adaptation. This
+overlapping gene set is enriched for mutant phenotypes related to body
+size and metabolism in New York mice and are consistent with previous
+studies showing selection on genes with \emph{cis}-eQTLs related to body
+size in North American mice (27). Together, our results highlight how
+natural selection on \emph{cis}-regulatory divergence is a likely
+contributor to rapid climatic adaptation in house mice.
+
+\hypertarget{materials-and-methods}{%
+\section*{Materials and Methods}\label{materials-and-methods}}
+\addcontentsline{toc}{section}{Materials and Methods}
+
+\hypertarget{animals-and-evolved-phenotypic-differences}{%
+\subsubsection*{Animals and Evolved Phenotypic
+Differences}\label{animals-and-evolved-phenotypic-differences}}
+\addcontentsline{toc}{subsubsection}{Animals and Evolved Phenotypic
+Differences}
+
+To characterize evolved phenotypic differences between New York and
+Brazil house mice, we used two wild-derived inbred lines of house mice:
+SARA (New York) and MANA (Brazil). The establishment of these lines has
+been described previously (26). Mice from each line were housed in a
+standard laboratory environment at 21\(^{\circ}\)C with a 12L:12D cycle.
+Roughly equal numbers of males and females were produced for each
+within-line comparison (\emph{n} = 32 per line; File S1). We took
+standard museum measurements on all mice and removed and prepared dried
+skins. Thermal conductance of pelage (referred to as pelage conductance
+(W\textsuperscript{-1}m\textsuperscript{-2}C\textsuperscript{-1})) was
+measured on dry skins following the protocol of Riddell et al.~2021 (see
+SI Methods) (79). Tail length and ear length were corrected for body
+mass for each individual. Effects of line and sex for each phenotype
+were modeled using ANOVA. All statistical analyses were performed using
+packages available in R (v.4.1.1).
+
+\hypertarget{experimental-design-and-tissue-collection}{%
+\subsubsection*{Experimental Design and Tissue
+Collection}\label{experimental-design-and-tissue-collection}}
+\addcontentsline{toc}{subsubsection}{Experimental Design and Tissue
+Collection}
+
+To investigate the gene regulatory mechanisms underlying local
+adaptation in house mice, we generated F1 hybrids by crossing a SARA
+female with a MANA male. All experimental animals were born at room
+temperature (21\(^{\circ}\)C) and were provided water and commercial
+rodent chow \emph{ad libitum}. We weaned and singly housed SARA, MANA,
+and F1 hybrids at \textasciitilde3 weeks of age. We split 3.5-week-old
+full-sibs and F1 hybrids into size-matched experimental groups across
+cold (5\(^{\circ}\)C) and warm (21\(^{\circ}\)C) treatments. Mice were
+kept in their respective experimental environment until
+\textasciitilde12 weeks of age, at which point individuals were
+euthanized via cervical dislocation. We took standard museum
+measurements and then rapidly dissected and preserved liver and brown
+adipose tissue in RNAlater at 4\(^{\circ}\)C overnight and moved to
+-80\(^{\circ}\)C until RNA extraction. We prepared standard museum
+skeletons and accessioned them in UC Berkeley's Museum of Vertebrate
+Zoology (catalog numbers are given in File S1). All experimental
+procedures were in accordance with the UC Berkeley Institutional Animal
+Care and Use Committee (AUP-2017-08-10248).
+
+\hypertarget{rna-extraction-library-preparation-and-sequencing}{%
+\subsubsection*{RNA Extraction, Library Preparation, and
+Sequencing}\label{rna-extraction-library-preparation-and-sequencing}}
+\addcontentsline{toc}{subsubsection}{RNA Extraction, Library
+Preparation, and Sequencing}
+
+We extracted total RNA from liver and BAT from each sample (\emph{n} =
+\textasciitilde6 per genotype/sex/treatment/tissue) using the RNeasy
+PowerLyzer Kit (QIAGEN). We generated Illumina cDNA libraries from 1
+\(\mu\)g of purified RNA using KAPA Stranded mRNA-Seq Kit (Illumina),
+and uniquely indexed libraries using unique dual indexes (Illumina).
+Libraries were pooled in equal molar concentration and sequenced on one
+lane each of 150 bp paired-end NovaSeq S1 and NovaSeq S4 at the Vincent
+J. Coates Genomics Sequencing Center at UC Berkeley. We filtered raw
+reads below a Phred quality score of 15 and trimmed adapter sequences
+using fastp (80).
+
+\hypertarget{parental-gene-expression-analyses}{%
+\subsubsection*{Parental Gene Expression
+Analyses}\label{parental-gene-expression-analyses}}
+\addcontentsline{toc}{subsubsection}{Parental Gene Expression Analyses}
+
+After cleaning and trimming parental sequences of MANA and SARA, we
+mapped reads to the \emph{Mus musculus} reference genome (GRCm38/mm10)
+using STAR (81). We counted reads overlapping exons using HTSeq (82)
+based on the Ensembl GRCm38.98 annotation. We imported raw count data
+into R (v.4.1.1) and transformed expression values using variance
+stabilizing transformation (83) to assess transcriptome-wide expression
+patterns via PCA. Next, we removed genes with fewer than an average of
+10 reads per individual within each tissue, retaining \textasciitilde14K
+expressed genes per tissue for downstream analyses. We then used DESeq2
+(83) on raw, filtered reads to quantify expression patterns by fitting a
+generalized linear model following a negative binomial distribution. We
+computed differential expression between lines with the model population
++ environment + population*environment to determine the effects of
+genotype, environment, and genotype-by-environment on expression
+patterns for each tissue and sex, separately. We also identified
+genotype-by-sex interactions using a similar model in DESeq2 (see SI
+Methods and Results).
+
+To determine if gene expression plasticity is correlated with gene
+expression divergence, we compared genes with significant plasticity to
+genes with significant expression divergence within each tissue and sex,
+separately. We used Spearman's rank correlation coefficients to assess
+overall directionality and significance of gene expression. To account
+for potential statistical artifacts (84), we compared the observed
+correlations to a permuted distribution (10,000 permutations). Lastly,
+we used a Benjamini-Hochberg multiple test correction (85) on all
+resulting \textit{P}-values and considered genes with FDR \textless{}
+0.05 to be significantly differentially expressed.
+
+\hypertarget{identifying-variants-between-parental-lines}{%
+\subsubsection*{Identifying Variants between Parental
+Lines}\label{identifying-variants-between-parental-lines}}
+\addcontentsline{toc}{subsubsection}{Identifying Variants between
+Parental Lines}
+
+To identify differences between lines for allele-specific read
+assignment, we performed SNP calling on whole genome sequence data from
+one female each of MANA and SARA. We mapped genomic reads with Bowtie2
+(86) to the mm10 reference genome (setting: --very-sensitive) obtained
+from Ensembl. We marked duplicates with the Picard tool MarkDuplicates
+and then we used the GATK tools HaplotypeCaller and GenotypeGVCFs for
+joint genotyping across genomic samples. We filtered for low quality SNP
+calls with VariantFiltration (QD \textless{} 2.0; QUAL \textless{} 30.0;
+FS \textgreater{} 200; ReadPosRankSum \textless{} -20.0). To reduce the
+influence of genotyping error on allele-specific expression, we mapped
+RNA-seq reads from all individuals and then counted allele-specific
+reads aligned to each site we genotyped with the GATK tool
+ASEReadCounter. We excluded sites for which we did not have coverage of
+at least 5 reads from each population-specific allele. These SNPs were
+then used for identifying allele-specific reads.
+
+\hypertarget{mapping-allele-specific-reads}{%
+\subsubsection*{Mapping Allele-Specific
+Reads}\label{mapping-allele-specific-reads}}
+\addcontentsline{toc}{subsubsection}{Mapping Allele-Specific Reads}
+
+For allele-specific expression analyses, we mapped reads from hybrid
+individuals to the mouse reference genome (GRCm38/mm10) using STAR. We
+used WASP (87) to reduce the potential for reference mapping bias. We
+retained reads that overlapped a population-specific variant and that
+passed WASP filtering for our allele-specific expression analysis. We
+separated reads overlapping informative variants into allele-specific
+pools (NY, BZ) based on genotype for quantification. We used HTSeq to
+count the number of reads associated with each gene per population based
+on the overlap of reads and annotated exonic regions based on the
+Ensembl GRCm38.98 annotation. We examined per site allelic reads with
+ASEReadCounter to quantify allele-specific mapping over individual
+sites. Proportions of reads overlapping the references vs.~alternative
+allele (REF allele / (ALT allele + REF allele)) showed a median 0.5
+across samples (Figure S12), indicating no evidence for reference
+mapping bias.
+
+\hypertarget{identifying-cis-and-trans-regulatory-divergene}{%
+\subsubsection*{\texorpdfstring{Identifying \emph{Cis}- and
+\emph{Trans}-Regulatory
+Divergence}{Identifying Cis- and Trans-Regulatory Divergence}}\label{identifying-cis-and-trans-regulatory-divergene}}
+\addcontentsline{toc}{subsubsection}{Identifying \emph{Cis}- and
+\emph{Trans}-Regulatory Divergence}
+
+Parental (F0) and F1 expression data was used to characterize \emph{cis}
+and \emph{trans} effects. To categorize regulatory divergence at each
+gene, we inferred differential expression by analyzing raw counts using
+DESeq2. To identify genes with evidence of allele-specific expression in
+hybrid individuals, we took reads that mapped preferentially to either
+New York or Brazil alleles and fit these to a model with allele (NY
+vs.~BZ), sample (individual), and tissue (BAT, liver) for hybrid male
+samples in DESeq2 (Wald-test). As read counts come from the same
+sequencing library, library size factor normalization was disabled in
+DESeq2 by setting SizeFactors = 1 for measures of allele-specific
+expression. We used males to assign regulatory categories to maximize
+power due to a larger number of hybrid samples sequenced (6 replicates
+of males vs.~4 replicates of females). Differential expression between
+alleles in the F1 is evidence for \emph{cis}-regulatory divergence,
+where differential expression in the F0 generation is not recapitulated
+between alleles in the F1 is evidence for \emph{trans} divergence. The
+\emph{trans} component (T) was assessed through a Fisher's Exact Test on
+reads mapping to each parental allele in the hybrid vs.~parental read
+counts, summed over all replicates (37, 62). Reads were randomly
+down-sampled to account for library size differences between parental
+and F1 replicates (88, 89). \emph{P}-values for each test were corrected
+for FDR with the Benjamini-Hochberg method. Genes were sorted into
+categories based on hard FDR thresholds (FDR \textless{} 0.05) (37, 62),
+as described below. We analyzed temperature treatments (warm and cold)
+separately for regulatory assignment and then compared as described
+below:\\
+\indent \textit{Conserved}: no significant difference between lines
+(F0), no significant difference between alleles (F1), no significant
+\textit{T}.\\
+\indent \textit{Cis} only: significant difference between lines (F0),
+significant difference between alleles (F1), no significant
+\textit{T}.\\
+\indent \textit{Trans} only: significant difference between lines (F0),
+no significant difference between alleles (F1), significant
+\textit{T}.\\
+\indent \emph{Cis} {\&} \emph{Trans} designations: significant
+differences between alleles (F1) and significant \textit{T}. This
+category was further subdivided into \emph{cis} + \emph{trans}
+(reinforcing), \emph{cis} + \emph{trans} (opposing),
+\textit{compensatory}, and \emph{cis} x \emph{trans}, as previously
+described (38, 40).\\
+\indent \emph{Ambiguous}: all other patterns.
+
+We identified \emph{cis} x temperature interactions using DESeq2 under a
+model specifying temperature (cold vs.~warm) and allele (BZ vs.~NY). To
+identify \emph{trans} x temperature interactions, we fit a model that
+included parental and hybrid read counts for temperature (cold
+vs.~warm), allele/genotype (BZ vs.~NY), and generation (F1 vs.~F0) and
+interactions. Similar models were also used to identify sex-specific
+regulatory patterns in DESeq2 (see SI Methods and Results).
+
+\hypertarget{genetic-PCA-of-m.m-domesticus-populations}{%
+\subsubsection*{\texorpdfstring{Genetic PCA of \emph{M.m. domesticus}
+populations}{Genetic PCA of M.m. domesticus populations}}\label{genetic-PCA-of-m.m-domesticus-populations}}
+\addcontentsline{toc}{subsubsection}{Genetic PCA of \emph{M.m.
+domesticus} populations}
+
+We used SNPRelate (90) to perform PCA and IBS hierarchical clustering of
+population genetic data. Genomic data from 3 Eurasian populations of
+\emph{M. m. domesticus} (Germany {[}Cologne-Bonn{]}, France, and Iran)
+and \emph{M. m. musculus} and \emph{M. m. castaneus} subspecies were
+downloaded from \url{http://wwwuser.gwdg.de/~evolbio/evolgen/wildmouse/}
+(49). For PCA, biallelic variants genotyped across all these individuals
+were extracted and pruned for linkage disequilibrium in SNPRelate
+(thresholds=0.2) resulting in 22,126 variant sites for PCA and IBS
+clustering for \emph{M. m. domesticus} comparisons and 25,467 variants
+for global \emph{Mus} comparisons (Figures 4A, S9). Altering the pruning
+threshold to 0.5 did not result in any change in population clustering.
+
+\hypertarget{autosomal-scans-for-selection}{%
+\subsubsection*{Autosomal Scans for
+Selection}\label{autosomal-scans-for-selection}}
+\addcontentsline{toc}{subsubsection}{Autosomal Scans for Selection}
+
+To identify regions with evidence for selection in the Americas, we
+scanned the exomes of our North and South American focal populations for
+selection by using a modification of the population branch statistic
+(PBS) which summarizes a three-way comparison of allele frequencies
+between a focal group, a closely related population, and an outgroup
+comparison (\emph{PBSn1}) (91, 92):
+\[ PBSn1 = {PBS_1 \over 1 + PBS_1 + PBS_2 + PBS_3}  \]
+
+Here, \emph{PBS1} indicates PBS calculated as either Manaus or NH/VT as
+the focal population, and \emph{PBS2} and \emph{PBS3} indicate PBS
+calculated for Eurasians populations as the focal populations (France or
+Germany and Iran, respectively). To maximize the number of sites that
+could be compared, American populations are not directly compared in the
+branch test due to the reduced representation of exome data and high per
+site Fst values between the two populations (Figure S13). Instead, NH/VT
+and MAN were each compared to two Eurasian populations {[}((MAN),
+France) Iran) and ((NH/VT) Germany) Iran){]}, selected based on
+population clustering (Figure S9). We restricted our SNP set to
+biallelic variants across the 3 populations being compared and required
+that at least six individuals in the focal branch be genotyped. We note
+that the NH/VT sample used in the PBS test is geographically close to
+the origin of the SARA line.
+
+We used VCFtools (93) to calculate Weir and Cockerham Fst at each
+variant position. These values were used to calculate \emph{PBSn1} for
+non-overlapping blocks of 5 SNPs. We consider blocks in the top 1\% of
+\emph{PBSn1} scores outliers and do not attempt to assign
+\emph{P}-values to each SNP-block (94). Outliers were \textgreater3
+standard deviations above the mean windowed value of SNP-blocks in each
+comparison (MAN focal, median=0.045; NH/VT focal median = 0.064). We
+identified windows overlapping genes based on Ensembl gene coordinates
+(mm10) and the BEDTools ``intersect'' tool (95). As allele-specific
+expression in F1s is consistent with local independent genetic changes
+influencing gene expression, we focused on genes with evidence for
+\emph{cis}-regulatory divergence (i.e., differences in expression
+between parental alleles in the F1) for overlap with outlier loci. To
+ask whether allele-specific expression was associated with elevated
+\emph{PBSn1} scores, we used a generalized linear model incorporating
+gene category (ASE or no ASE) and SNP density per kb as factors to
+\emph{PBSn1} scores. SNP density was calculated by dividing the number
+of informative sites between NY and BZ for allele-specific expression
+per gene by transcript length.
+
+\hypertarget{enrichment-analyses}{%
+\subsubsection*{Enrichment Analyses}\label{enrichment-analyses}}
+\addcontentsline{toc}{subsubsection}{Enrichment Analyses}
+
+We performed all GO and pathway enrichment analyses with PANTHER (96,
+97). Phenotype enrichment analyses were performed with ModPhea (98). We
+annotated genes to specific phenotypes based on Mouse Genome Informatics
+phenotype annotations (\url{http://www.informatics.jax.org/}).
+
+\hypertarget{data-availability}{%
+\subsubsection*{Data Availability}\label{data-availability}}
+\addcontentsline{toc}{subsubsection}{Data Availability}
+
+Scripts are available on
+GitHub(\url{https://github.com/malballinger/BallingerMack_NYBZase_2022}).
+All sequence data generated in this study have been deposited to the
+National Center for Biotechnology Information Sequence Read Archive
+under accession BioProject ID PRJNAXXX. All other data are included in
+the article and/or SI Appendix.
+
+\showmatmethods
+\showacknow
+\pnasbreak
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{0}{0}
+\leavevmode\hypertarget{ref-King1975}{}%
+\CSLLeftMargin{1. }
+\CSLRightInline{King MC, Wilson AC (1975) Evolution at two levels in
+humans and chimpanzees. \emph{Science} 188(4184):107--116.}
+
+\leavevmode\hypertarget{ref-Wray2003}{}%
+\CSLLeftMargin{2. }
+\CSLRightInline{Wray GA, et al. (2003) The evolution of transcriptional
+regulation in eukaryotes. \emph{Mol Biol Evol} 20(9):1377--1419.}
+
+\leavevmode\hypertarget{ref-Jones2012}{}%
+\CSLLeftMargin{3. }
+\CSLRightInline{Jones FC, et al. (2012) The genomic basis of adaptive
+evolution in threespine sticklebacks. \emph{Nature} 484(7392):55--61.}
+
+\leavevmode\hypertarget{ref-Fraser2013}{}%
+\CSLLeftMargin{4. }
+\CSLRightInline{Fraser HB (2013) Gene expression drives local adaptation
+in humans. \emph{Genome Res} 23(7):1089--1096.}
+
+\leavevmode\hypertarget{ref-Wray2007}{}%
+\CSLLeftMargin{5. }
+\CSLRightInline{Wray GA (2007) The evolutionary significance of
+\emph{cis}-regulatory mutations. \emph{Nat Rev Genet} 8(3):206--216.}
+
+\leavevmode\hypertarget{ref-Wittkopp2011}{}%
+\CSLLeftMargin{6. }
+\CSLRightInline{Wittkopp PJ, Kalay G (2011) \emph{Cis}-regulatory
+elements: Molecular mechanisms and evolutionary processes underlying
+divergence. \emph{Nat Rev Genet} 13(1):59--69.}
+
+\leavevmode\hypertarget{ref-Carroll2008}{}%
+\CSLLeftMargin{7. }
+\CSLRightInline{Carroll SB (2008) Evo-devo and an expanding evolutionary
+synthesis: A genetic theory of morphological evolution. \emph{Cell}
+134(1):25--36.}
+
+\leavevmode\hypertarget{ref-Stern2008}{}%
+\CSLLeftMargin{8. }
+\CSLRightInline{Stern DL, Orgogozo V (2008) The loci of evolution: How
+predictable is genetic evolution? \emph{Evolution} 62(9):2155--2177.}
+
+\leavevmode\hypertarget{ref-Cooper2003}{}%
+\CSLLeftMargin{9. }
+\CSLRightInline{Cooper TF, Rozen DE, Lenski RE (2003) Parallel changes
+in gene expression after 20,000 generations of evolution in
+\emph{escherichia coli}. \emph{Proc Natl Acad Sci} 100(3):1072--1077.}
+
+\leavevmode\hypertarget{ref-Stern2009}{}%
+\CSLLeftMargin{10. }
+\CSLRightInline{Stern DL, Orgogozo V (2009) Is genetic evolution
+predictable? \emph{Science} 323(5915):746--751.}
+
+\leavevmode\hypertarget{ref-Smith2008}{}%
+\CSLLeftMargin{11. }
+\CSLRightInline{Smith EN, Kruglyak L (2008) Gene-environment interaction
+in yeast gene expression. \emph{PLoS Biol} 6(4):e83.}
+
+\leavevmode\hypertarget{ref-Tirosh2009}{}%
+\CSLLeftMargin{12. }
+\CSLRightInline{Tirosh I, Reikhav S, Levy AA, Barkai N (2009) A yeast
+hybrid provides insight into the evolution of gene expression
+regulation. \emph{Science} 324(5927):659--662.}
+
+\leavevmode\hypertarget{ref-Promislow2005}{}%
+\CSLLeftMargin{13. }
+\CSLRightInline{Promislow D (2005) A regulatory network analysis of
+phenotypic plasticity in yeast. \emph{Am Nat} 165(5):515--523.}
+
+\leavevmode\hypertarget{ref-West-Eberhard2003}{}%
+\CSLLeftMargin{14. }
+\CSLRightInline{West-Eberhard MJ (2003) \emph{Developmental plasticity
+and evolution} (Oxford University Press).}
+
+\leavevmode\hypertarget{ref-West-Eberhard2005}{}%
+\CSLLeftMargin{15. }
+\CSLRightInline{West-Eberhard MJ (2005) Developmental plasticity and the
+origin of species differences. \emph{Proc Natl Acad Sci} 102 Suppl
+1:6543--6549.}
+
+\leavevmode\hypertarget{ref-St_Pierre2022}{}%
+\CSLLeftMargin{16. }
+\CSLRightInline{St Pierre CL, et al. (2022) Genetic, epigenetic, and
+environmental mechanisms govern allele-specific gene expression.
+\emph{Genome Res} 32(6):1042--1057.}
+
+\leavevmode\hypertarget{ref-Lopes-Ramos2020}{}%
+\CSLLeftMargin{17. }
+\CSLRightInline{Lopes-Ramos CM, et al. (2020) Sex differences in gene
+expression and regulatory networks across 29 human tissues. \emph{Cell
+Rep} 31(12):107795.}
+
+\leavevmode\hypertarget{ref-He2021}{}%
+\CSLLeftMargin{18. }
+\CSLRightInline{He F, et al. (2021) \emph{Cis}-regulatory evolution
+spotlights species differences in the adaptive potential of gene
+expression plasticity. \emph{Nat Commun} 12(1):3376.}
+
+\leavevmode\hypertarget{ref-Hadadi2022}{}%
+\CSLLeftMargin{19. }
+\CSLRightInline{Hadadi N, et al. (2022) Comparative multi-tissue
+profiling reveals extensive tissue-specificity in transcriptome
+reprogramming during thermal adaptation. \emph{eLife} 11.}
+
+\leavevmode\hypertarget{ref-Tung2015}{}%
+\CSLLeftMargin{20. }
+\CSLRightInline{Tung J, Zhou X, Alberts SC, Stephens M, Gilad Y (2015)
+The genetic architecture of gene expression levels in wild baboons.
+\emph{eLife} 4:e04729.}
+
+\leavevmode\hypertarget{ref-Naranjo2015}{}%
+\CSLLeftMargin{21. }
+\CSLRightInline{Naranjo S, et al. (2015) Dissecting the genetic basis of
+a complex cis-regulatory adaptation. \emph{PLoS Genet} 11(12):e1005751.}
+
+\leavevmode\hypertarget{ref-Lynch1992}{}%
+\CSLLeftMargin{22. }
+\CSLRightInline{Lynch CB (1992) Clinal variation in cold adaptation in
+\emph{mus} \emph{domesticus}: Verification of predictions from
+laboratory populations. \emph{Am Nat} 139(6):1219--1236.}
+
+\leavevmode\hypertarget{ref-Ferris2021}{}%
+\CSLLeftMargin{23. }
+\CSLRightInline{Ferris KG, et al. (2021) The genomics of rapid climatic
+adaptation and parallel evolution in {North American} house mice.
+\emph{PLoS Genet} 17(4):e1009495.}
+
+\leavevmode\hypertarget{ref-Phifer-Rixey2018}{}%
+\CSLLeftMargin{24. }
+\CSLRightInline{Phifer-Rixey M, et al. (2018) The genomic basis of
+environmental adaptation in house mice. \emph{PLoS Genet}
+14(9):e1007672.}
+
+\leavevmode\hypertarget{ref-Bittner2021}{}%
+\CSLLeftMargin{25. }
+\CSLRightInline{Bittner NKJ, Mack KL, Nachman MW (2021) Gene expression
+plasticity and desert adaptation in house mice. \emph{Evolution}
+75(6):1477--1491.}
+
+\leavevmode\hypertarget{ref-Ballinger2022}{}%
+\CSLLeftMargin{26. }
+\CSLRightInline{Ballinger MA, Nachman MW (2022) The contribution of
+genetic and environmental effects to {Bergmann's} rule and {Allen's}
+rule in house mice. \emph{Am Nat} 199(5):691--704.}
+
+\leavevmode\hypertarget{ref-Mack2018}{}%
+\CSLLeftMargin{27. }
+\CSLRightInline{Mack KL, Ballinger MA, Phifer-Rixey M, Nachman MW (2018)
+Gene regulation underlies environmental adaptation in house mice.
+\emph{Genome Res} 28(11):1636--1645.}
+
+\leavevmode\hypertarget{ref-Abumrad2017}{}%
+\CSLLeftMargin{28. }
+\CSLRightInline{Abumrad NA (2017) The liver as a hub in thermogenesis.
+\emph{Cell Metab} 26(3):454--455.}
+
+\leavevmode\hypertarget{ref-Simcox2017}{}%
+\CSLLeftMargin{29. }
+\CSLRightInline{Simcox J, et al. (2017) Global analysis of plasma lipids
+identifies {liver-derived} acylcarnitines as a fuel source for brown fat
+thermogenesis. \emph{Cell Metab} 26(3):509--522.e6.}
+
+\leavevmode\hypertarget{ref-Cannon2004}{}%
+\CSLLeftMargin{30. }
+\CSLRightInline{Cannon B, Nedergaard J (2004) Brown adipose tissue:
+Function and physiological significance. \emph{Physiol Rev}
+84(1):277--359.}
+
+\leavevmode\hypertarget{ref-Price2003}{}%
+\CSLLeftMargin{31. }
+\CSLRightInline{Price TD, Qvarnström A, Irwin DE (2003) The role of
+phenotypic plasticity in driving genetic evolution. \emph{Proc Biol Sci}
+270(1523):1433--1440.}
+
+\leavevmode\hypertarget{ref-Ghalambor2007}{}%
+\CSLLeftMargin{32. }
+\CSLRightInline{Ghalambor CK, McKAY JK, Carroll SP, Reznick DN (2007)
+Adaptive versus non-adaptive phenotypic plasticity and the potential for
+contemporary adaptation in new environments. \emph{Funct Ecol}
+21(3):394--407.}
+
+\leavevmode\hypertarget{ref-Fischer2016}{}%
+\CSLLeftMargin{33. }
+\CSLRightInline{Fischer EK, Ghalambor CK, Hoke KL (2016) Can a network
+approach resolve how adaptive vs nonadaptive plasticity impacts
+evolutionary trajectories? \emph{Integr Comp Biol} 56(5):877--888.}
+
+\leavevmode\hypertarget{ref-Ghalambor2015}{}%
+\CSLLeftMargin{34. }
+\CSLRightInline{Ghalambor CK, et al. (2015) Non-adaptive plasticity
+potentiates rapid adaptive evolution of gene expression in nature.
+\emph{Nature} 525(7569):372--375.}
+
+\leavevmode\hypertarget{ref-Cowles2002}{}%
+\CSLLeftMargin{35. }
+\CSLRightInline{Cowles CR, Hirschhorn JN, Altshuler D, Lander ES (2002)
+Detection of regulatory variation in mouse genes. \emph{Nat Genet}
+32(3):432--437.}
+
+\leavevmode\hypertarget{ref-Wittkopp2004}{}%
+\CSLLeftMargin{36. }
+\CSLRightInline{Wittkopp PJ, Haerum BK, Clark AG (2004) Evolutionary
+changes in \emph{cis} and \emph{trans} gene regulation. \emph{Nature}
+430(6995):85--88.}
+
+\leavevmode\hypertarget{ref-McManus2010}{}%
+\CSLLeftMargin{37. }
+\CSLRightInline{McManus CJ, et al. (2010) Regulatory divergence in
+drosophila revealed by {mRNA-seq}. \emph{Genome Res} 20(6):816--825.}
+
+\leavevmode\hypertarget{ref-Goncalves2012}{}%
+\CSLLeftMargin{38. }
+\CSLRightInline{Goncalves A, et al. (2012) Extensive compensatory
+cis-trans regulation in the evolution of mouse gene expression.
+\emph{Genome Res} 22(12):2376--2384.}
+
+\leavevmode\hypertarget{ref-Shen2014}{}%
+\CSLLeftMargin{39. }
+\CSLRightInline{Shen SQ, Turro E, Corbo JC (2014) Hybrid mice reveal
+parent-of-origin and \emph{cis}- and \emph{trans}-regulatory effects in
+the retina. \emph{PLoS One} 9(10):e109382.}
+
+\leavevmode\hypertarget{ref-Mack2016}{}%
+\CSLLeftMargin{40. }
+\CSLRightInline{Mack KL, Campbell P, Nachman MW (2016) Gene regulation
+and speciation in house mice. \emph{Genome Res} 26(4):451--461.}
+
+\leavevmode\hypertarget{ref-Li2006}{}%
+\CSLLeftMargin{41. }
+\CSLRightInline{Li Y, et al. (2006) Mapping determinants of gene
+expression plasticity by genetical genomics in c. elegans. \emph{PLoS
+Genet} 2(12):e222.}
+
+\leavevmode\hypertarget{ref-Fumagalli2015}{}%
+\CSLLeftMargin{42. }
+\CSLRightInline{Fumagalli M, et al. (2015) Greenlandic inuit show
+genetic signatures of diet and climate adaptation. \emph{Science}
+349(6254):1343--1347.}
+
+\leavevmode\hypertarget{ref-Hallmark2019}{}%
+\CSLLeftMargin{43. }
+\CSLRightInline{Hallmark B, et al. (2019) Genomic evidence of local
+adaptation to climate and diet in indigenous siberians. \emph{Mol Biol
+Evol} 36(2):315--327.}
+
+\leavevmode\hypertarget{ref-Shore2013}{}%
+\CSLLeftMargin{44. }
+\CSLRightInline{Shore AM, et al. (2013) Cold-induced changes in gene
+expression in brown adipose tissue, white adipose tissue and liver.
+\emph{PLoS One} 8(7):e68933.}
+
+\leavevmode\hypertarget{ref-Westerberg2006}{}%
+\CSLLeftMargin{45. }
+\CSLRightInline{Westerberg R, et al. (2006) {ELOVL3} is an important
+component for early onset of lipid recruitment in brown adipose tissue*.
+\emph{J Biol Chem} 281(8):4958--4968.}
+
+\leavevmode\hypertarget{ref-GTEx_Consortium2017}{}%
+\CSLLeftMargin{46. }
+\CSLRightInline{GTEx Consortium, et al. (2017) Genetic effects on gene
+expression across human tissues. \emph{Nature} 550(7675):204--213.}
+
+\leavevmode\hypertarget{ref-Fraser2010}{}%
+\CSLLeftMargin{47. }
+\CSLRightInline{Fraser HB, Moses AM, Schadt EE (2010) Evidence for
+widespread adaptive evolution of gene expression in budding yeast.
+\emph{Proc Natl Acad Sci U S A} 107(7):2977--2982.}
+
+\leavevmode\hypertarget{ref-Fraser2011}{}%
+\CSLLeftMargin{48. }
+\CSLRightInline{Fraser HB, et al. (2011) Systematic detection of
+polygenic cis-regulatory evolution. \emph{PLoS Genet} 7(3):e1002023.}
+
+\leavevmode\hypertarget{ref-Harr2016}{}%
+\CSLLeftMargin{49. }
+\CSLRightInline{Harr B, et al. (2016) Genomic resources for wild
+populations of the house mouse, \emph{mus musculus} and its close
+relative \emph{mus spretus}. \emph{Sci Data} 3(1):1--14.}
+
+\leavevmode\hypertarget{ref-Tichy1994}{}%
+\CSLLeftMargin{50. }
+\CSLRightInline{Tichy H, Zaleska-Rutczynska Z, O'Huigin C, Figueroa F,
+Klein J (1994) Origin of the north american house mouse. \emph{Folia
+Biol} 40(6):483--496.}
+
+\leavevmode\hypertarget{ref-Morgan2022}{}%
+\CSLLeftMargin{51. }
+\CSLRightInline{Morgan AP, et al. (2022) Population structure and
+inbreeding in wild house mice (mus musculus) at different geographic
+scales. \emph{Heredity} 129(3):183--194.}
+
+\leavevmode\hypertarget{ref-York2018}{}%
+\CSLLeftMargin{52. }
+\CSLRightInline{York RA, et al. (2018) Behavior-dependent \emph{cis}
+regulation reveals genes and pathways associated with bower building in
+cichlid fishes. \emph{Proc Natl Acad Sci} 115(47):E11081--E11090.}
+
+\leavevmode\hypertarget{ref-Berube2013}{}%
+\CSLLeftMargin{53. }
+\CSLRightInline{Bérubé J, Garand C, Lettre G, Lebel M (2013) The
+non-synonymous polymorphism at position 114 of the {WRN} protein affects
+cholesterol efflux in vitro and correlates with cholesterol levels in
+vivo. \emph{Exp Gerontol} 48(6):533--538.}
+
+\leavevmode\hypertarget{ref-Crowley2015}{}%
+\CSLLeftMargin{54. }
+\CSLRightInline{Crowley JJ, et al. (2015) Analyses of allele-specific
+gene expression in highly divergent mouse crosses identifies pervasive
+allelic imbalance. \emph{Nat Genet} 47(4):353--360.}
+
+\leavevmode\hypertarget{ref-Lemmon2014}{}%
+\CSLLeftMargin{55. }
+\CSLRightInline{Lemmon ZH, Bukowski R, Sun Q, Doebley JF (2014) The role
+of cis regulatory evolution in maize domestication. \emph{PLoS Genet}
+10(11):e1004745.}
+
+\leavevmode\hypertarget{ref-Genissel2008}{}%
+\CSLLeftMargin{56. }
+\CSLRightInline{Genissel A, McIntyre LM, Wayne ML, Nuzhdin SV (2008) Cis
+and trans regulatory effects contribute to natural variation in
+transcriptome of drosophila melanogaster. \emph{Mol Biol Evol}
+25(1):101--110.}
+
+\leavevmode\hypertarget{ref-Verta2019}{}%
+\CSLLeftMargin{57. }
+\CSLRightInline{Verta J-P, Jones FC (2019) Predominance of
+\emph{cis}-regulatory changes in parallel expression divergence of
+sticklebacks. \emph{eLife} 8:e43785.}
+
+\leavevmode\hypertarget{ref-Osada2017}{}%
+\CSLLeftMargin{58. }
+\CSLRightInline{Osada N, Miyagi R, Takahashi A (2017) Cis- and
+trans-regulatory effects on gene expression in a natural population of
+drosophila melanogaster. \emph{Genetics} 206(4):2139--2148.}
+
+\leavevmode\hypertarget{ref-Lovell2016}{}%
+\CSLLeftMargin{59. }
+\CSLRightInline{Lovell JT, et al. (2016) Drought responsive gene
+expression regulatory divergence between upland and lowland ecotypes of
+a perennial {C4} grass. \emph{Genome Res} 26(4):510--518.}
+
+\leavevmode\hypertarget{ref-Gould2018}{}%
+\CSLLeftMargin{60. }
+\CSLRightInline{Gould BA, Chen Y, Lowry DB (2018) Gene regulatory
+divergence between locally adapted ecotypes in their native habitats.
+\emph{Mol Ecol} 27(21):4174--4188.}
+
+\leavevmode\hypertarget{ref-Fear2016}{}%
+\CSLLeftMargin{61. }
+\CSLRightInline{Fear JM, et al. (2016) Buffering of genetic regulatory
+networks in drosophila melanogaster. \emph{Genetics} 203(3):1177--1190.}
+
+\leavevmode\hypertarget{ref-Coolon2014}{}%
+\CSLLeftMargin{62. }
+\CSLRightInline{Coolon JD, McManus CJ, Stevenson KR, Graveley BR,
+Wittkopp PJ (2014) Tempo and mode of regulatory evolution in drosophila.
+24(5):797--808.}
+
+\leavevmode\hypertarget{ref-Hart2018}{}%
+\CSLLeftMargin{63. }
+\CSLRightInline{Hart JC, Ellis NA, Eisen MB, Miller CT (2018) Convergent
+evolution of gene expression in two high-toothed stickleback
+populations. \emph{PLoS Genet} 14(6):e1007443.}
+
+\leavevmode\hypertarget{ref-Jacobs2022}{}%
+\CSLLeftMargin{64. }
+\CSLRightInline{Jacobs A, et al. (2022) Temperature-dependent gene
+regulatory divergence underlies local adaptation with gene flow in the
+{Atlantic} silverside. \emph{bioRxiv}:2022.04.27.489786.}
+
+\leavevmode\hypertarget{ref-Lemos2008}{}%
+\CSLLeftMargin{65. }
+\CSLRightInline{Lemos B, Araripe LO, Fontanillas P, Hartl DL (2008)
+Dominance and the evolutionary accumulation of \emph{cis}- and
+\emph{trans}-effects on gene expression. \emph{Proc Natl Acad Sci U S A}
+105(38):14471--14476.}
+
+\leavevmode\hypertarget{ref-Emerson2010}{}%
+\CSLLeftMargin{66. }
+\CSLRightInline{Emerson JJ, et al. (2010) Natural selection on cis and
+trans regulation in yeasts. \emph{Genome Res} 20(6):826--836.}
+
+\leavevmode\hypertarget{ref-Signor2018}{}%
+\CSLLeftMargin{67. }
+\CSLRightInline{Signor SA, Nuzhdin SV (2018) The evolution of gene
+expression in \emph{cis} and \emph{trans}. \emph{Trends Genet}
+34(7):532--544.}
+
+\leavevmode\hypertarget{ref-Buchberger2019}{}%
+\CSLLeftMargin{68. }
+\CSLRightInline{Buchberger E, Reis M, Lu T-H, Posnien N (2019) Cloudy
+with a chance of insights: Context dependent gene regulation and
+implications for evolutionary studies. \emph{Genes} 10(7):492.}
+
+\leavevmode\hypertarget{ref-Chen2015}{}%
+\CSLLeftMargin{69. }
+\CSLRightInline{Chen J, Nolte V, Schlötterer C (2015) Temperature stress
+mediates decanalization and dominance of gene expression in drosophila
+melanogaster. \emph{PLoS Genet} 11(2):e1004883.}
+
+\leavevmode\hypertarget{ref-Cubillos2014}{}%
+\CSLLeftMargin{70. }
+\CSLRightInline{Cubillos FA, et al. (2014) Extensive cis-regulatory
+variation robust to environmental perturbation in arabidopsis.
+\emph{Plant Cell} 26(11):4298--4310.}
+
+\leavevmode\hypertarget{ref-Li2017}{}%
+\CSLLeftMargin{71. }
+\CSLRightInline{Li XC, Fay JC (2017) {Cis-regulatory} divergence in gene
+expression between two thermally divergent yeast species. \emph{Genome
+Biol Evol} 9(5):1120--1129.}
+
+\leavevmode\hypertarget{ref-Ehrenreich2016}{}%
+\CSLLeftMargin{72. }
+\CSLRightInline{Ehrenreich IM, Pfennig DW (2016) Genetic assimilation: A
+review of its potential proximate causes and evolutionary consequences.
+\emph{Ann Bot} 117(5):769--779.}
+
+\leavevmode\hypertarget{ref-Waddington1942}{}%
+\CSLLeftMargin{73. }
+\CSLRightInline{Waddington CH (1942) Canalization of development and the
+inheritance of acquired characters. \emph{Nature} 150(3811):563--565.}
+
+\leavevmode\hypertarget{ref-Waddington1952}{}%
+\CSLLeftMargin{74. }
+\CSLRightInline{Waddington CH (1952) Selection of the genetic basis for
+an acquired character. \emph{Nature} 169(4302):625--626.}
+
+\leavevmode\hypertarget{ref-Waddington1953}{}%
+\CSLLeftMargin{75. }
+\CSLRightInline{Waddington CH (1953) Genetic assimilation of an acquired
+character. \emph{Evolution} 7(2):118--126.}
+
+\leavevmode\hypertarget{ref-Van_der_Burg2020}{}%
+\CSLLeftMargin{76. }
+\CSLRightInline{Burg KRL van der, et al. (2020) Genomic architecture of
+a genetically assimilated seasonal color pattern. \emph{Science}
+370(6517):721--725.}
+
+\leavevmode\hypertarget{ref-Ntambi2002}{}%
+\CSLLeftMargin{77. }
+\CSLRightInline{Ntambi JM, et al. (2002) Loss of {stearoyl-CoA}
+desaturase-1 function protects mice against adiposity. \emph{Proc Natl
+Acad Sci} 99(17):11482--11486.}
+
+\leavevmode\hypertarget{ref-Lee2004}{}%
+\CSLLeftMargin{78. }
+\CSLRightInline{Lee S-H, et al. (2004) Lack of {stearoyl-CoA} desaturase
+1 upregulates basal thermogenesis but causes hypothermia in a cold
+environment. \emph{J Lipid Res} 45(9):1674--1682.}
+
+\leavevmode\hypertarget{ref-Riddell2021}{}%
+\CSLLeftMargin{79. }
+\CSLRightInline{Riddell EA, Patton JL, Beissinger SR (2022) Thermal
+adaptation of pelage in desert rodents balances cooling and insulation.
+\emph{Science} (in press).}
+
+\leavevmode\hypertarget{ref-Chen2018}{}%
+\CSLLeftMargin{80. }
+\CSLRightInline{Chen S, Zhou Y, Chen Y, Gu J (2018) Fastp: An ultra-fast
+all-in-one {FASTQ} preprocessor. \emph{Bioinformatics}
+34(17):i884--i890.}
+
+\leavevmode\hypertarget{ref-Dobin2013}{}%
+\CSLLeftMargin{81. }
+\CSLRightInline{Dobin A, et al. (2013) {STAR}: Ultrafast universal
+{RNA-seq} aligner. \emph{Bioinformatics} 29(1):15--21.}
+
+\leavevmode\hypertarget{ref-Anders2015}{}%
+\CSLLeftMargin{82. }
+\CSLRightInline{Anders S, Pyl PT, Huber W (2015) {HTSeq--a} python
+framework to work with high-throughput sequencing data.
+\emph{Bioinformatics} 31(2):166--169.}
+
+\leavevmode\hypertarget{ref-Love2014}{}%
+\CSLLeftMargin{83. }
+\CSLRightInline{Love MI, Huber W, Anders S (2014) Moderated estimation
+of fold change and dispersion for {RNA-seq} data with {DESeq2}.
+\emph{Genome Biol} 15(12):550.}
+
+\leavevmode\hypertarget{ref-Mallard2018}{}%
+\CSLLeftMargin{84. }
+\CSLRightInline{Mallard F, Jakšić AM, Schlötterer C (2018) Contesting
+the evidence for non-adaptive plasticity. \emph{Nature}
+555(7698):E21--E22.}
+
+\leavevmode\hypertarget{ref-Benjamini1995}{}%
+\CSLLeftMargin{85. }
+\CSLRightInline{Benjamini Y, Hochberg Y (1995) Controlling the false
+discovery rate: A practical and powerful approach to multiple testing.
+\emph{J R Stat Soc Series B Stat Methodol} 57(1):289--300.}
+
+\leavevmode\hypertarget{ref-Langmead2012}{}%
+\CSLLeftMargin{86. }
+\CSLRightInline{Langmead B, Salzberg SL (2012) Fast gapped-read
+alignment with bowtie 2. \emph{Nat Methods} 9(4):357--359.}
+
+\leavevmode\hypertarget{ref-Van_de_Geijn2015}{}%
+\CSLLeftMargin{87. }
+\CSLRightInline{Geijn B van de, McVicker G, Gilad Y, Pritchard JK (2015)
+{WASP}: Allele-specific software for robust molecular quantitative trait
+locus discovery. \emph{Nat Methods} 12(11):1061--1063.}
+
+\leavevmode\hypertarget{ref-Coolon2018}{}%
+\CSLLeftMargin{88. }
+\CSLRightInline{Coolon JD, McManus CJ, Stevenson KR, Graveley BR,
+Wittkopp PJ (2018) Corrigendum: Tempo and mode of regulatory evolution
+in drosophila. \emph{Genome Res} 28(11):1766.}
+
+\leavevmode\hypertarget{ref-Mack2017}{}%
+\CSLLeftMargin{89. }
+\CSLRightInline{Mack KL, Nachman MW (2017) Gene regulation and
+speciation. \emph{Trends Genet} 33(1):68--80.}
+
+\leavevmode\hypertarget{ref-Zheng2012}{}%
+\CSLLeftMargin{90. }
+\CSLRightInline{Zheng X, et al. (2012) A high-performance computing
+toolset for relatedness and principal component analysis of {SNP} data.
+\emph{Bioinformatics} 28(24):3326--3328.}
+
+\leavevmode\hypertarget{ref-Yi2010}{}%
+\CSLLeftMargin{91. }
+\CSLRightInline{Yi X, et al. (2010) Sequencing of 50 human exomes
+reveals adaptation to high altitude. \emph{Science} 329(5987):75--78.}
+
+\leavevmode\hypertarget{ref-Crawford2017}{}%
+\CSLLeftMargin{92. }
+\CSLRightInline{Crawford JE, et al. (2017) Natural selection on genes
+related to cardiovascular health in {high-altitude} adapted andeans.
+\emph{Am J Hum Genet} 101(5):752--767.}
+
+\leavevmode\hypertarget{ref-Danecek2011}{}%
+\CSLLeftMargin{93. }
+\CSLRightInline{Danecek P, et al. (2011) The variant call format and
+{VCFtools}. \emph{Bioinformatics} 27(15):2156--2158.}
+
+\leavevmode\hypertarget{ref-Malaspinas2016}{}%
+\CSLLeftMargin{94. }
+\CSLRightInline{Malaspinas A-S, et al. (2016) A genomic history of
+aboriginal australia. \emph{Nature} 538(7624):207--214.}
+
+\leavevmode\hypertarget{ref-Quinlan2010}{}%
+\CSLLeftMargin{95. }
+\CSLRightInline{Quinlan AR, Hall IM (2010) {BEDTools}: A flexible suite
+of utilities for comparing genomic features. \emph{Bioinformatics}
+26(6):841--842.}
+
+\leavevmode\hypertarget{ref-Mi2013}{}%
+\CSLLeftMargin{96. }
+\CSLRightInline{Mi H, Muruganujan A, Thomas PD (2013) PANTHER in 2013:
+Modeling the evolution of gene function, and other gene attributes, in
+the context of phylogenetic trees. \emph{Nucleic Acids Res}
+41:D377--86.}
+
+\leavevmode\hypertarget{ref-Thomas2003}{}%
+\CSLLeftMargin{97. }
+\CSLRightInline{Thomas PD, et al. (2003) {PANTHER}: A library of protein
+families and subfamilies indexed by function. \emph{Genome Res}
+13(9):2129--2141.}
+
+\leavevmode\hypertarget{ref-Weng2017}{}%
+\CSLLeftMargin{98. }
+\CSLRightInline{Weng M-P, Liao B-Y (2017) {modPhEA}: Model organism
+phenotype enrichment analysis of eukaryotic gene sets.
+\emph{Bioinformatics} 33(21):3505--3507.}
+
+\end{CSLReferences}
+
+
+
+% Bibliography
+% \bibliography{pnas-sample}
+
+\end{document}

@@ -218,6 +218,5 @@ Scripts are available on GitHub(https://github.com/malballinger/BallingerMack_NY
 \showmatmethods
 \showacknow
 \pnasbreak
-
 References{#references .unnumbered}
 ========================================

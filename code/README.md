@@ -1,6 +1,6 @@
 ## Scripts are largely categorized based on pre- and post-processing of RNAseq and population genomic data:
 [Preprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_RNAseq) - outlines four main analyses (1) generating count data for NY and BZ parents, 2) identifying fixed SNPs between NY and BZ mice, 3) mapping allele-specific reads in F1 hybrids, and 4) identifying *cis* and *trans* regualtory changes) \
-<br>[Postprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_RNAseq) - mainly analyzes and plots 1) differential expression patterns between NY and BZ parents, and 2) patterns of *cis*- and *trans*-regulatory mechanisms \
+<br>[Postprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_RNAseq) - mainly analyzes and plots 1) differential expression patterns between NY and BZ parents, and 2) patterns of *cis*- and *trans*-regulation \
 <br>[Preprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_popgen) - SNP calling of previously published whole exome and genome data of wild house mice populations\
 <br>[Postprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_popgen) - genetic PCA of wild house mice populations and genome scan for selection (via *PBSn1*)
 &nbsp;

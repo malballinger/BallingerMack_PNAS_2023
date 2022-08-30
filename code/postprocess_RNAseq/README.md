@@ -1,4 +1,4 @@
-## The majority of the scripts housed here are used to analyze and plot various RNA-seq results.
+## The majority of the scripts housed here are used to analyze and plot various RNAseq results.
 The script [clean_parentalReadCounts.R](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/postprocess_RNAseq/clean_parentalReadCounts.R) takes raw read count data (produced via HTSeq) and generates matrices used in [get_DE_parents_analysis.R](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/postprocess_RNAseq/get_DE_parents_analysis.R) to model differential expression via DESEQ2.
 
 - Figure 1D: [plot_sexPCA.R](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/postprocess_RNAseq/plot_sexPCA.R)

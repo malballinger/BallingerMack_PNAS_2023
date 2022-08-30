@@ -14,7 +14,7 @@ Mallory A. Ballinger, Katya L. Mack, Sylvia M. Durkin, Eric A. Riddell, and Mich
     |  |- raw/         # raw data, will not be altered
     |  |- processed/   # cleaned data, will not be altered once created
     |
-    |- code/           # programmatic code for cleaning, modeling, and plotting
+    |- code/           # programmatic code for processing, analyzing, and plotting
     |
     |- results/        # all output from workflows and analyses
     |  |- tables/      # tables, designated for supplementary material

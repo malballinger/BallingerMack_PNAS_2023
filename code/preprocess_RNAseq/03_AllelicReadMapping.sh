@@ -17,11 +17,9 @@ samtools view -h -o ${line}.STAR_ASEAligned.sortedByCoord.out.sam  ${line}.STAR_
 # Sort reads into allele-specific pools (NY, BZ)
 grep \"vW:i:1\" ${line}.STAR_ASEAligned.sortedByCoord.out.sam > ${line}.STAR_ASEAligned.sortedByCoord.out.filter.sam
 
-# Note: geno1 and geno2 refer to NY or BZ reads
 grep \"vW:i:1\" ${line}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,1\"  | awk -F' ' '{if(\$18 ~ /2/){}else{print}}' > ${line}.geno1.sam
 grep \"vW:i:1\" ${line}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,2\"  | awk -F' ' '{if(\$18 ~ /1/){}else{print}}' > ${line}.geno2.sam
 
-grep \"@\" ${line}.geno1.sam > ${line}.head.sam
 grep \"@\" ${line}.geno2.sam > ${line}.head.sam
 
 cat ${line}.head.sam ${line}.geno1.sam > ${line}.geno1.withhead.sam

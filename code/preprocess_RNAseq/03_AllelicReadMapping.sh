@@ -26,7 +26,7 @@ samtools view -S -b ${line}.geno1.withhead.sam > ${line}.geno1.withhead.bam
 samtools view -S -b ${line}.geno2.withhead.sam > ${line}.geno2.withhead.bam
 samtools view -S -b ${line}.bothwhead.sam > ${line}.bothwhead.bam
 
-# Sort reads into allele-specific pools (NY, BZ)
+# Sort reads into allele-specific pools (NY, BR)
 samtools sort ${line}.geno1.withhead.bam -o ${line}.geno1.withhead.sorted.bam
 samtools sort ${line}.geno2.withhead.bam -o ${line}.geno2.withhead.sorted.bam
 samtools sort ${line}.bothwhead.bam -o ${line}.bothwhead.sorted.bam
@@ -44,7 +44,7 @@ gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam O=${line}.bothwhead.withgrou
 
 gatk ASEReadCounter -I ${line}.geno1.withhead.plusreads.sorted.withgroup.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_filteredhetcalls.vcf.gz -O ${line}.geno1.table
 
-gatk ASEReadCounter -I ${line}.geno1.withhead.plusreads.sorted.withgroup.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_filteredhetcalls.vcf.gz -O ${line}.geno2.table
+gatk ASEReadCounter -I ${line}.geno2.withhead.plusreads.sorted.withgroup.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_filteredhetcalls.vcf.gz -O ${line}.geno2.table
 
 gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_filteredhetcalls.vcf.gz -O ${line}.both_alleles.table
 

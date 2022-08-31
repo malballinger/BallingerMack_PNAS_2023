@@ -47,7 +47,7 @@ python merge_tables.py all_parents.txt > all_parents_counts.txt
 <br/>
 <br/>
 
-## 2. Fixed SNPs between Brazil and New York
+## 2. [Fixed SNPs between Brazil and New York](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/02_BZNY_fixedSNPs.sh)
 
 > Map genomic reads to mouse reference genome via [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
 ```bash

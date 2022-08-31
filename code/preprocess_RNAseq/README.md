@@ -1,10 +1,10 @@
-### Four main analyses are outlined here:
-1) Counting reads for parental samples
-2) Identifying fixed SNPs between Brazil and New York
-3) Counting alleleic reads in F1 hybrids
-4) Identifying *cis* and *trans* regulatory divergence
+## Four main analyses are outlined here:
+1. Counting reads for parental samples
+2. Identifying fixed SNPs between Brazil and New York
+3. Counting alleleic reads in F1 hybrids
+4. Identifying *cis* and *trans* regulatory divergence
 
-### 1) Parental Read Counts
+## 1. Parental Read Counts
 
 > Trim and clean raw reads with [FastP v.0.19.6](https://github.com/OpenGene/fastp)
 ```bash
@@ -43,16 +43,21 @@ python merge_tables.py all_parents.txt > all_parents_counts.txt
 # format of 'all_parents.txt':
 # {Sample}.count.merge Pop_Trt_Sex_{Sample}  (e.g.: 002.count.merge BZrtM_002)
 ```
-###### Note: _all_parents_counts.txt_ is provided in data/raw/ReadCounts/all_parents_counts.txt ######
+#### Note: _all_parents_counts.txt_ is provided in data/raw/ReadCounts/all_parents_counts.txt ######
 
 
-### 2) Fixed SNPs between BZ and NY
+
+## 2) Fixed SNPs between Brazil and New York
 
 > Map genomic reads to mouse reference genome via [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
 ```bash
+bowtie2 -p 12 --very-sensitive -x MusGRCm38/GRCm38_68 -1 ${Sample}_L001_R1_001.fastq.gz,${Sample}_L002_R1_001.fastq.gz,${Sample}_L003_R1_001.fastq.gz,${Sample}_L004_R1_002.fastq.gz,${Sample}_L005_R1_002.fastq.gz
+-2 ${Sample}_L001_R2_001.fastq.gz,${Sample}_L002_R2_001.fastq.gz,${Sample}_L003_R2_001.fastq.gz,${Sample}_L004_R2_001.fastq.gz,${Sample}_L005_R2_001.fastq.gz -S ${Sample}.sam
 
+samtools view -S -b ${line}.sam > ${line}.bam
 
-samtools sort -o ${Sample}_merge.sort.bam ${Sample}_merge.bam
+samtools sort -o ${line}_merge.sort.bam ${line}.bam
+
 ````
 
 > Mark duplicates with [Picard](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard-)

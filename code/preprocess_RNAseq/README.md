@@ -4,7 +4,7 @@
 3. Counting alleleic reads in F1 hybrids
 4. Identifying *cis* and *trans* regulatory divergence
 
-## 1. Parental Read Counts
+## 1. [Parental Read Counts](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/01_ParentalCountData.sh)
 
 > Trim and clean raw reads with [FastP v.0.19.6](https://github.com/OpenGene/fastp)
 ```bash
@@ -97,7 +97,7 @@ gatk VariantFiltration --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant
 <br/>
 <br/>
 
-## 3. Allelic Read Counts
+## 3. [Allelic Read Counts](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/03_AllelicReadMapping.sh)
 
 #### _Note: F1 sequences were already trimmed, cleaned, and mapped as described above under step #1. Here, we are remapping F1 sequences:_
 

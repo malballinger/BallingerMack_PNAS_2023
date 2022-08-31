@@ -1,8 +1,8 @@
 ## Four main analyses are outlined here:
-1. Counting reads for parental samples
+1. [Counting reads for parental samples](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/README.md#1-parental-read-counts)
 2. [Identifying fixed SNPs between Brazil and New York](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/README.md#2-fixed-snps-between-brazil-and-new-york)
-3. Counting alleleic reads in F1 hybrids
-4. Identifying *cis* and *trans* regulatory divergence
+3. [Counting alleleic reads in F1 hybrids](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/README.md#3-allelic-read-counts)
+4. [Identifying *cis* and *trans* regulatory divergence](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/README.md#4-patterns-of-cis-and-trans)
 
 ## 1. [Parental Read Counts](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/preprocess_RNAseq/01_ParentalCountData.sh)
 

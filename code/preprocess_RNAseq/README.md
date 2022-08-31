@@ -27,7 +27,7 @@ STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
 ```
 
 > Count reads with [HTseq v.0.11.0](https://htseq.readthedocs.io/en/release_0.11.1/index.html)
-```python
+```bash
 python -m HTSeq.scripts.count -f bam --order=pos --stranded=no ${Sample}_L001Aligned.sortedByCoord.out.bam Mus_musculus.GRCm38.98.gtf > ${Sample}.L001.count
 
 python -m HTSeq.scripts.count -f bam --order=pos --stranded=no ${Sample}_L004Aligned.sortedByCoord.out.bam Mus_musculus.GRCm38.98.gtf > ${Sample}.L004.count
@@ -37,7 +37,7 @@ paste ${Sample}.L001.count ${Sample}.L004.count | awk -F' ' '{print $1"\t"$2+$4}
 ```
 
 > Merge count files with [merge_tables.py](https://github.com/aiminy/SCCC-bioinformatics/blob/master/merge_tables.py)
-```python
+```bash
 python merge_tables.py all_parents.txt > all_parents_counts.txt
 
 # format of 'all_parents.txt':
@@ -132,7 +132,7 @@ samtools sort ${Sample}.bothwhead.bam -o ${Sample}.bothwhead.sorted.bam
 ````
 
 > Produce count files via HTseq
-```python
+```bash
 python -m HTSeq.scripts.count -f bam -s no \
        -r pos ${Sample}.geno1.withhead.sorted.bam Mus_musculus.GRCm38.98.gtf >  ${Sample}.geno1.withhead.sorted.counts
 
@@ -174,63 +174,6 @@ gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.t
 
 ### 4) Patterns of *cis* and *trans*
 
-> Read in count tables
-```R
-counts <- read.csv("counts_BAT_males.txt",sep="\t",header=TRUE,row.names=1)
-condTable <- read.csv("condTable_BAT_males.txt",sep="\t",header=TRUE)
-counts2<-as.matrix(counts)
-```
-
-> Identify *trans* effects using LRT (contrasting log2 Fold Change between F1's and parents)
-```R
-#v1
-design = ~F1_Parent + population + temp +population:F1_Parent
-dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
-dds <- DESeq(dds, test="LRT", reduced= ~ population + F1_Parent + temp)
-
-#v2
-design = ~F1_Parent + population + population:F1_Parent
-dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
-dds <- DESeq(dds, test="LRT", reduced= ~ population + F1_Parent)
-res <- results(dds)
-```
-
-> Identify *cis* effects
-```R
-# make sure there is a pseudo-sample column where samples are rep'd across treatments of interest
-# pseudo-sample is sample trick from Michael Love, so that temp info can be incorporated
-
-dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
-
-#m = # of individuals
-design = ~temp + temp:pseudo_sampl + temp:allele
-dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
-m <- 6
-
-#don't estimate size factors here b/c this is ASE
-sizeFactors(dds) <- rep(1, 2*m)
-dds <- DESeq(dds, fitType="parametric")
-resultsNames(dds)
-```
-
-> Sort categories by comparing log2 fold change and padj values between parents, F1's, and LRT (for trans component)
-```bash
-# Note: we adjusted FDR for cases where genes were tested by DESeq2 for one test but not the other
-# (i.e., FDR estimates for parents but not hybrid) -- this is done with p.adjust, method="BH"
-
-#0.05 cutoff
-awk -F' ' '{if($3<0.05 && $5<0.05 && $7>0.05){print $0,"CIS_only"}else{print}}' |
-awk -F' ' '{if($3>0.05 && $5<0.05 && $7<0.05){print $0,"Compensatory"}else{print  $0}}'|
-awk -F' ' '{if($3>0.05 && $5>0.05 && $7>0.05){print $0,"Conserved"}else{print $0}}' |
-awk -F' ' '{if($3<0.05 && $5>0.05 && $7<0.05){print $0,"Trans"}else{print  $0}}' |
-awk -F' ' '{if( ($3<0.05 && $5<0.05 && $7<0.05) && ( ($2>0 && $4>0) || ($2<0 && $4<0) ) && ( sqrt($2^2)>sqrt($4^2)) ){print $0,"cis+trans_same"}else{print}}' |
-awk -F' ' '{if( ($3<0.05 && $5<0.05 && $7<0.05) && ( ($2>0 && $4>0) || ($2<0 && $4<0) ) && ( sqrt($2^2)<sqrt($4^2)) ){print $0,"cis+trans_opp"}else{print}}' |
-awk -F' ' '{if( ($3<0.05 && $5<0.05 && $7<0.05) && ( ($2>0 && $4<0) || ($2<0 && $4>0) )){print $0,"cisxtrans"}else{print}}' |
-awk -F' ' '{if($3=="NA" || $5=="NA" || $7=="NA"){print $1,$2,$3,$4,$5,$6,$7,"NoPower"}else{print}}' |
-awk -F' ' '{if($8==""){print $0,"Ambiguous"}else{print}}' 
-
-# add the following to condense cis+trans groups for plotting in R
- | awk -F' ' '{if($8=="Conserved" || $8=="Ambiguous"){print $1,$2,$3,$4,$5,$6,$7,"Ambiguous_orConserved"}else{print}}'  > categories.txt
-
+> To be uplaoded soon!
 ```
 

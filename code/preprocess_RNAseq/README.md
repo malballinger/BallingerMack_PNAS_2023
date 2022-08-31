@@ -1,6 +1,6 @@
 ## Four main analyses are outlined here:
 1. Counting reads for parental samples
-2. Identifying fixed SNPs between Brazil and New York
+2. [Identifying fixed SNPs between Brazil and New York](https://github.com/malballinger/BallingerMack_NYBZase_2022/code/preprocess_RNAseq/README.md#2-fixed-snps-between-brazil-and-new-york)
 3. Counting alleleic reads in F1 hybrids
 4. Identifying *cis* and *trans* regulatory divergence
 
@@ -44,30 +44,30 @@ python merge_tables.py all_parents.txt > all_parents_counts.txt
 # {Sample}.count.merge Pop_Trt_Sex_{Sample}  (e.g.: 002.count.merge BZrtM_002)
 ```
 #### Note: _all_parents_counts.txt_ is provided in data/raw/ReadCounts/all_parents_counts.txt ######
+<br/>
+<br/>
 
-
-
-## 2) Fixed SNPs between Brazil and New York
+## 2. Fixed SNPs between Brazil and New York
 
 > Map genomic reads to mouse reference genome via [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
 ```bash
-bowtie2 -p 12 --very-sensitive -x MusGRCm38/GRCm38_68 -1 ${Sample}_L001_R1_001.fastq.gz,${Sample}_L002_R1_001.fastq.gz,${Sample}_L003_R1_001.fastq.gz,${Sample}_L004_R1_002.fastq.gz,${Sample}_L005_R1_002.fastq.gz
+bowtie2 -p 12 --very-sensitive -x MusGRCm38/GRCm38_68 -1 ${Sample}_L001_R1_001.fastq.gz,${Sample}_L002_R1_001.fastq.gz,${Sample}_L003_R1_001.fastq.gz,${Sample}_L004_R1_002.fastq.gz,${Sample}_L005_R1_002.fastq.gz \
 -2 ${Sample}_L001_R2_001.fastq.gz,${Sample}_L002_R2_001.fastq.gz,${Sample}_L003_R2_001.fastq.gz,${Sample}_L004_R2_001.fastq.gz,${Sample}_L005_R2_001.fastq.gz -S ${Sample}.sam
 
-samtools view -S -b ${line}.sam > ${line}.bam
+samtools view -S -b ${Sample}.sam > ${Sample}.bam
 
-samtools sort -o ${line}_merge.sort.bam ${line}.bam
+samtools sort -o ${Sample}_merge.sort.bam ${Sample}.bam
 
 ````
 
-> Mark duplicates with [Picard](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard-)
-```java
+> Prepare for SNP calling with [Picard](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard-)
+```bash
 picard MarkDuplicates INPUT=${Sample}_merge.sort.bam OUTPUT=${Sample}_markdups.bam METRICS_FILE=${Sample}_metrics.txt
-
-picard BuildBamIndex INPUT=${Sample}_markdups.bam
 
 picard AddOrReplaceReadGroups I=${Sample}_markdups.bam O=${Sample}_markdups.rehead.bam \
        RGID=1 RGLB=lib1 RGPL=illumina RGPU=unit1 RGSM=${Sample}
+       
+picard BuildBamIndex INPUT=${Sample}_markdups.bam
 ```
 
 > Joint genotyping via GATK [HaplotypeCaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) and [GenotypeGVCFs](https://gatk.broadinstitute.org/hc/en-us/articles/360037057852-GenotypeGVCFs)
@@ -75,25 +75,27 @@ picard AddOrReplaceReadGroups I=${Sample}_markdups.bam O=${Sample}_markdups.rehe
 gatk HaplotypeCaller -R Mus_musculus.GRCm38.dna.toplevel.fa -I ${Sample}_markdups.rehead.split.bam -ERC GVCF \
      -stand-call-conf 20 -O ${Sample}_rawvariants.g.vcf.gz
 
-#Combine files
-gatk CombineGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa --variant MANA_rawvariants.g.vcf.gz \
-     --variant SARA_rawvariants.g.vcf.gz -O Combined_BZ_NY.g.vcf.gz
+##Combine files
+# Note: replace names of input files (e.g., ind1_rawvariants.g.vcf.gz) below with output of previous step HaplotypeCaller (e.g., *_rawvariants.g.vcf.gz)
 
-gatk --java-options \"-Xmx4g\" GenotypeGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa -V Combined_BZ_NY.g.vcf.gz \
-     -O Combined_BZ_NY.vcf.gz
+gatk CombineGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa --variant ind1_rawvariants.g.vcf.gz \
+     --variant ind2_rawvariants.g.vcf.gz -O Combined_Ind.g.vcf.gz
+
+gatk --java-options \"-Xmx4g\" GenotypeGVCFs -R Mus_musculus.GRCm38.dna.toplevel.fa -V Combined_Ind.g.vcf.gz \
+     -O Combined_Ind.vcf.gz
 ```
 
-> Select and filter variants via GATK [SelectVariants](https://gatk.broadinstitute.org/hc/en-us/articles/360037055952-SelectVariants) and [VariantFiltration](https://gatk.broadinstitute.org/hc/en-us/articles/360037434691-VariantFiltration)
+> Select only SNPs and filter for low quality variants via GATK [SelectVariants](https://gatk.broadinstitute.org/hc/en-us/articles/360037055952-SelectVariants) and [VariantFiltration](https://gatk.broadinstitute.org/hc/en-us/articles/360037434691-VariantFiltration)
 ```bash
-gatk SelectVariants --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_BZ_NY.vcf.gz \
-     --select-type-to-include SNP --output Combined_BZ_NY.SNPs.vcf.gz
+gatk SelectVariants --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_Ind.vcf.gz \
+     --select-type-to-include SNP --output Combined_Ind.SNPs.vcf.gz
 
-gatk VariantFiltration --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_BZ_NY.SNPs.vcf.g vcf gz \
+gatk VariantFiltration --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant Combined_Ind.SNPs.vcf.gz \
      --filter-expression \"QD < 2.0 || QUAL < 30.0 || FS > 200.0 || ReadPosRankSum < -20.0\" --filter-name \"SNPFilter\" \
-     --output Combined_BZ_NY.SNPsfilt.vcf.gz
+     --output Combined_Ind.SNPsfilt.vcf.gz
 ```
 
-### 3) Allelic Read Counts
+## 3. Allelic Read Counts
 
 ###### Note: F1 sequences were already trimmed, cleaned, and mapped as described above under '1) Parental Read Counts'. Here, we are remapping F1 sequences:
 

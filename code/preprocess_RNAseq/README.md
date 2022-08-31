@@ -94,30 +94,31 @@ gatk VariantFiltration --reference Mus_musculus.GRCm38.dna.toplevel.fa --variant
      --filter-expression \"QD < 2.0 || QUAL < 30.0 || FS > 200.0 || ReadPosRankSum < -20.0\" --filter-name \"SNPFilter\" \
      --output Combined_Ind.SNPsfilt.vcf.gz
 ```
+<br/>
+<br/>
 
 ## 3. Allelic Read Counts
 
-###### Note: F1 sequences were already trimmed, cleaned, and mapped as described above under '1) Parental Read Counts'. Here, we are remapping F1 sequences:
+#### _Note: F1 sequences were already trimmed, cleaned, and mapped as described above under step #1. Here, we are remapping F1 sequences:_
 
-> Align F1 sequences with [STAR v.2.7.7a](https://github.com/alexdobin/STAR)
+> Map RNAseq reads with [STAR v.2.7.7a](https://github.com/alexdobin/STAR) & [WASP filter](https://github.com/bmvdgeijn/WASP)
 ```bash
+
+## Include list of variant positions (BR/NY) phased for WASP filtering (BR_NY_filteredhetcalls.vcf)
+
 STAR --runMode alignReads --runThreadN 16 --genomeDir genome_index_STAR_mm10 \
      --readFilesIn ${Sample}_R1.trim.fastq ${Sample}_R2.trim.fastq --outSAMtype BAM SortedByCoordinate \
      --waspOutputMode SAMtag --outSAMattributes NH HI AS nM NM MD vA vG vW \
-     --varVCFfile BZ_NY_filteredhetcalls.vcf --outFilterMultimapNmax 1 \
+     --varVCFfile BR_NY_filteredhetcalls.vcf --outFilterMultimapNmax 1 \
      --outFilterMismatchNmax 3 --outFileNamePrefix ${Sample}.STAR_ASE
 
 samtools view -h -o ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam ${Sample}.STAR_ASEAligned.sortedByCoord.out.bam 
 ```
-###### Note: _BZ_NY_filteredhetcalls.vcf_ was produced in step '(2) Identifying fixed SNPs between BZ and NY'
 
-> Filter files based on [WASP]() flags
+> Filter based on WASP flags
 ```bash
-# Sort reads into allele-specific pools (NY, BZ)
-
 #vW:i:1 means alignment passed WASP filtering, and all other values mean it did not pass:
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam > ${Sample}.STAR_ASEAligned.sortedByCoord.out.filter.sam
-
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,1\" \
      | awk -F' ' '{if(\$18 ~ /2/){}else{print}}' > ${Sample}.geno1.sam
 grep \"vW:i:1\" ${Sample}.STAR_ASEAligned.sortedByCoord.out.sam | grep \"vA:B:c,2\" \
@@ -133,6 +134,7 @@ samtools view -S -b ${Sample}.geno1.withhead.sam > ${Sample}.geno1.withhead.bam
 samtools view -S -b ${Sample}.geno2.withhead.sam > ${Sample}.geno2.withhead.bam
 samtools view -S -b ${Sample}.bothwhead.sam > ${Sample}.bothwhead.bam
 
+# Sort reads into allele-specific pools (NY, BR)
 samtools sort ${Sample}.geno1.withhead.bam -o ${Sample}.geno1.withhead.sorted.bam
 samtools sort ${Sample}.geno2.withhead.bam -o ${Sample}.geno2.withhead.sorted.bam
 samtools sort ${Sample}.bothwhead.bam -o ${Sample}.bothwhead.sorted.bam
@@ -164,11 +166,11 @@ java -jar picard-2.20.7/picard.jar AddOrReplaceReadGroups I=${Sample}.bothwhead.
 > Produce count tables per SNP via [GATK](https://gatk.broadinstitute.org/hc/en-us/articles/360037428291-ASEReadCounter)
 ```bash
 gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam O=${line}.bothwhead.withgroup.bam \
-     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
+     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_filteredhetcalls.vcf.gz \
      -O BZ_NY.bothgeno.table
 
 gatk ASEReadCounter -I ${line}.geno1.withhead.plusreads.sorted.withgroup.bam \
-     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_hetcalls.vcf.gz \
+     -R Mus_musculus.GRCm38.dna.toplevel.fa -V BR_NY_filteredhetcalls.vcf.gz \
      -O ${line}.geno1.table
 
 gatk ASEReadCounter -I ${line}.geno2.withhead.plusreads.sorted.withgroup.bam \
@@ -176,11 +178,13 @@ gatk ASEReadCounter -I ${line}.geno2.withhead.plusreads.sorted.withgroup.bam \
      -O ${line}.geno2.table
 
 gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.toplevel.fa \
-     -V BR_NY_hetcalls.vcf.gz -O ${line}.both_alleles.table
+     -V BR_NY_filteredhetcalls.vcf.gz -O ${line}.both_alleles.table
 ```
+<br/>
+<br/>
 
-### 4) Patterns of *cis* and *trans*
+## 4. Patterns of *cis* and *trans*
 
-> To be uplaoded soon!
+> To be uploaded soon!
 ```
 

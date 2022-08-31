@@ -5,7 +5,7 @@
 # Author: Mallory A. Ballinger
 
 # This script examines sample-to-sample distances with hierarchical clustering,
-# and generates Figure S5 in BallingerMack_2022.
+# and generates Figure S14 in BallingerMack_2022.
 
 # Main Result: unlike liver tissue, BAT samples do not cluster by sex
 

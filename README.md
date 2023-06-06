@@ -3,7 +3,7 @@ Environmentally robust *cis*-regulatory changes underlie rapid climatic adaptati
 Mallory A. Ballinger, Katya L. Mack, Sylvia M. Durkin, Eric A. Riddell, and Michael W. Nachman<br>(last updated: 05 Jun 2023)
 
 <br>See our bioRxiv preprint here:
-[![DOI:10.1101/2021.06.14.448454](http://img.shields.io/badge/DOI-10.1101/2021.06.14.448454-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/2022.08.29.505745v2)
+[![DOI:10.1101/2021.06.14.448454](http://img.shields.io/badge/DOI-10.1101/2021.06.14.448454-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/2022.08.29.505745v3)
 
 
 ## Abstract:

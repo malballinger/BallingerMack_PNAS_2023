@@ -6,7 +6,7 @@
 
 # This script cleans the metadata files: data/raw/post_dissection_metadata_RAW_2021-02-18.csv &
 # data/raw/thermal_phenotypes.csv.
-# The cleaned datasets are joined together and used for downstream analyses in BallingerMack_2022.
+# The cleaned datasets are joined together and used for downstream analyses in BallingerMack_2023.
 
 ##############################################################
 # Required packages

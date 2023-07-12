@@ -3,8 +3,3 @@
 <br>[Postprocess_RNAseq](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_RNAseq) - mainly analyzes and plots 1) differential expression patterns between NY and BZ parents, and 2) patterns of *cis*- and *trans*-regulation \
 <br>[Preprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/preprocess_popgen) - SNP calling of previously published whole exome and genome data of wild house mice populations\
 <br>[Postprocess_popgen](https://github.com/malballinger/BallingerMack_NYBZase_2022/tree/main/code/postprocess_popgen) - genetic PCA of wild house mice populations and genome scan for selection (via *PBSn1*)
-&nbsp;
-&nbsp;
-## The following scripts are used to generate Figure 1A-B:
-- Figure 1A: [plot_temp_map.R](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/plot_temp_map.R)
-- Figure 1B: [plot_phenotypes.R](https://github.com/malballinger/BallingerMack_NYBZase_2022/blob/main/code/plot_phenotypes.R)

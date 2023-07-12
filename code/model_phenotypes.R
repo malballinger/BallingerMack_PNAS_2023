@@ -7,7 +7,7 @@
 # This script models both relative and residual thermal conductance and extremity length from
 # Brazil (MANA) and New York (SARA) house mice.
 # Data were cleaned using the script ./clean_phenotypes.R.
-# Statistical models are used in downstream analyses of BallingerMack_2022.
+# Statistical models are used in downstream analyses of BallingerMack_2023.
 
 ##############################################################
 # Required packages

@@ -6,7 +6,7 @@
 
 # This script plots differences in morphology and thermal pelage conductance between
 # Brazil (MANA) and New York (SARA) mice.
-# The generated plots are used in Figure 1B in BallingerMack_2022.
+# The generated plots are used in Figure 1B in BallingerMack_2023.
 
 ##############################################################
 # Required packages

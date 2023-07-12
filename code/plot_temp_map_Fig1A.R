@@ -5,7 +5,7 @@
 # Author: Mallory A. Ballinger
 
 # This script extracts climate data (mean temperature) from WorldClim dataset.
-# This script generates Figure 1A in BallingerMack_2022.
+# This script generates Figure 1A in BallingerMack_2023.
 
 ##############################################################
 # Required packages

@@ -5,7 +5,7 @@
 # Author: Mallory A. Ballinger
 
 # This script plots differential expression in parental samples, with specific focus on patterns of divergence.
-# This script generates Figures 1E (males), S3A (females), and S4A (sex) in BallingerMack_2022.
+# This script generates Figures 1E (males), S3A (females), and S4A (sex) in BallingerMack_2023.
 
 # Major Result(s): divergence is main expression pattern, as expression divergence between NY and BZ is
 # concordant across both environments and sexes
@@ -90,8 +90,8 @@ env_divergence <- function(resW, resC)
     geom_point(data = sigsame, aes(x = lfc.w, y = lfc.c), fill = "#44B379", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
     geom_point(data = nonsig, aes(x = lfc.w, y = lfc.c), fill = "darkgray", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
     geom_point(data = sigW, aes(x = lfc.w, y = lfc.c), fill = "#E8E430", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
-    geom_point(data = sigC, aes(x = lfc.w, y = lfc.c), fill = "#452D72", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
-    geom_point(data = sigopps, aes(x = lfc.w, y = lfc.c), fill = "#000000", color = "000000", size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = sigC, aes(x = lfc.w, y = lfc.c), fill = "#440856", color = "grey100", stroke = 0.4, size = 3.5, shape = 21, alpha = 1, show.legend = FALSE) +
+    geom_point(data = sigopps, aes(x = lfc.w, y = lfc.c), fill = "white", color = "#000000", stroke = 0.4, size = 3.5, shape = 21, alpha = 0.9, show.legend = FALSE) +
     scale_x_continuous(limits = c(-10,10), expand = c(0.01,0.075)) +
     scale_y_continuous(limits = c(-10,10), expand = c(0.01,0.075)) +
     theme_bw() +
@@ -105,7 +105,8 @@ env_divergence <- function(resW, resC)
     #      y = "Log<sub>2</sub> Fold Change in cold<br>(NY vs BZ)")
   
   return(list(n_total_genes = n_total_genes, n_sig_DE_genes = n_sig_DE_genes, n_sigW = n_sigW,
-              n_sigC = n_sigC, n_sigsame = n_sigsame, n_sigopps = n_sigopps, plot = plot))
+              n_sigC = n_sigC, n_sigsame = n_sigsame, n_sigopps = n_sigopps, sigopps = sigopps,
+              all_genes = merge_resWC, plot = plot))
 }
 
 # execute function and save resulting plots
@@ -113,25 +114,25 @@ male_liver <- env_divergence(resW = res_warm_males_liver_NYvsBZ, resC = res_cold
 plot_male_liver <- male_liver$plot
 n_sig_DE_genes_liver_male <- male_liver$n_sig_DE_genes
 n_total_genes_liver_male <- male_liver$n_total_genes
-ggsave("results/figures/males_DE_divergence_liver.pdf", plot = plot_male_liver, height = 3.25, width = 3.5)
+ggsave("results/figures/males_DE_divergence_liver_rev.pdf", plot = plot_male_liver, height = 3.25, width = 3.5)
 
 male_BAT <- env_divergence(resW = res_warm_males_BAT_NYvsBZ, resC = res_cold_males_BAT_NYvsBZ)
 plot_male_BAT <- male_BAT$plot
 n_sig_DE_genes_BAT_male <- male_BAT$n_sig_DE_genes
 n_total_genes_BAT_male <- male_BAT$n_total_genes
-ggsave("results/figures/males_DE_divergence_BAT.pdf", plot = plot_male_BAT, height = 3.25, width = 3.5)
+ggsave("results/figures/males_DE_divergence_BAT_rev.pdf", plot = plot_male_BAT, height = 3.25, width = 3.5)
 
 female_liver <- env_divergence(resW = res_warm_females_liver_NYvsBZ, resC = res_cold_females_liver_NYvsBZ)
 plot_female_liver <- female_liver$plot
 n_sig_DE_genes_liver_female <- female_liver$n_sig_DE_genes
 n_total_genes_liver_female <- female_liver$n_total_genes
-ggsave("results/figures/females_DE_divergence_liver.pdf", plot = plot_female_liver, height = 2, width = 2.1)
+ggsave("results/figures/females_DE_divergence_liver_rev.pdf", plot = plot_female_liver, height = 3.25, width = 3.5)
 
 female_BAT <- env_divergence(resW = res_warm_females_BAT_NYvsBZ, resC = res_cold_females_BAT_NYvsBZ)
 plot_female_BAT <- female_BAT$plot
 n_sig_DE_genes_BAT_female <- female_BAT$n_sig_DE_genes
 n_total_genes_BAT_female <- female_BAT$n_total_genes
-ggsave("results/figures/females_DE_divergence_BAT.pdf", plot = plot_female_BAT, height = 2, width = 2.1)
+ggsave("results/figures/females_DE_divergence_BAT_rev.pdf", plot = plot_female_BAT, height = 2.5, width = 2.75)
 
 
 
@@ -304,5 +305,3 @@ cold_BAT_sex_x2_test <- chisq.test(cold_BAT_sex_x2, correct = FALSE)
 
 
 # (I used correct=FALSE for all analyses since there are large sample sizes (cell >= 5 observations))
-
-

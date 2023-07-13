@@ -53,10 +53,12 @@ TL_deets <- ("&#42;line<br>\
 TC_plot <- phenotype_data %>%
   ggplot(aes(x=Population, y=AVG_conductance)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
-  geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
+  geom_jitter(aes(shape = Sex), position=position_jitter(width = 0.15, seed=19910118), fill = "black", alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
                     breaks=c("BRAZIL", "NEW_YORK"),
                     labels=c("Brazil", "New York")) +
+  scale_shape_manual(values=c(21,24),
+                     breaks=c("Male", "Female")) +
   scale_x_discrete(breaks=c("BRAZIL", "NEW_YORK"),
                    labels=c("Brazil", "New York")) +
   theme_bw() + 
@@ -71,7 +73,7 @@ TC_plot <- phenotype_data %>%
   labs(x = "",
        y = "Pelage Conductance",
        tag = TC_deets)
-ggsave("results/figures/pelage_cond.pdf", plot = TC_plot, height = 2.75, width = 2.8, units = "in")
+ggsave("results/figures/pelage_cond_rev.pdf", plot = TC_plot, height = 2.75, width = 2.8, units = "in")
 
 
 ### for body mass and extremity length, filter for age
@@ -82,10 +84,12 @@ age_ctrl_data <- phenotype_data %>% filter(Age_days < 100)
 BW_plot <- age_ctrl_data %>%
   ggplot(aes(x=Population, y=BodyWeight_g)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
-  geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
+  geom_jitter(aes(shape = Sex), position=position_jitter(width = 0.15, seed=19910118), fill = "black", alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
                     breaks=c("BRAZIL", "NEW_YORK"),
                     labels=c("Brazil", "New York")) +
+  scale_shape_manual(values=c(21,24),
+                     breaks=c("Male", "Female")) +
   scale_x_discrete(breaks=c("BRAZIL", "NEW_YORK"),
                    labels=c("Brazil", "New York")) +
   scale_y_continuous(breaks = seq(from=9, to=20, by=2.5), labels = seq(from=9, to=20, by=2.5), limits = c(9,20)) +
@@ -101,19 +105,21 @@ BW_plot <- age_ctrl_data %>%
   labs(x = "",
        y = "Body Mass (g)",
        tag = BW_deets)
-ggsave("results/figures/BW_diff.pdf", plot = BW_plot, height = 2.75, width = 2.8, units = "in")
+ggsave("results/figures/BW_diff_rev.pdf", plot = BW_plot, height = 2.75, width = 2.8, units = "in")
 
 # plot tail length
 
 rel_TL_plot <- age_ctrl_data %>%
   ggplot(aes(x=Population, y=rel_TL)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
-  geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
+  geom_jitter(aes(shape = Sex), position=position_jitter(width = 0.15, seed=19910118), fill = "black", alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
                     breaks=c("BRAZIL", "NEW_YORK"),
                     labels=c("Brazil", "New York")) +
   scale_x_discrete(breaks=c("BRAZIL", "NEW_YORK"),
                    labels=c("Brazil", "New York")) +
+  scale_shape_manual(values=c(21,24),
+                     breaks=c("Male", "Female")) +
   scale_y_continuous(breaks = seq(from=4, to=8.5, by=1.5), labels = seq(from=4, to=8.5, by=1.5), limits = c(4,8.5)) +
   theme_bw() + 
   theme(panel.grid.major = element_blank(),
@@ -127,7 +133,7 @@ rel_TL_plot <- age_ctrl_data %>%
   labs(x = "",
        y = "Relative Tail Length",
        tag = TL_deets)
-ggsave("results/figures/rel_TL.pdf", plot = rel_TL_plot, height = 2.75, width = 2.8, units = "in")
+ggsave("results/figures/rel_TL_rev.pdf", plot = rel_TL_plot, height = 2.75, width = 2.8, units = "in")
 
 
 # plot ear length
@@ -135,10 +141,12 @@ ggsave("results/figures/rel_TL.pdf", plot = rel_TL_plot, height = 2.75, width = 
 rel_EL_plot <- age_ctrl_data %>%
   ggplot(aes(x=Population, y=rel_EL)) +
   geom_boxplot(aes(fill = Population), position = position_dodge(width=0.25), alpha=0.8, size = 0.5, outlier.shape = NA, show.legend = FALSE) +
-  geom_jitter(position=position_jitter(width = 0.15, seed=19910118), alpha = 0.15, show.legend = FALSE) +
+  geom_jitter(aes(shape = Sex), position=position_jitter(width = 0.15, seed=19910118), fill = "black", alpha = 0.15, show.legend = FALSE) +
   scale_fill_manual(values=c("#E09832", "#1683B5"),
                     breaks=c("BRAZIL", "NEW_YORK"),
                     labels=c("Brazil", "New York")) +
+  scale_shape_manual(values=c(21,24),
+                     breaks=c("Male", "Female")) +
   scale_x_discrete(breaks=c("BRAZIL", "NEW_YORK"),
                    labels=c("Brazil", "New York")) +
   scale_y_continuous(breaks = seq(from=0.75, to=1.6, by=0.25), labels = seq(from=0.75, to=1.6, by=0.25), limits = c(0.75,1.6)) +
@@ -154,5 +162,5 @@ rel_EL_plot <- age_ctrl_data %>%
   labs(x = "",
        y = "Relative Ear Length",
        tag = EL_deets)
-ggsave("results/figures/rel_EL.pdf", plot = rel_EL_plot, height = 2.75, width = 2.8, units = "in")
+ggsave("results/figures/rel_EL_rev.pdf", plot = rel_EL_plot, height = 2.75, width = 2.8, units = "in")
 

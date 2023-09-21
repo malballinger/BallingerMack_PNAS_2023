@@ -6,16 +6,16 @@ Mallory A. Ballinger, Katya L. Mack, Sylvia M. Durkin, Eric A. Riddell, and Mich
 [![DOI: 10.1086/719028](https://img.shields.io/badge/DOI-10.1086%2F719028-success.svg?color=%230075C9
 )](https://www.pnas.org/doi/10.1073/pnas.2214614120)
 
-See our bioRxiv preprint here:
-[![DOI:10.1101/2021.06.14.448454](http://img.shields.io/badge/DOI-10.1101/2021.06.14.448454-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/2022.08.29.505745v3)
+All sequence data have been deposited to the National Center for Biotechnology Information Sequence Read Archive:
+[![NCBI](https://img.shields.io/badge/BioProject-PRJNA1009445-25C2A0
+)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1009445)
 
 Data and code have been deposited on Zenodo:
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.8288001-8A2BE2
 )](https://zenodo.org/record/8288001)
 
-All sequence data have been deposited to the National Center for Biotechnology Information Sequence Read Archive:
-[![NCBI](https://img.shields.io/badge/BioProject-PRJNA1009445-25C2A0
-)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1009445)
+See our bioRxiv preprint here:
+[![DOI:10.1101/2021.06.14.448454](http://img.shields.io/badge/DOI-10.1101/2021.06.14.448454-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/2022.08.29.505745v3)
 
 
 ## Abstract:

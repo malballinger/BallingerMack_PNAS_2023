@@ -10,8 +10,12 @@ See our bioRxiv preprint here:
 [![DOI:10.1101/2021.06.14.448454](http://img.shields.io/badge/DOI-10.1101/2021.06.14.448454-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/2022.08.29.505745v3)
 
 Data and code have been deposited on Zenodo:
-[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.8288001-success.svg?color=%2328B6FA
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.8288001-8A2BE2
 )](https://zenodo.org/record/8288001)
+
+All sequence data have been deposited to the National Center for Biotechnology Information Sequence Read Archive:
+[![NCBI](https://img.shields.io/badge/BioProject-PRJNA1009445-25C2A0
+)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1009445)
 
 
 ## Abstract:

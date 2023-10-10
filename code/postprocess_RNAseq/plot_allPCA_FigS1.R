@@ -5,9 +5,7 @@
 # Author: Mallory A. Ballinger
 
 # This script plots expression level variation across tissue-type, genotype, sex, and environment (via PCA),
-# and generates Figure S1 in BallingerMack_202.
-
-# Major Result(s): tissue-type explains the most variation
+# and generates Figure S1 in BallingerMack_2023.
 
 ##############################################################
 # Required packages

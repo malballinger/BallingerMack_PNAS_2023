@@ -4,9 +4,8 @@
 
 # Author: Mallory A. Ballinger
 
-# This script filters and subsets the counts metadata files, and
-# generates matrices that are used for downstream analyses in BallingerMack_2022.
-# This script generates Figure S5.
+# This script filters and subsets counts metadata files and
+# generates matrices that are used to generates Figure S5.
 
 ##############################################################
 # Required packages

@@ -7,9 +7,6 @@
 # This script plots differential expression in parental samples, with specific focus on patterns of divergence.
 # This script generates Figures 1E (males), S3A (females), and S4A (sex) in BallingerMack_2023.
 
-# Major Result(s): divergence is main expression pattern, as expression divergence between NY and BZ is
-# concordant across both environments and sexes
-
 ##############################################################
 # Required packages
 ##############################################################

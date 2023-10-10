@@ -6,9 +6,7 @@
 
 # This script plots expression level variation across genotype and environment (via PCA), for each
 # tissue and sex separately. The male-specific plots are used in the main manuscript (Fig1D),
-# while female-specific plots are included in the supplement (Figure S2) of BallingerMack_2022.
-
-# Major Result(s): genotype explains the most variation
+# while female-specific plots are included in the supplement (Figure S2) of BallingerMack_2023.
 
 ##############################################################
 # Required packages
@@ -193,14 +191,14 @@ males_liver_PCA_12 <- plotPCA_12(object = vsd_liver_males, shape = 24)
 #ggsave("results/figures/males_liver_PCA12.pdf", plot = males_liver_PCA_12, height = 1.75, width = 2, units = "in")
 
 males_liver_PCA_13 <- plotPCA_13(object = vsd_liver_males, shape = 21)
-ggsave("results/figures/males_liver_PCA13.pdf", plot = males_liver_PCA_13, height = 3.25, width = 3.55, units = "in") #1.75 and 2
+ggsave("results/figures/males_liver_PCA13_Fig1D.pdf", plot = males_liver_PCA_13, height = 3.25, width = 3.55, units = "in") #1.75 and 2
 
 # BAT
 males_BAT_PCA_12 <- plotPCA_12(object = vsd_BAT_males, shape = 21)
 #ggsave("results/figures/males_BAT_PCA12.pdf", plot = males_BAT_PCA_12, height = 1.75, width = 2) # 1.75 by 2
 
 males_BAT_PCA_13 <- plotPCA_13(object = vsd_BAT_males, shape = 21)
-ggsave("results/figures/males_BAT_PCA13.pdf", plot = males_BAT_PCA_13, height = 3.25, width = 3.55) # 1.75 by 2
+ggsave("results/figures/males_BAT_PCA13_Fig1D.pdf", plot = males_BAT_PCA_13, height = 3.25, width = 3.55) # 1.75 by 2
 
 
 ## females

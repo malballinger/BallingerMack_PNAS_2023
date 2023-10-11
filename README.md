@@ -1,7 +1,7 @@
 Environmentally robust *cis*-regulatory changes underlie rapid climatic adaptation
 ================
 
-Link to our paper published in *PNAS*:
+Link to our open access paper published in *PNAS*:
 [![DOI: 10.1086/719028](https://img.shields.io/badge/DOI-10.1086%2F719028-success.svg?color=%230075C9
 )](https://www.pnas.org/doi/10.1073/pnas.2214614120)
 

@@ -185,6 +185,75 @@ gatk ASEReadCounter -I ${line}.bothwhead.sorted.bam -R Mus_musculus.GRCm38.dna.t
 
 ## 4. Patterns of *cis* and *trans*
 
-> To be uploaded soon!
+> R code for identifying ASE (and diffASE) between matched samples with DESeq2, following: https://rpubs.com/mikelove/ase and http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
+
+```R
+
+## Each sex and tissue was analyzed separately
+
+## "conditionTable.txt" should contain sample info (where condition = warm or cold temperature; allele = Brazil (BZ) or New York (NY); and sample is mouse pool). The counts for one allele and the other appear as subsequent columns in the counts matrix. For example:
+# sample  allele  condition
+# X1 BZ warm
+# X1 BZ cold
+# X1 NY warm
+# X1 NY cold
+# X2 BZ warm
+# X2 BZ cold
+# X2 NY warm
+# X2 NY cold
+
+## the sample column includes samples that are repeated across treatments of interest. this is a trick from Michael Love so that temperature information can be incorporated
+
+## "counts.txt" should contain allele-specific count data for the temperature and tissue (and sex) being analzyed
+
+### for identifying cis:
+library("DESeq2")
+# condition = temperature
+# sample = mouse no.
+# allele = reads mapped to BZ or NY
+design <- ~condition + condition:sample + condition:allele
+condTable <- read.csv("conditionTable.txt", sep"\t", header=TRUE)
+counts <- read.csv("counts.txt", sep=" ", header=FALSE, row.names=1)
+counts2 <- as.matrix(counts)
+dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
+
+## Set the size factors all to 1 as we are comparing ratios
+## m is the number of samples; you will get an error if you set this to the wrong number
+m <- 6
+sizeFactors(dds) <- rep(1, 2*m)
+
+## Filter counts for zeros
+idx <- rowSums(counts(dds) >= 30) >= 6
+dds <- dds[idx,]
+dds <- DESeq(dds, fitType="parametric")
+
+
+## Get dataframe of all results, including contrasts
+resultsNames(dds)
+
+
+### for identifying trans (using LRT, contrasting FC between hybrids & parents):
+## here's an example -- we can specify with or without temp as additional variables if you include these individuals in design
+#v1
+design = ~F1_Parent + population + temperature +population:F1_Parent
+dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
+dds <- DESeq(dds, test="LRT", reduced= ~ population + F1_Parent + temperature)
+#v2
+design = ~F1_Parent + population +population:F1_Parent
+dds <- DESeqDataSetFromMatrix(counts2, condTable, design)
+dds <- DESeq(dds, test="LRT", reduced= ~ population + F1_Parent)
+res <- results(dds)
+
+```
+
+> Once these are combined (e.g., need logFC & padj values between parents, F1s, and then LRT for trans component), sort out with AWK. (Note: we adjusted FDR for cases where genes were tested by DESeq2 for one test but not the other (i.e., FDR estimates for parents but not hybrid) -- this is done with p.adjust, method="BH")
+
+```bash
+
+awk -F' ' '{if($3<0.05 && $5<0.05 && $7>0.05){print $0,"CIS_only"}else{print}}' | awk -F' ' '{if($3>0.05 && $5<0.05 && $7<0.05){print $0,"Compensatory"}else{print  $0}}'| awk -F' ' '{if($3>0.05 && $5>0.05 && $7>0.05){print $0,"Conserved"}else{print $0}}' | awk -F' ' '{if($3<0.05 && $5>0.05 && $7<0.05){print $0,"Trans"}else{print  $0}}' |awk -F' ' '{if( ($3<0.05 && $5<0.05 && $7<0.05) && ( ($2>0 && $4>0) || ($2<0 && $4<0) ) && ( sqrt($2^2)>sqrt($4^2)) ){print $0,"cis+trans_same"}else{print}}' | awk -F' ' '{if( ($3<0.05 && $5<0.05 && $7<0.05) && ( ($2>0 && $4>0) || ($2<0 && $4<0) ) && ( sqrt($2^2)<sqrt($4^2)) ){print $0,"cis+trans_opp"}else{print}}' | awk -F' ' '{if( ($3<0.05 && $5<0.05 && $7<0.05) && ( ($2>0 && $4<0) || ($2<0 && $4>0) )){print $0,"cisxtrans"}else{print}}' | awk -F' ' '{if($3=="NA" || $5=="NA" || $7=="NA"){print $1,$2,$3,$4,$5,$6,$7,"NoPower"}else{print}}' | awk -F' ' '{if($8==""){print $0,"Ambiguous"}else{print}}' 
+
+## add the following to condense cis+trans groups for plotting in R
+ | awk -F' ' '{if($8=="Conserved" || $8=="Ambiguous"){print $1,$2,$3,$4,$5,$6,$7,"Ambiguous_orConserved"}else{print}}'  > joined.ParentsDiff.F1diff.ParentvF1.PlusDesignation.editconsAmb.cat.txt
+
 ```
 
